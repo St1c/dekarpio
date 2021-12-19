@@ -61,7 +61,7 @@ services:
     networks:
       - shotpros_dev
     ports:
-      - 3006:3006
+      - 4200:4200
 
   web:
     build:
