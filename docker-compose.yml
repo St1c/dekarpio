@@ -1,0 +1,99 @@
+version: "3.4"
+
+networks:
+  shotpros_dev: {}
+
+volumes:
+  shotpros_api_data: {}
+  notused_api_modules:
+  notused_file_manager_modules:
+  notused_app_modules:
+
+services:
+  mysql:
+    image: mariadb
+    container_name: shotpros_dev_mariadb
+    volumes:
+      - ./data/db:/var/lib/mysql
+      - ./data/db-imports:/opt/db-imports
+    command: mysqld --performance-schema=ON --max-connections=140
+    environment:
+      - "MYSQL_DATABASE=shotpros"
+      - "MYSQL_USER=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+    networks:
+      - shotpros_dev
+    ports:
+      - 33061:3306
+
+  api:
+    build:
+      context: ./
+      dockerfile: .docker/api.dev.dockerfile
+    container_name: shotpros_dev_api
+    depends_on:
+      - mysql
+    working_dir: /opt/api/src
+    volumes:
+      - ./api:/opt/api/src:delegated
+      - ./data:/opt/api/data:delegated
+      # this is a workaround to prevent host node_modules from accidently getting mounted in container
+      # in case you want to use node/npm both outside container for test/lint etc. and also inside container
+      # this will overwrite the default node_modules dir in container so it won't conflict with our
+      # /opt/api/node_modules location. Thanks to https://github.com/BretFisher/node-docker-good-defaults/blob/69c923bc646bc96003e9ada55d1ec5ca943a1b19/docker-compose.yml#L30-L34
+      - notused_api_modules:/opt/api/src/node_modules
+      # - /opt/api/src/node_modules
+    command: npm start
+    networks:
+      - shotpros_dev
+    ports:
+      - 3001:3001
+      - 9229:9229
+
+  file-manager:
+    build:
+      context: ./
+      dockerfile: .docker/file-manager.dev.dockerfile
+    container_name: shotpros_dev_file_manager
+    working_dir: /opt/file-manager/src
+    volumes:
+      - ./file-manager:/opt/file-manager/src:delegated
+      - ./data:/opt/file-manager/data:delegated
+      - notused_file_manager_modules:/opt/api/src/node_modules
+    command: npm start
+    networks:
+      - shotpros_dev
+    ports:
+      - 3002:3002
+
+  app:
+    build:
+      context: ./
+      dockerfile: .docker/app.dev.dockerfile
+    container_name: shotpros_dev_app
+    working_dir: /opt/app/src
+    volumes:
+      - ./app:/opt/app/src:delegated
+      - notused_app_modules:/opt/app/src/node_modules
+    command: npm run start:docker
+    networks:
+      - shotpros_dev
+    ports:
+      - 3006:3006
+
+  web:
+    build:
+      context: ./
+      dockerfile: .docker/nginx.dev.dockerfile
+    container_name: shotpros_dev_web
+    depends_on:
+      - api
+      - file-manager
+      - app
+    volumes:
+      - shotpros_api_data:/var/www
+    networks:
+      - shotpros_dev
+    ports:
+      - 80:80
+      # - 8080:443

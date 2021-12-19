@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.entered {
+  > rect, > path {
+    fill: green !important;
+    opacity: 0.5;
+  }
+
+  * {
+    cursor: pointer;
+  }
+}
+
+.inactive {
+  opacity: 0.1;
+}
+
+// g[id]:hover {
+//   > rect, > path {
+//     fill: red;
+//     opacity: 0.5;
+//     border: 2px solid black;
+//   }
+// }

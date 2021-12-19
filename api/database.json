@@ -1,0 +1,18 @@
+{
+    "dev": {
+        "driver": "mysql",
+        "host": "mysql",
+        "database": "dekarpio",
+        "user": "root",
+        "password": "root",
+        "multipleStatements": true
+    },
+    "test": {
+        "driver": "mysql",
+        "host": "mysql",
+        "database": "dekarpio_test",
+        "user": "root",
+        "password": "root",
+        "multipleStatements": true
+    }
+}
