@@ -11,7 +11,6 @@ const cors = require('./middlewares/cors');
 const logger = require('./middlewares/logger.middleware');
 const responseTimer = require('./middlewares/response-timer.middleware');
 const router = require('./routes/index');
-// const socketsController = require('./controllers/sockets.controller');
 
 const app = new Koa();
 const PORT = process.env.APP_PORT || 3000;
@@ -33,14 +32,6 @@ app
     .use(cors)
     .use(router.routes())
     .use(router.allowedMethods());
-
-
-/**
- * Filters Socket handlers */
-// const ioFilters = new IO({ namespace: 'filters' });
-// ioFilters.attach(app);
-// socketsController.setupIOListeners(ioFilters);
-// io.use(catchErrors(async (ctx, next) => await socketsController.index(ctx, next, io)));
 
 // Exporting server for use in tests
 const server = app.listen(PORT, HOST);

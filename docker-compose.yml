@@ -6,7 +6,6 @@ networks:
 volumes:
   shotpros_api_data: {}
   notused_api_modules:
-  notused_file_manager_modules:
   notused_app_modules:
 
 services:
@@ -48,23 +47,6 @@ services:
       - shotpros_dev
     ports:
       - 3001:3001
-      - 9229:9229
-
-  file-manager:
-    build:
-      context: ./
-      dockerfile: .docker/file-manager.dev.dockerfile
-    container_name: shotpros_dev_file_manager
-    working_dir: /opt/file-manager/src
-    volumes:
-      - ./file-manager:/opt/file-manager/src:delegated
-      - ./data:/opt/file-manager/data:delegated
-      - notused_file_manager_modules:/opt/api/src/node_modules
-    command: npm start
-    networks:
-      - shotpros_dev
-    ports:
-      - 3002:3002
 
   app:
     build:
@@ -88,7 +70,6 @@ services:
     container_name: shotpros_dev_web
     depends_on:
       - api
-      - file-manager
       - app
     volumes:
       - shotpros_api_data:/var/www

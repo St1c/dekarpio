@@ -4,14 +4,14 @@ const bcrypt = require('bcrypt');
 
 // Readble attributes contains password (for bcrypt internal JWT checking), 
 // all data sent to user must be pruned before sending
-const readable = ['id', 'email', 'password', 'admin', 'first_name', 'last_name', 'company'];
-const writable = ['id', 'email', 'password', 'admin', 'first_name', 'last_name', 'company'];
+const readable = ['id', 'company', 'email', 'password', 'admin'];
+const writable = ['id', 'company', 'email', 'password', 'admin'];
 
 var users = Object.assign(Object.create(db), {
     create,
     getAllUsers,
     update,
-    getUserScreenReaderQuota
+    getAllNonAdminUsers
 });
 users.init('users', readable, writable);
 module.exports = users;
@@ -51,16 +51,6 @@ async function update(userObj) {
     ));
 }
 
-async function getUserScreenReaderQuota(userObj) {
-    if (!userObj.hasOwnProperty('id')) {
-        throw new Error('Missing ID, user upadate failed!');
-    }
-
-    return await this.query(mysql.format(
-        'SELECT ?? FROM ?? WHERE `id` = ?;', ['sr_quota', this.tableName, userObj.id]
-    ));
-
-}
 
 async function getAllUsers() {
     let res = await this.query(mysql.format(
