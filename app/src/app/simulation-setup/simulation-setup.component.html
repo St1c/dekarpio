@@ -1,0 +1,60 @@
+<h1 class="headline">{{ clickedSvgElement || 'No selected element' }}</h1>
+
+<div class="container">
+  <div #layout
+       class="map-wrapper"
+       [inlineSVG]="'assets/DekarPIO_simple_example_SVG.svg'"
+       (onSVGInserted)="svgLoaded()"
+       (click)="svgClicked($event)"></div>
+  <div class="side-menu">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis ab, laborum necessitatibus reprehenderit
+      labore quaerat suscipit officiis nemo porro quia ipsum sed totam, placeat sequi eum, ipsam assumenda officia
+      sint?
+    </p>
+    <button mat-raised-button
+            class="mat-button-large"
+            type="button"
+            [color]="'accent'"
+            routerLink="/simulation-results">Results</button>
+    <!-- <div class="example-container">
+        <form [formGroup]="options">
+          <mat-checkbox [formControl]="hideRequiredControl">Hide required marker</mat-checkbox>
+          <div>
+            <label>Float label: </label>
+            <mat-radio-group [formControl]="floatLabelControl">
+              <mat-radio-button value="auto">Auto</mat-radio-button>
+              <mat-radio-button value="always">Always</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <mat-form-field appearance="fill"
+                          [hideRequiredMarker]="hideRequiredControl.value"
+                          [floatLabel]="floatLabelControl.value">
+            <input matInput
+                   placeholder="Simple placeholder"
+                   required>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill"
+                          [floatLabel]="floatLabelControl.value">
+            <mat-label>Both a label and a placeholder</mat-label>
+            <input matInput
+                   placeholder="Simple placeholder">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill"
+                          [hideRequiredMarker]="hideRequiredControl.value"
+                          [floatLabel]="floatLabelControl.value">
+            <mat-select required>
+              <mat-option>-- None --</mat-option>
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+            <mat-label>
+              <mat-icon>favorite</mat-icon> <b> Fancy</b> <i> label</i>
+            </mat-label>
+          </mat-form-field>
+        </form>
+      </div> -->
+  </div>
+</div>

@@ -1,7 +1,32 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+import { AuthService } from './core/auth/auth.service';
+import { LoginComponent } from './login/login.component';
+import { SimulationResultsComponent } from './simulation-results/simulation-results.component';
+import { SimulationSetupComponent } from './simulation-setup/simulation-setup.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'simulation-setup',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'simulation-setup',
+    component: SimulationSetupComponent,
+    canActivate: [AuthService]
+  },
+  {
+    path: 'simulation-results',
+    component: SimulationResultsComponent,
+    canActivate: [AuthService]
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

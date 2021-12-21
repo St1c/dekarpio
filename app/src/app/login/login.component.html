@@ -1,0 +1,45 @@
+<mat-card class="mat-elevation-z6">
+  <mat-card-title class="mat-display-1">
+    {{ 'Please Login' }}
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="loginForm"
+          novalidate
+          (submit)="onSubmit()">
+      <mat-form-field class="w-100 mat-input-large"
+                      appearance="outline">
+        <mat-label>{{ 'Email' }}</mat-label>
+        <input matInput
+               type="text"
+               formControlName="email">
+        <mat-error *ngIf="emailFormatError">
+          {{ 'Not a valid email address' }}
+        </mat-error>
+        <mat-error *ngIf="emailRequiredError">
+          {{ 'Email is required' }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="w-100 mat-input-large"
+                      appearance="outline">
+        <mat-label>{{ 'Password' }}</mat-label>
+        <input matInput
+               type="password"
+               formControlName="password">
+        <mat-error *ngIf="passwordRequiredError">
+          {{ 'Password is required' }}
+        </mat-error>
+      </mat-form-field>
+
+      <div>
+        <button mat-raised-button
+                class="mat-button-large"
+                type="submit"
+                [color]="'accent'"
+                [disabled]="loginForm.pristine || loginForm.invalid">{{ 'Submit' }}</button>
+      </div>
+
+    </form>
+
+  </mat-card-content>
+</mat-card>

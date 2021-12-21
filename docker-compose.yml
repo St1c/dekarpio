@@ -1,27 +1,27 @@
 version: "3.4"
 
 networks:
-  shotpros_dev: {}
+  dekarpio_dev: {}
 
 volumes:
-  shotpros_api_data: {}
+  dekarpio_api_data: {}
   notused_api_modules:
   notused_app_modules:
 
 services:
   mysql:
     image: mariadb
-    container_name: shotpros_dev_mariadb
+    container_name: dekarpio_dev_mariadb
     volumes:
       - ./data/db:/var/lib/mysql
       - ./data/db-imports:/opt/db-imports
     command: mysqld --performance-schema=ON --max-connections=140
     environment:
-      - "MYSQL_DATABASE=shotpros"
+      - "MYSQL_DATABASE=dekarpio"
       - "MYSQL_USER=root"
       - "MYSQL_ROOT_PASSWORD=root"
     networks:
-      - shotpros_dev
+      - dekarpio_dev
     ports:
       - 33061:3306
 
@@ -29,7 +29,7 @@ services:
     build:
       context: ./
       dockerfile: .docker/api.dev.dockerfile
-    container_name: shotpros_dev_api
+    container_name: dekarpio_dev_api
     depends_on:
       - mysql
     working_dir: /opt/api/src
@@ -44,7 +44,7 @@ services:
       # - /opt/api/src/node_modules
     command: npm start
     networks:
-      - shotpros_dev
+      - dekarpio_dev
     ports:
       - 3001:3001
 
@@ -52,29 +52,44 @@ services:
     build:
       context: ./
       dockerfile: .docker/app.dev.dockerfile
-    container_name: shotpros_dev_app
-    working_dir: /opt/app/src
+    container_name: dekarpio_dev_app
+    working_dir: /home/node/app
     volumes:
-      - ./app:/opt/app/src:delegated
-      - notused_app_modules:/opt/app/src/node_modules
-    command: npm run start:docker
+      - ./app:/home/node/app
+      - notused_app_modules:/home/node/app/node_modules
+    command: sh -c "npm run start:docker"
+    tty: true
     networks:
-      - shotpros_dev
+      - dekarpio_dev
     ports:
       - 4200:4200
+
+  dash-server:
+    build: 
+      context: ./
+      dockerfile: .docker/dash-server.dev.dockerfile
+    container_name: dekarpio_dev_dash-server
+    restart: always
+    volumes:
+      - ./dash-server:/wd
+    networks:
+      - dekarpio_dev 
+    ports:
+      - 3002:3002
 
   web:
     build:
       context: ./
       dockerfile: .docker/nginx.dev.dockerfile
-    container_name: shotpros_dev_web
+    container_name: dekarpio_dev_web
     depends_on:
       - api
       - app
+      - dash-server
     volumes:
-      - shotpros_api_data:/var/www
+      - dekarpio_api_data:/var/www
     networks:
-      - shotpros_dev
+      - dekarpio_dev
     ports:
       - 80:80
       # - 8080:443
