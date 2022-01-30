@@ -3,8 +3,10 @@ const users = require('../models/users');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const url = require('url');
 
 module.exports.authenticateUser = authenticateUser;
+module.exports.checkJwt = checkJwt;
 
 async function authenticateUser(ctx, next) {
     const activeConnection = await db.connect();
@@ -31,4 +33,24 @@ async function authenticateUser(ctx, next) {
         }
         )
     };
+}
+
+async function checkJwt(ctx, next) {
+    console.log(JSON.stringify(ctx.request.header['x-original-uri']));
+
+    const parsedUri = url.parse(ctx.request.header['x-original-uri'], true);
+    const token = parsedUri.query['jwt'];
+
+    if (token) {
+
+        try {
+            const tokenResult = jwt.verify(token, process.env.APP_SECRET);
+            ctx.status = 200;
+            ctx.body = tokenResult;
+        } catch (e) {
+            ctx.throw(401, 'Auth failed');
+        }
+    } else {
+        ctx.throw(401, 'Auth failed');
+    }
 }

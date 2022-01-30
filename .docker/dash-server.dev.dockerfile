@@ -9,4 +9,4 @@ RUN pip3 install -r requirements.txt
 
 COPY dash-server/ ./
 
-CMD [ "gunicorn", "--workers=5", "--threads=1", "-b 0.0.0.0:3002", "app:server"]
+CMD [ "gunicorn", "--workers=5", "--threads=1", "--reload", "-b 0.0.0.0:3002", "app:server"]

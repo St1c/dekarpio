@@ -85,4 +85,8 @@ export class AuthService implements CanActivate {
   getAuthPayload() {
     return this.auth.getPayload();
   }
+
+  getToken() {
+    return this.auth.getToken();
+  }
 }

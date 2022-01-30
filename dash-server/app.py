@@ -8,7 +8,7 @@ import pandas as pd
 import dash
 
 server = Flask(__name__)
-app = dash.Dash(server=server, external_stylesheets=[dbc.themes.FLATLY], url_base_pathname="/dash-server/")
+app = dash.Dash(server=server, external_stylesheets=[dbc.themes.FLATLY], url_base_pathname='/dash-server/')
 app.title = 'Dashboard'
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv')
@@ -42,4 +42,4 @@ def update_figure(selected_year):
     return fig
 
 if __name__=='__main__':
-    app.run_server()
+    app.run_server(debug=True)
