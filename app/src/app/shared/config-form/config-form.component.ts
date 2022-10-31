@@ -31,11 +31,8 @@ export class ConfigFormComponent implements ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    console.log(obj);
     const params = obj;
-
     this.keys = Object.keys(params).filter(key => key != 'description');
-
     this.keys.map(key => {
       this.form.addControl(key, new FormControl(params[key]));
     });
