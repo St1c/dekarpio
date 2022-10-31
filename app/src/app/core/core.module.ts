@@ -6,13 +6,18 @@ import { Ng2UiAuthModule } from 'ng2-ui-auth';
 
 import { AuthConfig } from './auth/auth.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { EffectsModule } from '../effects/effects.module';
+import { MetadataEffects } from '../effects/meta-data.effect';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     HttpClientModule,
-    Ng2UiAuthModule.forRoot(AuthConfig)
+    Ng2UiAuthModule.forRoot(AuthConfig),
+    EffectsModule.register([
+      MetadataEffects
+    ])
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

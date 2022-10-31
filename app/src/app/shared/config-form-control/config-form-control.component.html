@@ -1,0 +1,24 @@
+<ng-container [ngSwitch]="config.type">
+
+  <div *ngSwitchCase="'checkbox'" class="toggles">
+    <mat-checkbox [formControl]="controlValue">{{ config.displayName }}</mat-checkbox>
+  </div>
+
+  <div *ngSwitchCase="'toggle'" class="toggles">
+    <mat-slide-toggle [formControl]="controlValue">{{ config.displayName }}</mat-slide-toggle>
+  </div>
+
+  <mat-form-field *ngSwitchDefault appearance="fill" class="form-field">
+    <mat-label>{{ config.displayName }}</mat-label>
+
+    <ng-container [ngSwitch]="config.type">
+      <input *ngSwitchCase="'text'" matInput [formControl]="controlValue">
+      <mat-select *ngSwitchCase="'select'" [formControl]="controlValue">
+        <mat-option *ngFor="let option of config.options" value="option.key">{{option.value}}</mat-option>
+      </mat-select>
+    </ng-container>
+
+    <span matSuffix>{{ config.unit }}</span>
+  </mat-form-field>
+
+</ng-container>

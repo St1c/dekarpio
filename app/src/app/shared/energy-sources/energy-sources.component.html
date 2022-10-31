@@ -1,0 +1,6 @@
+<form [formGroup]="form" class="parameters-form">
+  <div *ngFor="let key of keys">
+    <app-config-form-control formControlName="{{key}}"></app-config-form-control>
+  </div>
+</form>
+<!-- <pre>{{ this.form.value | json }}</pre> -->

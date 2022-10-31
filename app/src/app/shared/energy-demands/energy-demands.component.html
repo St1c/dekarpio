@@ -1,0 +1,24 @@
+<form [formGroup]="form" class="parameters-form">
+  <div>
+    <mat-slide-toggle formControlName="exists">Exists</mat-slide-toggle>
+  </div>
+  <div>
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Grid unit</mat-label>
+    <input matInput formControlName="temp">
+  </mat-form-field>
+  </div>
+  <div>
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Energy cost</mat-label>
+    <input matInput formControlName="pres">
+  </mat-form-field>
+  </div>
+  <div>
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Energy unit</mat-label>
+    <input matInput formControlName="days_off">
+  </mat-form-field>
+  </div>
+</form>
+<!-- <pre>{{ this.form.value | json }}</pre> -->

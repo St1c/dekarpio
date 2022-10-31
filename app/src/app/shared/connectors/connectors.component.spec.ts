@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SvgLayoutComponent } from './svg-layout.component';
+import { ConnectorsComponent } from './connectors.component';
 
-describe('SvgLayoutComponent', () => {
-  let component: SvgLayoutComponent;
-  let fixture: ComponentFixture<SvgLayoutComponent>;
+describe('ConnectorsComponent', () => {
+  let component: ConnectorsComponent;
+  let fixture: ComponentFixture<ConnectorsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SvgLayoutComponent ]
+      declarations: [ ConnectorsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SvgLayoutComponent);
+    fixture = TestBed.createComponent(ConnectorsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

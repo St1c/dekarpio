@@ -22,10 +22,12 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { SvgLayoutComponent } from './svg-layout/svg-layout.component';
 import { LoginComponent } from './login/login.component';
-import { SimulationSetupComponent, SvgElementDialogComponent } from './simulation-setup/simulation-setup.component';
+import { SimulationSetupComponent } from './simulation-setup/simulation-setup.component';
 import { SimulationResultsComponent } from './simulation-results/simulation-results.component';
+import { SvgElementDialogComponent } from './simulation-setup/svg-element-dialog.component';
+
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -33,8 +35,7 @@ import { SimulationResultsComponent } from './simulation-results/simulation-resu
     LoginComponent,
     SimulationResultsComponent,
     SimulationSetupComponent,
-    SvgElementDialogComponent,
-    SvgLayoutComponent,
+    SvgElementDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +58,9 @@ import { SimulationResultsComponent } from './simulation-results/simulation-resu
     MatNativeDateModule,
     MatRadioModule,
     MatSelectModule,
-    MatToolbarModule
+    MatToolbarModule,
+
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+$primaryColor: #f2e4f4;
+$primaryLightColor: #ffffff;
+$primaryDarkColor: #bfb2c1;
+$secondaryColor: #ea80fc;
+$secondaryLightColor: #ffb2ff;
+$secondaryDarkColor: #b64fc8;
+$primaryTextColor: #000000;
+$secondaryTextColor: #000000;
+
+@include mat.core();
+
+$my-primary: mat.define-palette(mat.$indigo-palette, 500);
+$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// $my-primary: mat.define-palette(mat.$blue-gray-palette, 500, #8eacbb, #34515e, #000000);
+// $my-accent: mat.define-palette(mat.$pink-palette, 200, #ffffff, #cb9ca1, #000000);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+ )
+));
+
+// Emit theme-dependent styles for common features used across multiple components.
+// @include mat.core-theme($my-theme);
+@include mat.all-component-themes($my-theme);
+
+// Emit styles for MatButton based on `$my-theme`. Because the configuration
+// passed to `define-light-theme` omits typography, `button-theme` will not
+// emit any typography styles.
+// @include mat.button-theme($my-theme);
+
+// Include the theme mixins for other components you use here.
+
 
 // Imports functions, variables, and mixins that are needed by other Bootstrap files
 @import "~bootstrap/scss/functions";
@@ -50,4 +87,13 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: white;
   // -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+
+.parameters-form {
+  width: 550px;
+
+  mat-form-field {
+    width: 100%;
+  }
 }

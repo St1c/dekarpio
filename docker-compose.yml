@@ -69,7 +69,6 @@ services:
       context: ./
       dockerfile: .docker/dash-server.dev.dockerfile
     container_name: dekarpio_dev_dash-server
-    restart: always
     volumes:
       - ./dash-server:/wd
     networks:

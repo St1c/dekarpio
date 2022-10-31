@@ -1,13 +1,17 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { combineLatest, Subject } from 'rxjs';
+import { ConfigProvider } from '../core/config.provider';
+import { SvgElementDialogComponent } from './svg-element-dialog.component';
 
 export interface DialogData {
   title: any;
   desc: any;
   element: any;
+  config: any;
 }
 
 @Component({
@@ -24,49 +28,17 @@ export class SimulationSetupComponent {
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
 
-  private shapeNames = [
-    'Erdgas',
-    'Wasserstoff',
-    'Feste Biomasse',
-    'Geothermie (120°C)',
-    'Kessel BM',
-    'E- Kessel',
-    'K4',
-    'K5',
-    'K6',
-    'Gasturbine (GT) + AHK',
-    'Prozess-Erdgas-Bedarf',
-    'Prozess-Dampf-Bedarf PM1+2 (130°C) 1,5 MW'
-  ];
-
-  private shape_titles = [
-    'simple_ex',
-    'fuel_gas1',
-    'fuel_gas2',
-    'fuel_power',
-    'conversion_boiler1',
-    'conversion_boiler2',
-    'storage_power',
-    'collector_steam',
-    'collector_power',
-    'demand_steam',
-    'demand_power',
-    // 'fuel_gas1_2_boiler',
-    // 'fuel_gas2_2_boiler',
-    // 'fuel_power_2_boiler2',
-    // 'fuel_power_2_collector_power',
-    // 'collector_power_2_demand_power',
-    // 'collector_steam1_2_demand_steam',
-    'boiler_collector_steam_1',
-    'boiler_2_collector_steam_1',
-    // 'storage_power_2_collector_power',
-  ];
+  private configurableElements: (string[]) = [];
   private elements: (Node | null)[] = [];
+  private config: any;
+  private svgLoaded$ = new Subject();
 
   constructor(
     fb: FormBuilder,
     public dialog: MatDialog,
-    @Inject(DOCUMENT) private document: Document
+    private renderer: Renderer2,
+    private configService: ConfigProvider,
+    @Inject(DOCUMENT) private document: Document,
   ) {
     this.options = fb.group({
       hideRequired: this.hideRequiredControl,
@@ -74,71 +46,113 @@ export class SimulationSetupComponent {
     });
   }
 
-  svgLoaded() {
-    if (!this.svgLayout) return;
-
-    let svg = this.svgLayout.nativeElement;
-    this.elements = this.getElementsFromShapeNames(this.shape_titles, svg);
-    this.elements.map((el: Node | null) => {
-      el?.addEventListener('mouseenter', this.elementEnter, true);
-      el?.addEventListener('mouseleave', this.elementLeave, true);
+  ngOnInit() {
+    combineLatest([
+      this.configService.getConfigFromAssets(),
+      this.svgLoaded$.asObservable()
+    ]).subscribe(([config, svgLoaded]) => {
+      console.log(this.svgLayout, config, svgLoaded)
+      this.config = config;
+      this.configurableElements = this.getConfigurableElements(config);
+      this.bindHoverListenersToConfigurableElements();
     });
+  }
 
-    // console.log(svg.querySelector('#shape56-70'));
-    // const res = this.document.evaluate(`//*[text()="${this.shape_titles[3]}"]/..`, svg, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-    // console.log(res);
+  svgLoaded() {
+    this.svgLoaded$.next(true);
   }
 
   ngOnDestroy() {
     this.elements.map((el: Node | null) => {
-      el?.removeEventListener('mouseenter', this.elementEnter, true);
-      el?.removeEventListener('mouseleave', this.elementLeave, true);
+      el?.removeEventListener('mouseenter', this.elementEnter.bind(this), true);
+      el?.removeEventListener('mouseleave', this.elementLeave.bind(this), true);
     });
   }
 
   svgClicked(target: any) {
-    console.log(target);
-
     for (const element of target.path) {
       if (element.id) {
-        // console.log(element.id);
+        console.log(element.id);
         const title = element.querySelector('title');
         const desc = element.querySelector('desc');
+
+        if (!title) return;
+
         this.clickedSvgElement = desc?.innerHTML;
-        this.openDialog(title, desc, element);
+
+        let unit_type, unit_id, rest;
+        [unit_type, unit_id, ...rest] = title?.innerHTML?.split('_');
+        const unit_config = { unit_type, unit_id, ...this.config[unit_type][unit_id] };
+
+        unit_config ?? new Error('Missing config for given unit');
+
+        this.openDialog(title, desc, element, unit_config);
         break;
       }
     }
+  }
 
+  private getConfigurableElements(config: any) {
+    const {col = {}, con = {}, ...configurables} = { ...config };
+
+    return Object.keys(configurables).map(
+      keyL1 => Object.keys(configurables[keyL1])
+        .map(keyL2 => configurables[keyL1][keyL2].ID)
+      ).reduce((acc, curVal) => acc.concat(curVal), []);
+  }
+
+  private bindHoverListenersToConfigurableElements() {
+    if (!this.svgLayout) return;
+    let svg = this.svgLayout.nativeElement;
+    this.elements = this.getElementsFromShapeNames(this.configurableElements, svg);
+
+    this.elements.map((el: Node | null) => {
+      el?.addEventListener('mouseenter', this.elementEnter.bind(this), true);
+      el?.addEventListener('mouseleave', this.elementLeave.bind(this), true);
+    });
   }
 
   private elementEnter(event: any) {
-    event.target.classList.add('entered');
+    this.renderer.addClass(event.target, 'entered');
   }
 
   private elementLeave(event: any) {
-    event.target.classList.remove('entered');
+    this.renderer.removeClass(event.target, 'entered');
   }
 
-  private openDialog(title: any, desc: any, element: any) {
+  private openDialog(title: any, desc: any, element: any, config:  any) {
     const ref = this.dialog.open(SvgElementDialogComponent, {
-      data: { title, desc, element },
+      data: { title, desc, element, config },
     });
 
     ref.afterClosed().subscribe(result => {
-      if (result) this.applyElementSettings(result);
+      if (result) {
+        this.updateConfig(result);
+        this.applyElementSettings(result);
+      };
     });
   }
 
-  private applyElementSettings(result: { element: any, state: boolean; }) {
-    const title = result.element.getElementsByTagName('title')[0]?.innerHTML;
+  private updateConfig(result: { element: any, state: boolean, params: any }) {
+    const params_id = result.params.ID;
+    let [type, id, ...rest] = params_id.split('_');
+    const { unit_type = '', unit_id= '', ...params } = {...result.params};
 
+    this.config[type][id] = { ... params };
+  }
+
+  private applyElementSettings(result: { element: any, state: boolean, params: any }) {
+    console.log(result.params);
+    const matchingConnections = this.disableConnectionsByInOutIds(result.params.ID);
+    console.log([result.params.ID, ...matchingConnections]);
+
+    this.findConnecstionLinesById([result.params.ID, ...matchingConnections], result.state);
+
+    const title = result.element.getElementsByTagName('title')[0]?.innerHTML;
     const siblings = this.findAllElementsContainingTitle(title, this.svgLayout.nativeElement);
 
     for (let i = 0; i < siblings.snapshotLength; i++) {
       const item = siblings.snapshotItem(i) as HTMLElement;
-
-      console.log(item);
 
       if (result.state) {
         item.classList.remove('inactive');
@@ -149,49 +163,45 @@ export class SimulationSetupComponent {
 
   }
 
+  private disableConnectionsByInOutIds(id: string): string[] {
+    const connections = Object.keys(this.config['con']);
+
+    let matching_IDs: string[] = [];
+
+    connections.map(key => {
+      if (this.config['con'][key]['in'] === id || this.config['con'][key]['out'] === id) {
+        matching_IDs.push(this.config['con'][key]['ID']);
+      }
+    });
+
+    return [...matching_IDs];
+  }
+
+  private findConnecstionLinesById(ids: string[], state: boolean) {
+    console.log(ids)
+    ids.map(id => {
+      const item: HTMLElement | null = this.findElementByName(id, this.svgLayout.nativeElement) as HTMLElement;
+      console.log('to disable: ', id, item);
+      console.log(state)
+      if (state) {
+        item?.classList.remove('inactive');
+      } else {
+        item?.classList.add('inactive');
+      }
+    });
+  }
+
   private getElementsFromShapeNames(names: string[], context: any): (Node | null)[] {
     return names.map(name => {
-      return this.document.evaluate(`//*[text()="${name}"]/..`, context, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+      return this.findElementByName(name, context);
     });
+  }
+
+  private findElementByName(name: string, context: any): (Node | null) {
+    return this.document.evaluate(`//*[text()="${name}"]/..`, context, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
   }
 
   private findAllElementsContainingTitle(title: string, context: any): XPathResult {
     return this.document.evaluate(`//*[contains(text(),"${title}")]/..`, context, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-  }
-}
-
-@Component({
-  selector: 'svg-element-dialog',
-  templateUrl: 'svg-element-dialog.html',
-})
-export class SvgElementDialogComponent {
-
-  title = '';
-  desc = '';
-  element: any;
-
-  elementUsed = new FormControl(true);
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
-  });
-
-  constructor(
-    public dialogRef: MatDialogRef<SvgElementDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {
-    this.title = data.title?.innerHTML || '';
-    this.desc = data.desc?.innerHTML || '';
-    this.element = data.element;
-
-    this.getElementState(this.element);
-  }
-
-  closeDialog() {
-    this.dialogRef.close({ element: this.element, state: this.elementUsed.value });
-  }
-
-  private getElementState(element: any) {
-    element.classList.contains('inactive') ? this.elementUsed.setValue(false) : this.elementUsed.setValue(true);
   }
 }

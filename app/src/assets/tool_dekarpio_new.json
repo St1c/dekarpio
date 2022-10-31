@@ -1,0 +1,3640 @@
+{
+  "eso": {
+    "eso1": {
+      "name": "nga",
+      "type": "gaseous",
+      "ID": "eso_eso1_nga",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "natural gas"
+        }
+      ]
+    },
+    "eso2": {
+      "name": "big",
+      "type": "gaseous",
+      "ID": "eso_eso2_big",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "biogas"
+        }
+      ]
+    },
+    "eso3": {
+      "name": "elg",
+      "type": "electricity",
+      "ID": "eso_eso3_elg",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "electricity grid"
+        }
+      ]
+    },
+    "eso4": {
+      "name": "bim",
+      "type": "solid",
+      "ID": "eso_eso4_bim",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "biomethan"
+        }
+      ]
+    },
+    "eso5": {
+      "name": "slu",
+      "type": "solid",
+      "ID": "eso_eso5_slu",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "sludge"
+        }
+      ]
+    },
+    "eso6": {
+      "name": "iwa",
+      "type": "solid",
+      "ID": "eso_eso6_iwa",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "internal waste"
+        }
+      ]
+    },
+    "eso7": {
+      "name": "ewa",
+      "type": "solid",
+      "ID": "eso_eso7_ewa",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "external waste"
+        }
+      ]
+    },
+    "eso8": {
+      "name": "coa",
+      "type": "solid",
+      "ID": "eso_eso8_coa",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "coal"
+        }
+      ]
+    },
+    "eso9": {
+      "name": "oil",
+      "type": "liquid",
+      "ID": "eso_eso9_oil",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "oil"
+        }
+      ]
+    },
+    "eso10": {
+      "name": "hyd",
+      "type": "gaseous",
+      "ID": "eso_eso10_hyd",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "hydrogen"
+        }
+      ]
+    },
+    "eso11": {
+      "name": "bio",
+      "type": "solid",
+      "ID": "eso_eso11_bio",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "biomass"
+        }
+      ]
+    },
+    "eso12": {
+      "name": "elp",
+      "type": "electricity",
+      "ID": "eso_eso12_elp",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "inv_fix": "XX",
+          "inv_power": "XX",
+          "inv_energy": "XX",
+          "description": "electricity_pv"
+        }
+      ]
+    },
+    "eso13": {
+      "name": "elw",
+      "type": "electricity",
+      "ID": "eso_eso13_elw",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "inv_fix": "XX",
+          "inv_power": "XX",
+          "inv_energy": "XX",
+          "description": "electricity wind"
+        }
+      ]
+    },
+    "eso14": {
+      "name": "elh",
+      "type": "electricity",
+      "ID": "eso_eso14_elh",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "inv_fix": "XX",
+          "inv_power": "XX",
+          "inv_energy": "XX",
+          "description": "electricity hydro"
+        }
+      ]
+    },
+    "eso15": {
+      "name": "ppapv",
+      "type": "electricity",
+      "ID": "eso_eso15_ppapv",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "electricity ppa pv"
+        }
+      ]
+    },
+    "eso16": {
+      "name": "geo",
+      "type": "heat",
+      "ID": "eso_eso16_geo",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "inv_fix": "XX",
+          "inv_power": "XX",
+          "inv_energy": "XX",
+          "description": "geothermal"
+        }
+      ]
+    },
+    "eso17": {
+      "name": "ste",
+      "type": "heat",
+      "ID": "eso_eso17_ste",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "steam extern",
+          "medium_owh":  "air"
+        }
+      ]
+    },
+    "eso18": {
+      "name": "dhe",
+      "type": "heat",
+      "ID": "eso_eso18_dhe",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "inv_fix": "XX",
+          "inv_power": "XX",
+          "inv_energy": "XX",
+          "description": "district heat"
+        }
+      ]
+    },
+    "eso19": {
+      "name": "feg",
+      "type": "electricity",
+      "ID": "eso_eso19_feg",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "feed electricity grid"
+        }
+      ]
+    },
+    "eso20": {
+      "name": "bif",
+      "type": "liquid",
+      "ID": "eso_eso20_bif",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "biofuel"
+        }
+      ]
+    },
+    "eso21": {
+      "name": "ppaw",
+      "type": "electricity",
+      "ID": "eso_eso21_ppaw",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "electricity ppa wind"
+        }
+      ]
+    },
+    "eso22": {
+      "name": "ots",
+      "type": "solid",
+      "ID": "eso_eso22_ots",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "other solid"
+        }
+      ]
+    },
+    "eso23": {
+      "name": "otg",
+      "type": "gaseous",
+      "ID": "eso_eso23_otg",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "other gas"
+        }
+      ]
+    },
+    "eso24": {
+      "name": "pdh",
+      "type": "gaseous",
+      "ID": "eso_eso24_pdh",
+      "Param": [
+        {
+          "integrate": "True",
+          "grid": 0,
+          "energy": "XXX",
+          "lim_actual": 70,
+          "lim_technical": 120,
+          "description": "purchased district heat"
+        }
+      ]
+    }
+  },
+  "eca": {
+    "eca1": {
+      "name": "lis",
+      "type": "gaseous",
+      "ID": "eca_eca1_lis",
+      "Param": [
+        {
+          "temp": 400,
+          "pressure": 6000000,
+          "description": "very high pressure steam"
+        }
+      ]
+    },
+    "eca2": {
+      "name": "his",
+      "type": "gaseous",
+      "ID": "eca_eca2_his",
+      "Param": [
+        {
+          "temp": 220,
+          "pressure": 1200000,
+          "description": "high pressure steam"
+        }
+      ]
+    },
+    "eca3": {
+      "name": "mis",
+      "type": "gaseous",
+      "ID": "eca_eca3_mis",
+      "Param": [
+        {
+          "temp": 180,
+          "pressure": 800000,
+          "description": "middle pressure steam"
+        }
+      ]
+    },
+    "eca4": {
+      "name": "los",
+      "type": "gaseous",
+      "ID": "eca_eca4_los",
+      "Param": [
+        {
+          "temp": 145,
+          "pressure": 400000,
+          "description": "low pressure steam"
+        }
+      ]
+    },
+    "eca5": {
+      "name": "hua",
+      "type": "gaseous",
+      "ID": "eca_eca5_hua",
+      "Param": [
+        {
+          "description": "humid air"
+        }
+      ]
+    },
+    "eca6": {
+      "name": "owh",
+      "type": "liquid",
+      "ID": "eca_eca6_owh",
+      "Param": [
+        {
+          "description": "water excess heat"
+        }
+      ]
+    },
+    "eca7": {
+      "name": "ele",
+      "type": "electricity",
+      "ID": "eca_eca7_ele",
+      "Param": [
+        {
+          "description": "high pressure steam"
+        }
+      ]
+    }
+  },
+  "con": {
+    "con1": {
+      "ID": "con-eso_eso11_bio-ecu_ecu1_sbo1",
+      "in": "eso_eso11_bio",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con2": {
+      "ID": "con-eso_eso11_bio-ecu_ecu2_sbo2",
+      "in": "eso_eso11_bio",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con3": {
+      "ID": "con-eso_eso11_bio-ecu_ecu3_sbo3",
+      "in": "eso_eso11_bio",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con4": {
+      "ID": "con-eso_eso5_slu-ecu_ecu1_sbo1",
+      "in": "eso_eso5_slu",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con5": {
+      "ID": "con-eso_eso5_slu-ecu_ecu2_sbo2",
+      "in": "eso_eso5_slu",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con6": {
+      "ID": "con-eso_eso5_slu-ecu_ecu3_sbo3",
+      "in": "eso_eso5_slu",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con7": {
+      "ID": "con-eso_eso6_iwa-ecu_ecu1_sbo1",
+      "in": "eso_eso6_iwa",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con8": {
+      "ID": "con-eso_eso6_iwa-ecu_ecu2_sbo2",
+      "in": "eso_eso6_iwa",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con9": {
+      "ID": "con-eso_eso6_iwa-ecu_ecu3_sbo3",
+      "in": "eso_eso6_iwa",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con10": {
+      "ID": "con-eso_eso7_ewa-ecu_ecu1_sbo1",
+      "in": "eso_eso7_ewa",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con11": {
+      "ID": "con-eso_eso7_ewa-ecu_ecu2_sbo2",
+      "in": "eso_eso7_ewa",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con12": {
+      "ID": "con-eso_eso7_ewa-ecu_ecu3_sbo3",
+      "in": "eso_eso7_ewa",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con13": {
+      "ID": "con-eso_eso8_coa-ecu_ecu1_sbo1",
+      "in": "eso_eso8_coa",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con14": {
+      "ID": "con-eso_eso8_coa-ecu_ecu2_sbo2",
+      "in": "eso_eso8_coa",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con15": {
+      "ID": "con-eso_eso8_coa-ecu_ecu3_sbo3",
+      "in": "eso_eso8_coa",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con16": {
+      "ID": "con-ecu_ecu1_sbo1-col_col2_mis1",
+      "in": "ecu_ecu1_sbo1",
+      "out": "col_col2_mis1"
+    },
+    "con17": {
+      "ID": "con-ecu_ecu2_sbo2-col_col2_mis1",
+      "in": "ecu_ecu2_sbo2",
+      "out": "col_col2_mis1"
+    },
+    "con18": {
+      "ID": "con-ecu_ecu3_sbo3-col_col2_mis1",
+      "in": "ecu_ecu3_sbo3",
+      "out": "col_col2_mis1"
+    },
+    "con19": {
+      "ID": "con-col_col2_mis1-col_col4_mis2",
+      "in": "col_col2_mis1",
+      "out": "col_col4_mis2"
+    },
+    "con20": {
+      "ID": "con-eso_eso3_elg-col_col1_ele1",
+      "in": "eso_eso3_elg",
+      "out": "col_col1_ele1"
+    },
+    "con21": {
+      "ID": "con-eso_eso12_elp-col_col1_ele1",
+      "in": "eso_eso12_elp",
+      "out": "col_col1_ele1"
+    },
+    "con22": {
+      "ID": "con-eso_eso13_elw-col_col1_ele1",
+      "in": "eso_eso13_elw",
+      "out": "col_col1_ele1"
+    },
+    "con23": {
+      "ID": "con-eso_eso14_elh-col_col1_ele1",
+      "in": "eso_eso14_elh",
+      "out": "col_col1_ele1"
+    },
+    "con24": {
+      "ID": "con-eso_eso15_ppapv-col_col1_ele1",
+      "in": "eso_eso15_ppapv",
+      "out": "col_col1_ele1"
+    },
+    "con25": {
+      "ID": "con-eso_eso9_oil-ecu_ecu4_boi1",
+      "in": "eso_eso9_oil",
+      "out": "ecu_ecu4_boi1"
+    },
+    "con26": {
+      "ID": "con-eso_eso9_oil-ecu_ecu5_boi2",
+      "in": "eso_eso9_oil",
+      "out": "ecu_ecu5_boi2"
+    },
+    "con27": {
+      "ID": "con-eso_eso9_oil-ecu_ecu6_boi3",
+      "in": "eso_eso9_oil",
+      "out": "ecu_ecu6_boi3"
+    },
+    "con28": {
+      "ID": "con-eso_eso9_oil-ecu_ecu7_boi4",
+      "in": "eso_eso9_oil",
+      "out": "ecu_ecu7_boi4"
+    },
+    "con29": {
+      "ID": "con-eso_eso9_oil-ecu_ecu8_boi5",
+      "in": "eso_eso9_oil",
+      "out": "ecu_ecu8_boi5"
+    },
+    "con30": {
+      "ID": "con-eso_eso9_oil-ecu_ecu9_boi6",
+      "in": "eso_eso9_oil",
+      "out": "ecu_ecu9_boi6"
+    },
+    "con31": {
+      "ID": "con-eso_eso1_nga-ecu_ecu4_boi1",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu4_boi1"
+    },
+    "con32": {
+      "ID": "con-eso_eso1_nga-ecu_ecu5_boi2",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu5_boi2"
+    },
+    "con33": {
+      "ID": "con-eso_eso1_nga-ecu_ecu6_boi3",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu6_boi3"
+    },
+    "con34": {
+      "ID": "con-eso_eso1_nga-ecu_ecu7_boi4",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu7_boi4"
+    },
+    "con35": {
+      "ID": "con-eso_eso1_nga-ecu_ecu8_boi5",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu8_boi5"
+    },
+    "con36": {
+      "ID": "con-eso_eso1_nga-ecu_ecu9_boi6",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu9_boi6"
+    },
+    "con37": {
+      "ID": "con-eso_eso1_nga-ecu_ecu1_sbo1",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con38": {
+      "ID": "con-eso_eso1_nga-ecu_ecu2_sbo2",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con39": {
+      "ID": "con-eso_eso1_nga-ecu_ecu3_sbo3",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con40": {
+      "ID": "con-eso_eso4_bim-ecu_ecu4_boi1",
+      "in": "eso_eso4_bim",
+      "out": "ecu_ecu4_boi1"
+    },
+    "con41": {
+      "ID": "con-eso_eso4_bim-ecu_ecu5_boi2",
+      "in": "eso_eso4_bim",
+      "out": "ecu_ecu5_boi2"
+    },
+    "con42": {
+      "ID": "con-eso_eso4_bim-ecu_ecu6_boi3",
+      "in": "eso_eso4_bim",
+      "out": "ecu_ecu6_boi3"
+    },
+    "con43": {
+      "ID": "con-eso_eso4_bim-ecu_ecu7_boi4",
+      "in": "eso_eso4_bim",
+      "out": "ecu_ecu7_boi4"
+    },
+    "con44": {
+      "ID": "con-eso_eso4_bim-ecu_ecu8_boi5",
+      "in": "eso_eso4_bim",
+      "out": "ecu_ecu8_boi5"
+    },
+    "con45": {
+      "ID": "con-eso_eso4_bim-ecu_ecu9_boi6",
+      "in": "eso_eso4_bim",
+      "out": "ecu_ecu9_boi6"
+    },
+    "con46": {
+      "ID": "con-eso_eso2_big-ecu_ecu4_boi1",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu4_boi1"
+    },
+    "con47": {
+      "ID": "con-eso_eso2_big-ecu_ecu5_boi2",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu5_boi2"
+    },
+    "con48": {
+      "ID": "con-eso_eso2_big-ecu_ecu6_boi3",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu6_boi3"
+    },
+    "con49": {
+      "ID": "con-eso_eso2_big-ecu_ecu7_boi4",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu7_boi4"
+    },
+    "con50": {
+      "ID": "con-eso_eso2_big-ecu_ecu8_boi5",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu8_boi5"
+    },
+    "con51": {
+      "ID": "con-eso_eso2_big-ecu_ecu9_boi6",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu9_boi6"
+    },
+    "con52": {
+      "ID": "con-eso_eso2_big-ecu_ecu1_sbo1",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con53": {
+      "ID": "con-eso_eso2_big-ecu_ecu2_sbo2",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con54": {
+      "ID": "con-eso_eso2_big-ecu_ecu3_sbo3",
+      "in": "eso_eso2_big",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con55": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu4_boi1",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu4_boi1"
+    },
+    "con56": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu5_boi2",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu5_boi2"
+    },
+    "con57": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu6_boi3",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu6_boi3"
+    },
+    "con58": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu7_boi4",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu7_boi4"
+    },
+    "con59": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu8_boi5",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu8_boi5"
+    },
+    "con60": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu9_boi6",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu9_boi6"
+    },
+    "con61": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu1_sbo1",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con62": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu2_sbo2",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con63": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu3_sbo3",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con64": {
+      "ID": "con-col_col1_ele1-ecu_ecu4_boi1",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu4_boi1"
+    },
+    "con65": {
+      "ID": "con-col_col1_ele1-ecu_ecu5_boi2",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu5_boi2"
+    },
+    "con66": {
+      "ID": "con-col_col1_ele1-ecu_ecu6_boi3",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu6_boi3"
+    },
+    "con67": {
+      "ID": "con-col_col1_ele1-ecu_ecu7_boi4",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu7_boi4"
+    },
+    "con68": {
+      "ID": "con-col_col1_ele1-ecu_ecu8_boi5",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu8_boi5"
+    },
+    "con69": {
+      "ID": "con-col_col1_ele1-ecu_ecu9_boi6",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu9_boi6"
+    },
+    "con70": {
+      "ID": "con-ecu_ecu1_sbo1-col_col3_lis1",
+      "in": "ecu_ecu1_sbo1",
+      "out": "col_col3_lis1"
+    },
+    "con71": {
+      "ID": "con-ecu_ecu2_sbo2-col_col3_lis1",
+      "in": "ecu_ecu2_sbo2",
+      "out": "col_col3_lis1"
+    },
+    "con72": {
+      "ID": "con-ecu_ecu3_sbo3-col_col3_lis1",
+      "in": "ecu_ecu3_sbo3",
+      "out": "col_col3_lis1"
+    },
+    "con73": {
+      "ID": "con-ecu_ecu4_boi1-col_col2_mis1",
+      "in": "ecu_ecu4_boi1",
+      "out": "col_col2_mis1"
+    },
+    "con74": {
+      "ID": "con-ecu_ecu5_boi2-col_col2_mis1",
+      "in": "ecu_ecu5_boi2",
+      "out": "col_col2_mis1"
+    },
+    "con75": {
+      "ID": "con-ecu_ecu6_boi3-col_col2_mis1",
+      "in": "ecu_ecu6_boi3",
+      "out": "col_col2_mis1"
+    },
+    "con76": {
+      "ID": "con-ecu_ecu7_boi4-col_col2_mis1",
+      "in": "ecu_ecu7_boi4",
+      "out": "col_col2_mis1"
+    },
+    "con77": {
+      "ID": "con-ecu_ecu8_boi5-col_col2_mis1",
+      "in": "ecu_ecu8_boi5",
+      "out": "col_col2_mis1"
+    },
+    "con78": {
+      "ID": "con-ecu_ecu9_boi6-col_col2_mis1",
+      "in": "ecu_ecu9_boi6",
+      "out": "col_col2_mis1"
+    },
+    "con79": {
+      "ID": "con-ecu_ecu4_boi1-col_col3_lis1",
+      "in": "ecu_ecu4_boi1",
+      "out": "col_col3_lis1"
+    },
+    "con80": {
+      "ID": "con-ecu_ecu5_boi2-col_col3_lis1",
+      "in": "ecu_ecu5_boi2",
+      "out": "col_col3_lis1"
+    },
+    "con81": {
+      "ID": "con-ecu_ecu6_boi3-col_col3_lis1",
+      "in": "ecu_ecu6_boi3",
+      "out": "col_col3_lis1"
+    },
+    "con82": {
+      "ID": "con-ecu_ecu7_boi4-col_col3_lis1",
+      "in": "ecu_ecu7_boi4",
+      "out": "col_col3_lis1"
+    },
+    "con83": {
+      "ID": "con-ecu_ecu8_boi5-col_col3_lis1",
+      "in": "ecu_ecu8_boi5",
+      "out": "col_col3_lis1"
+    },
+    "con84": {
+      "ID": "con-ecu_ecu9_boi6-col_col3_lis1",
+      "in": "ecu_ecu9_boi6",
+      "out": "col_col3_lis1"
+    },
+    "con85": {
+      "ID": "con-eso_eso4_bim-ecu_ecu10_gtu1",
+      "in": "eso_eso4_bim",
+      "out": "ecu_ecu10_gtu1"
+    },
+    "con86": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu10_gtu1",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu10_gtu1"
+    },
+    "con87": {
+      "ID": "con-eso_eso1_nga-ecu_ecu10_gtu1",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu10_gtu1"
+    },
+    "con88": {
+      "ID": "con-eso_eso4_bim-ecu_ecu11_gtu2",
+      "in": "eso_eso4_bim",
+      "out": "ecu_ecu11_gtu2"
+    },
+    "con89": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu11_gtu2",
+      "in": "eso_eso10_hyd",
+      "out": "ecu_ecu11_gtu2"
+    },
+    "con90": {
+      "ID": "con-eso_eso1_nga-ecu_ecu11_gtu2",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu11_gtu2"
+    },
+    "con91": {
+      "ID": "con-ecu_ecu10_gtu1-col_col3_lis1",
+      "in": "ecu_ecu10_gtu1",
+      "out": "col_col3_lis1"
+    },
+    "con92": {
+      "ID": "con-ecu_ecu10_gtu1-col_col6_ele2",
+      "in": "ecu_ecu10_gtu1",
+      "out": "col_col6_ele2"
+    },
+    "con93": {
+      "ID": "con-ecu_ecu11_gtu2-col_col3_lis1",
+      "in": "ecu_ecu11_gtu2",
+      "out": "col_col3_lis1"
+    },
+    "con94": {
+      "ID": "con-ecu_ecu11_gtu2-col_col6_ele2",
+      "in": "ecu_ecu11_gtu2",
+      "out": "col_col6_ele2"
+    },
+    "con95": {
+      "ID": "con-ecu_ecu1_sbo1-col_col8_his1",
+      "in": "ecu_ecu1_sbo1",
+      "out": "col_col8_his1"
+    },
+    "con96": {
+      "ID": "con-ecu_ecu2_sbo2-col_col8_his1",
+      "in": "ecu_ecu2_sbo2",
+      "out": "col_col8_his1"
+    },
+    "con97": {
+      "ID": "con-ecu_ecu3_sbo3-col_col8_his1",
+      "in": "ecu_ecu3_sbo3",
+      "out": "col_col8_his1"
+    },
+    "con98": {
+      "ID": "con-ecu_ecu4_boi1-col_col8_his1",
+      "in": "ecu_ecu4_boi1",
+      "out": "col_col8_his1"
+    },
+    "con99": {
+      "ID": "con-ecu_ecu5_boi2-col_col8_his1",
+      "in": "ecu_ecu5_boi2",
+      "out": "col_col8_his1"
+    },
+    "con100": {
+      "ID": "con-ecu_ecu6_boi3-col_col8_his1",
+      "in": "ecu_ecu6_boi3",
+      "out": "col_col8_his1"
+    },
+    "con101": {
+      "ID": "con-ecu_ecu7_boi4-col_col8_his1",
+      "in": "ecu_ecu7_boi4",
+      "out": "col_col8_his1"
+    },
+    "con102": {
+      "ID": "con-ecu_ecu8_boi5-col_col8_his1",
+      "in": "ecu_ecu8_boi5",
+      "out": "col_col8_his1"
+    },
+    "con103": {
+      "ID": "con-ecu_ecu9_boi6-col_col8_his1",
+      "in": "ecu_ecu9_boi6",
+      "out": "col_col8_his1"
+    },
+    "con104": {
+      "ID": "con-eso_eso17_ste-col_col2_mis1",
+      "in": "eso_eso17_ste",
+      "out": "col_col2_mis1"
+    },
+    "con105": {
+      "ID": "con-ecu_ecu4_boi1-col_col7_los1",
+      "in": "ecu_ecu4_boi1",
+      "out": "col_col7_los1"
+    },
+    "con106": {
+      "ID": "con-ecu_ecu5_boi2-col_col7_los1",
+      "in": "ecu_ecu5_boi2",
+      "out": "col_col7_los1"
+    },
+    "con107": {
+      "ID": "con-ecu_ecu6_boi3-col_col7_los1",
+      "in": "ecu_ecu6_boi3",
+      "out": "col_col7_los1"
+    },
+    "con108": {
+      "ID": "con-ecu_ecu7_boi4-col_col7_los1",
+      "in": "ecu_ecu7_boi4",
+      "out": "col_col7_los1"
+    },
+    "con109": {
+      "ID": "con-ecu_ecu8_boi5-col_col7_los1",
+      "in": "ecu_ecu8_boi5",
+      "out": "col_col7_los1"
+    },
+    "con110": {
+      "ID": "con-ecu_ecu9_boi6-col_col7_los1",
+      "in": "ecu_ecu9_boi6",
+      "out": "col_col7_los1"
+    },
+    "con111": {
+      "ID": "con-col_col3_lis1-ecu_ecu12_stu1",
+      "in": "col_col3_lis1",
+      "out": "ecu_ecu12_stu1"
+    },
+    "con112": {
+      "ID": "con-ecu_ecu12_stu1-col_col6_ele2",
+      "in": "ecu_ecu12_stu1",
+      "out": "col_col6_ele2"
+    },
+    "con113": {
+      "ID": "con-ecu_ecu12_stu1-col_col4_mis2",
+      "in": "ecu_ecu12_stu1",
+      "out": "col_col4_mis2"
+    },
+    "con114": {
+      "ID": "con-ecu_ecu12_stu1-col_col9_his2",
+      "in": "ecu_ecu12_stu1",
+      "out": "col_col9_his2"
+    },
+    "con115": {
+      "ID": "con-ecu_ecu12_stu1-col_col5_los2",
+      "in": "ecu_ecu12_stu1",
+      "out": "col_col5_los2"
+    },
+    "con116": {
+      "ID": "con-col_col3_lis1-ecu_ecu13_stu2",
+      "in": "col_col3_lis1",
+      "out": "ecu_ecu13_stu2"
+    },
+    "con117": {
+      "ID": "con-ecu_ecu13_stu2-col_col6_ele2",
+      "in": "ecu_ecu13_stu2",
+      "out": "col_col6_ele2"
+    },
+    "con118": {
+      "ID": "con-ecu_ecu13_stu2-col_col4_mis2",
+      "in": "ecu_ecu13_stu2",
+      "out": "col_col4_mis2"
+    },
+    "con119": {
+      "ID": "con-ecu_ecu13_stu2-col_col9_his2",
+      "in": "ecu_ecu13_stu2",
+      "out": "col_col9_his2"
+    },
+    "con120": {
+      "ID": "con-ecu_ecu13_stu2-col_col5_los2",
+      "in": "ecu_ecu13_stu2",
+      "out": "col_col5_los2"
+    },
+    "con121": {
+      "ID": "con-col_col1_ele1-ecu_ecu15_shp1",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu15_shp1"
+    },
+    "con122": {
+      "ID": "con-ecu_ecu15_shp1-col_col4_mis2",
+      "in": "ecu_ecu15_shp1",
+      "out": "col_col4_mis2"
+    },
+    "con123": {
+      "ID": "con-ecu_ecu15_shp1-col_col5_los2",
+      "in": "ecu_ecu15_shp1",
+      "out": "col_col5_los2"
+    },
+    "con124": {
+      "ID": "con-col_col10_hua-ecu_ecu15_shp1",
+      "in": "col_col10_hua",
+      "out": "ecu_ecu15_shp1"
+    },
+    "con125": {
+      "ID": "con-col_col1_ele1-ecu_ecu16_shp2",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu16_shp2"
+    },
+    "con126": {
+      "ID": "con-ecu_ecu16_shp2-col_col4_mis2",
+      "in": "ecu_ecu16_shp2",
+      "out": "col_col4_mis2"
+    },
+    "con127": {
+      "ID": "con-ecu_ecu16_shp2-col_col5_los2",
+      "in": "ecu_ecu16_shp2",
+      "out": "col_col5_los2"
+    },
+    "con128": {
+      "ID": "con-esu_esu3_how-ecu_ecu16_shp2",
+      "in": "esu_esu3_how",
+      "out": "ecu_ecu16_shp2"
+    },
+    "con129": {
+      "ID": "con-eso_eso16_geo-esu_esu3_how",
+      "in": "eso_eso16_geo",
+      "out": "esu_esu3_how"
+    },
+    "con130": {
+      "ID": "con-col_col1_ele1-col_col6_ele2",
+      "in": "col_col1_ele1",
+      "out": "col_col6_ele2"
+    },
+    "con131": {
+      "ID": "con-col_col3_lis1-esu_esu2_ste",
+      "in": "col_col3_lis1",
+      "out": "esu_esu2_ste"
+    },
+    "con132": {
+      "ID": "con-esu_esu2_ste-col_col4_mis2",
+      "in": "esu_esu2_ste",
+      "out": "col_col4_mis2"
+    },
+    "con133": {
+      "ID": "con-esu_esu2_ste-col_col5_los2",
+      "in": "esu_esu2_ste",
+      "out": "col_col5_los2"
+    },
+    "con134": {
+      "ID": "con-esu_esu2_ste-col_col9_his2",
+      "in": "esu_esu2_ste",
+      "out": "col_col9_his2"
+    },
+    "con135": {
+      "ID": "con-col_col1_ele1-esu_esu1_bat",
+      "in": "col_col1_ele1",
+      "out": "esu_esu1_bat"
+    },
+    "con136": {
+      "ID": "con-esu_esu1_bat-col_col1_ele1",
+      "in": "esu_esu1_bat",
+      "out": "col_col1_ele1"
+    },
+    "con137": {
+      "ID": "con-col_col1_ele1-ecu_ecu14_whp1",
+      "in": "col_col1_ele1",
+      "out": "ecu_ecu14_whp1"
+    },
+    "con138": {
+      "ID": "con-ecu_ecu14_whp1-esu_esu3_how",
+      "in": "ecu_ecu14_whp1",
+      "out": "esu_esu3_how"
+    },
+    "con139": {
+      "ID": "con-col_col7_los1-col_col5_los2",
+      "in": "col_col7_los1",
+      "out": "col_col5_los2"
+    },
+    "con140": {
+      "ID": "con-col_col8_his1-col_col9_his2",
+      "in": "col_col8_his1",
+      "out": "col_col9_his2"
+    },
+    "con141": {
+      "ID": "con-col_col4_mis2-dem_dem1_pro1",
+      "in": "col_col4_mis2",
+      "out": "dem_dem1_pro1"
+    },
+    "con142": {
+      "ID": "con-col_col4_mis2-dem_dem2_pro2",
+      "in": "col_col4_mis2",
+      "out": "dem_dem2_pro2"
+    },
+    "con143": {
+      "ID": "con-col_col4_mis2-dem_dem3_pro3",
+      "in": "col_col4_mis2",
+      "out": "dem_dem3_pro3"
+    },
+    "con144": {
+      "ID": "con-col_col4_mis2-dem_dem4_pro4",
+      "in": "col_col4_mis2",
+      "out": "dem_dem4_pro4"
+    },
+    "con145": {
+      "ID": "con-ecu_ecu14_whp1-eso_eso18_dhe",
+      "in": "ecu_ecu14_whp1",
+      "out": "eso_eso18_dhe"
+    },
+    "con146": {
+      "ID": "con-col_col9_his2-dem_dem1_pro1",
+      "in": "col_col9_his2",
+      "out": "dem_dem1_pro1"
+    },
+    "con147": {
+      "ID": "con-eso_eso21_ppaw-col_col1_ele1",
+      "in": "eso_eso21_ppaw",
+      "out": "col_col1_ele1"
+    },
+    "con148": {
+      "ID": "con-col_col9_his2-dem_dem2_pro2",
+      "in": "col_col9_his2",
+      "out": "dem_dem2_pro2"
+    },
+    "con149": {
+      "ID": "con-col_col9_his2-dem_dem3_pro3",
+      "in": "col_col9_his2",
+      "out": "dem_dem3_pro3"
+    },
+    "con150": {
+      "ID": "con-col_col9_his2-dem_dem4_pro4",
+      "in": "col_col9_his2",
+      "out": "dem_dem4_pro4"
+    },
+    "con151": {
+      "ID": "con-eso_eso22_ots-ecu_ecu1_sbo1",
+      "in": "eso_eso22_ots",
+      "out": "ecu_ecu1_sbo1"
+    },
+    "con152": {
+      "ID": "con-esu_esu3_how-eso_eso18_dhe",
+      "in": "esu_esu3_how",
+      "out": "eso_eso18_dhe"
+    },
+    "con153": {
+      "ID": "con-col_col5_los2-dem_dem1_pro1",
+      "in": "col_col5_los2",
+      "out": "dem_dem1_pro1"
+    },
+    "con154": {
+      "ID": "con-col_col5_los2-dem_dem2_pro2",
+      "in": "col_col5_los2",
+      "out": "dem_dem2_pro2"
+    },
+    "con155": {
+      "ID": "con-col_col5_los2-dem_dem3_pro3",
+      "in": "col_col5_los2",
+      "out": "dem_dem3_pro3"
+    },
+    "con156": {
+      "ID": "con-col_col5_los2-dem_dem4_pro4",
+      "in": "col_col5_los2",
+      "out": "dem_dem4_pro4"
+    },
+    "con157": {
+      "ID": "con-col_col5_los2-eso_eso18_dhe",
+      "in": "col_col5_los2",
+      "out": "eso_eso18_dhe"
+    },
+    "con158": {
+      "ID": "con-eso_eso22_ots-ecu_ecu2_sbo2",
+      "in": "eso_eso22_ots",
+      "out": "ecu_ecu2_sbo2"
+    },
+    "con159": {
+      "ID": "con-col_col6_ele2-dem_dem1_pro1",
+      "in": "col_col6_ele2",
+      "out": "dem_dem1_pro1"
+    },
+    "con160": {
+      "ID": "con-col_col6_ele2-dem_dem2_pro2",
+      "in": "col_col6_ele2",
+      "out": "dem_dem2_pro2"
+    },
+    "con161": {
+      "ID": "con-col_col6_ele2-dem_dem3_pro3",
+      "in": "col_col6_ele2",
+      "out": "dem_dem3_pro3"
+    },
+    "con162": {
+      "ID": "con-col_col6_ele2-dem_dem4_pro4",
+      "in": "col_col6_ele2",
+      "out": "dem_dem4_pro4"
+    },
+    "con163": {
+      "ID": "con-col_col6_ele2-eso_eso19_feg",
+      "in": "col_col6_ele2",
+      "out": "eso_eso19_feg"
+    },
+    "con164": {
+      "ID": "con-eso_eso22_ots-ecu_ecu3_sbo3",
+      "in": "eso_eso22_ots",
+      "out": "ecu_ecu3_sbo3"
+    },
+    "con165": {
+      "ID": "con-eso_eso1_nga1-dem_dem1_pro1",
+      "in": "eso_eso1_nga1",
+      "out": "dem_dem1_pro1"
+    },
+    "con166": {
+      "ID": "con-eso_eso1_nga1-dem_dem2_pro2",
+      "in": "eso_eso1_nga1",
+      "out": "dem_dem2_pro2"
+    },
+    "con167": {
+      "ID": "con-eso_eso1_nga1-dem_dem3_pro3",
+      "in": "eso_eso1_nga1",
+      "out": "dem_dem3_pro3"
+    },
+    "con168": {
+      "ID": "con-eso_eso1_nga1-dem_dem4_pro4",
+      "in": "eso_eso1_nga1",
+      "out": "dem_dem4_pro4"
+    },
+    "con169": {
+      "ID": "con-eso_eso20_bif-ecu_ecu4_boi1",
+      "in": "eso_eso20_bif",
+      "out": "ecu_ecu4_boi1"
+    },
+    "con170": {
+      "ID": "con-eso_eso20_bif-ecu_ecu5_boi2",
+      "in": "eso_eso20_bif",
+      "out": "ecu_ecu5_boi2"
+    },
+    "con171": {
+      "ID": "con-eso_eso20_bif-ecu_ecu6_boi3",
+      "in": "eso_eso20_bif",
+      "out": "ecu_ecu6_boi3"
+    },
+    "con172": {
+      "ID": "con-eso_eso20_bif-ecu_ecu7_boi4",
+      "in": "eso_eso20_bif",
+      "out": "ecu_ecu7_boi4"
+    },
+    "con173": {
+      "ID": "con-eso_eso20_bif-ecu_ecu8_boi5",
+      "in": "eso_eso20_bif",
+      "out": "ecu_ecu8_boi5"
+    },
+    "con174": {
+      "ID": "con-eso_eso20_bif-ecu_ecu9_boi6",
+      "in": "eso_eso20_bif",
+      "out": "ecu_ecu9_boi6"
+    },
+    "con175": {
+      "ID": "con-eso_eso23_otg-ecu_ecu4_boi1",
+      "in": "eso_eso23_otg",
+      "out": "ecu_ecu4_boi1"
+    },
+    "con176": {
+      "ID": "con-eso_eso23_otg-ecu_ecu5_boi2",
+      "in": "eso_eso23_otg",
+      "out": "ecu_ecu5_boi2"
+    },
+    "con177": {
+      "ID": "con-eso_eso23_otg-ecu_ecu6_boi3",
+      "in": "eso_eso23_otg",
+      "out": "ecu_ecu6_boi3"
+    },
+    "con178": {
+      "ID": "con-eso_eso23_otg-ecu_ecu7_boi4",
+      "in": "eso_eso23_otg",
+      "out": "ecu_ecu7_boi4"
+    },
+    "con179": {
+      "ID": "con-eso_eso23_otg-ecu_ecu8_boi5",
+      "in": "eso_eso23_otg",
+      "out": "ecu_ecu8_boi5"
+    },
+    "con180": {
+      "ID": "con-eso_eso23_otg-ecu_ecu9_boi6",
+      "in": "eso_eso23_otg",
+      "out": "ecu_ecu9_boi6"
+    },
+    "con181": {
+      "ID": "con-eso_eso24_pdh-esu_esu3_how",
+      "in": "eso_eso24_pdh",
+      "out": "esu_esu3_how"
+    },
+    "con182": {
+      "ID": "con-eso_eso24_pdh-col_col7_los1",
+      "in": "eso_eso24_pdh",
+      "out": "col_col7_los1"
+    },
+    "con183": {
+      "ID": "con-col_col3_lis1-ecu_ecu17_cst1",
+      "in": "col_col3_lis1",
+      "out": "ecu_ecu17_cst1"
+    },
+    "con184": {
+      "ID": "con-col_col3_lis1-ecu_ecu18_cst2",
+      "in": "col_col3_lis1",
+      "out": "ecu_ecu18_cst2"
+    },
+    "con185": {
+      "ID": "con-ecu_ecu17_cst1-col_col6_ele2",
+      "in": "ecu_ecu17_cst1",
+      "out": "col_col6_ele2"
+    },
+    "con186": {
+      "ID": "con-ecu_ecu18_cst2-col_col6_ele2",
+      "in": "ecu_ecu18_cst2",
+      "out": "col_col6_ele2"
+    },
+    "con187": {
+      "ID": "con-ecu_ecu17_cst1-col_col4_mis2",
+      "in": "ecu_ecu17_cst1",
+      "out": "col_col4_mis2"
+    },
+    "con188 ": {
+      "ID": "con-ecu_ecu18_cst2-col_col4_mis2",
+      "in": "ecu_ecu18_cst2",
+      "out": "col_col4_mis2"
+    },
+    "con189": {
+      "ID": "con-ecu_ecu17_cst1-col_col9_his2",
+      "in": "ecu_ecu17_cst1",
+      "out": "col_col9_his2"
+    },
+    "con190": {
+      "ID": "con-ecu_ecu18_cst2-col_col9_his2",
+      "in": "ecu_ecu18_cst2",
+      "out": "col_col9_his2"
+    },
+    "con191": {
+      "ID": "con-ecu_ecu17_cst1-col_col5_los2",
+      "in": "ecu_ecu17_cst1",
+      "out": "col_col5_los2"
+    },
+    "con192": {
+      "ID": "con-ecu_ecu18_cst2-col_col5_los2",
+      "in": "ecu_ecu18_cst2",
+      "out": "col_col5_los2"
+    },
+    "con193": {
+      "ID": "con-ecu_ecu15_shp1-col_col9_his2",
+      "in": "ecu_ecu15_shp1",
+      "out": "col_col9_his2"
+    },
+    "con194": {
+      "ID": "con-ecu_ecu16_shp2-col_col9_his2",
+      "in": "ecu_ecu16_shp2",
+      "out": "col_col9_his2"
+    },
+    "con195": {
+      "ID": "con-ecu_ecu16_shp2-esu_esu4_wwa",
+      "in": "ecu_ecu16_shp2",
+      "out": "esu_esu4_wwa"
+    },
+    "con196": {
+      "ID": "con-col_col10_hua-esu_esu4_wwa",
+      "in": "col_col10_hua",
+      "out": "esu_esu4_wwa"
+    },
+    "con197": {
+      "ID": "con-col_col11_owh-esu_esu4_wwa",
+      "in": "col_col11_owh",
+      "out": "esu_esu4_wwa"
+    },
+    "con198": {
+      "ID": "con-esu_esu4_wwa-ecu_ecu14_whp1",
+      "in": "esu_esu4_wwa",
+      "out": "ecu_ecu14_whp1"
+    },
+    "con199": {
+      "ID": "con-dem_dem1_pro1-col_col11_owh",
+      "in": "dem_dem1_pro1",
+      "out": "col_col11_owh"
+    },
+    "con200": {
+      "ID": "con-dem_dem2_pro2-col_col11_owh",
+      "in": "dem_dem2_pro2",
+      "out": "col_col11_owh"
+    },
+    "con201": {
+      "ID": "con-dem_dem3_pro3-col_col11_owh",
+      "in": "dem_dem3_pro3",
+      "out": "col_col11_owh"
+    },
+    "con202": {
+      "ID": "con-dem_dem4_pro4-col_col11_owh",
+      "in": "dem_dem4_pro4",
+      "out": "col_col11_owh"
+    },
+    "con203": {
+      "ID": "con-col_col11_owh-ecu_ecu14_whp1",
+      "in": "col_col11_owh",
+      "out": "ecu_ecu14_whp1"
+    },
+    "con204": {
+      "ID": "con-dem_dem1_pro1-col_col10_hua",
+      "in": "dem_dem1_pro1",
+      "out": "col_col10_hua"
+    },
+    "con205": {
+      "ID": "con-dem_dem2_pro2-col_col10_hua",
+      "in": "dem_dem2_pro2",
+      "out": "col_col10_hua"
+    },
+    "con206": {
+      "ID": "con-dem_dem3_pro3-col_col10_hua",
+      "in": "dem_dem3_pro3",
+      "out": "col_col10_hua"
+    },
+    "con207": {
+      "ID": "con-dem_dem4_pro4-col_col10_hua",
+      "in": "dem_dem4_pro4",
+      "out": "col_col10_hua"
+    }
+  },
+  "col": {
+    "col1": {
+      "ID": "col_col1_ele1",
+      "eca": "eca_eca7_ele",
+      "in": {
+        "input1": {
+          "con": "con-eso_eso3_elg-col_col1_ele1",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-eso_eso12_elp-col_col1_ele1",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-eso_eso13_elw-col_col1_ele1",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-eso_eso14_elh-col_col1_ele1",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-eso_eso15_ppapv-col_col1_ele1",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-esu_esu1_bat-col_col1_ele1",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-eso_eso21_ppapw-col_col1_ele1",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col1_ele1-ecu_ecu4_boi1",
+          "active": "True"
+        },
+        "output2": {
+          "con": "con-col_col1_ele1-ecu_ecu5_boi2",
+          "active": "True"
+        },
+        "output3": {
+          "con": "con-col_col1_ele1-ecu_ecu6_boi3",
+          "active": "True"
+        },
+        "output4": {
+          "con": "con-col_col1_ele1-ecu_ecu7_boi4",
+          "active": "True"
+        },
+        "output5": {
+          "con": "con-col_col1_ele1-ecu_ecu8_boi5",
+          "active": "True"
+        },
+        "output6": {
+          "con": "con-col_col1_ele1-ecu_ecu9_boi6",
+          "active": "True"
+        },
+        "output7": {
+          "con": "con-col_col1_ele1-col_col6_ele2",
+          "active": "True"
+        },
+        "output8": {
+          "con": "con-col_col1_ele1-ecu_ecu15_shp1",
+          "active": "True"
+        },
+        "output9": {
+          "con": "con-col_col1_ele1-ecu_ecu14_whp1",
+          "active": "True"
+        },
+        "output10": {
+          "con": "con-col_col1_ele1-ecu_ecu16_shp2",
+          "active": "True"
+        },
+        "output11": {
+          "con": "con-col_col1_ele1-esu_esu1_bat",
+          "active": "True"
+        }
+      }
+    },
+    "col2": {
+      "ID": "col_col2_mis1",
+      "eca": "eca_eca3_mis",
+      "in": {
+        "input1": {
+          "con": "con-ecu_ecu1_sbo1-col_col2_mis1",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-ecu_ecu2_sbo2-col_col2_mis1",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-ecu_ecu3_sbo3-col_col2_mis1",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-ecu_ecu4_boi1-col_col2_mis1",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-ecu_ecu5_boi2-col_col2_mis1",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-ecu_ecu6_boi3-col_col2_mis1",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-ecu_ecu7_boi4-col_col2_mis1",
+          "active": "True"
+        },
+        "input8": {
+          "con": "con-ecu_ecu8_boi5-col_col2_mis1",
+          "active": "True"
+        },
+        "input9": {
+          "con": "con-ecu_ecu9_boi6-col_col2_mis1",
+          "active": "True"
+        },
+        "input10": {
+          "con": "con-eso_eso17_ste-col_col2_mis1",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col2_mis1-col_col4_mis2",
+          "active": "True"
+        }
+      }
+    },
+    "col3": {
+      "ID": "col_col3_lis1",
+      "eca": "eca_eca1_lis",
+      "in": {
+        "input1": {
+          "con": "con-ecu_ecu1_sbo1-col_col3_lis1",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-ecu_ecu2_sbo2-col_col3_lis1",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-ecu_ecu3_sbo3-col_col3_lis1",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-ecu_ecu4_boi1-col_col3_lis1",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-ecu_ecu5_boi2-col_col3_lis1",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-ecu_ecu6_boi3-col_col3_lis1",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-ecu_ecu7_boi4-col_col3_lis1",
+          "active": "True"
+        },
+        "input8": {
+          "con": "con-ecu_ecu8_boi5-col_col3_lis1",
+          "active": "True"
+        },
+        "input9": {
+          "con": "con-ecu_ecu9_boi6-col_col3_lis1",
+          "active": "True"
+        },
+        "input10": {
+          "con": "con-ecu_ecu10_gtu1-col_col3_lis1",
+          "active": "True"
+        },
+        "input11": {
+          "con": "con-ecu_ecu11_gtu2-col_col3_lis1",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col3_lis1-ecu_ecu12_stu1",
+          "active": "True"
+        },
+        "output2": {
+          "con": "con-col_col3_lis1-ecu_ecu13_stu2",
+          "active": "True"
+        },
+        "output3": {
+          "con": "con-col_col3_lis1-esu_esu2_ste",
+          "active": "True"
+        },
+        "output4": {
+          "con": "con-col_col3_lis1-ecu_ecu17_cst1",
+          "active": "True"
+        },
+        "output5": {
+          "con": "con-col_col3_lis1-ecu_ecu18_cst2",
+          "active": "True"
+        }
+      }
+    },
+    "col4": {
+      "ID": "col_col4_mis2",
+      "eca": "eca_eca3_mis",
+      "in": {
+        "input1": {
+          "con": "con-col_col2_mis1-col_col4_mis2",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-ecu_ecu12_stu1-col_col4_mis2",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-ecu_ecu15_shp1-col_col4_mis2",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-ecu_ecu13_stu2-col_col4_mis2",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-ecu_ecu16_shp2-col_col4_mis2",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-esu_esu2_ste-col_col4_mis2",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-ecu_ecu17_cst1-col_col4_mis2",
+          "active": "True"
+        },
+        "input8": {
+          "con": "con-ecu_ecu18_cst2-col_col4_mis2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col4_mis2-dem_dem1_pro1",
+          "active": "True"
+        },
+        "output2": {
+          "con": "con-col_col4_mis2-dem_dem2_pro2",
+          "active": "True"
+        },
+        "output3": {
+          "con": "con-col_col4_mis2-dem_dem3_pro3",
+          "active": "True"
+        },
+        "output4": {
+          "con": "con-col_col4_mis2-dem_dem4_pro4",
+          "active": "True"
+        }
+      }
+    },
+    "col5": {
+      "ID": "col_col5_los2",
+      "eca": "eca_eca4_los",
+      "in": {
+        "input1": {
+          "con": "con-col_col7_los1-col_col5_los2",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-ecu_ecu12_stu1-col_col5_los2",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-ecu_ecu13_stu2-col_col5_los2",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-ecu_ecu15_shp1-col_col5_los2",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-ecu_ecu16_shp2-col_col5_los2",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-esu_esu2_ste-col_col5_los2",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-ecu_ecu17_cst1-col_col5_los2",
+          "active": "True"
+        },
+        "input8": {
+          "con": "con-ecu_ecu18_cst2-col_col5_los2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col5_los2-dem_dem1_pro1",
+          "active": "True"
+        },
+        "output2": {
+          "con": "con-col_col5_los2-dem_dem2_pro2",
+          "active": "True"
+        },
+        "output3": {
+          "con": "con-col_col5_los2-dem_dem3_pro3",
+          "active": "True"
+        },
+        "output4": {
+          "con": "con-col_col5_los2-dem_dem4_pro4",
+          "active": "True"
+        },
+        "output5": {
+          "con": "con-col_col5_los2-eso_eso18_dhe",
+          "active": "True"
+        }
+      }
+    },
+    "col6": {
+      "ID": "col_col6_ele2",
+      "eca": "eca_eca7_ele",
+      "in": {
+        "input1": {
+          "con": "con-ecu_ecu10_gtu1-col_col6_ele2",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-ecu_ecu11_gtu2-col_col6_ele2",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-col_col1_ele1-col_col6_ele2",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-ecu_ecu12_stu1-col_col6_ele2",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-ecu_ecu13_stu2-col_col6_ele2",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-ecu_ecu17_cst1-col_col6_ele2",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-ecu_ecu18_cst2-col_col6_ele2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col6_ele2-dem_dem1_pro1",
+          "active": "True"
+        },
+        "output2": {
+          "con": "con-col_col6_ele2-dem_dem2_pro2",
+          "active": "True"
+        },
+        "output3": {
+          "con": "con-col_col6_ele2-dem_dem3_pro3",
+          "active": "True"
+        },
+        "output4": {
+          "con": "con-col_col6_ele2-dem_dem4_pro4",
+          "active": "True"
+        },
+        "output5": {
+          "con": "con-col_col6_ele2-eso_eso19_feg",
+          "active": "True"
+        }
+      }
+    },
+    "col7": {
+      "ID": "col_col7_los1",
+      "eca": "eca_eca4_los",
+      "in": {
+        "input1": {
+          "con": "con-ecu_ecu4_boi1-col_col7_los1",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-ecu_ecu5_boi2-col_col7_los1",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-ecu_ecu6_boi3-col_col7_los1",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-ecu_ecu7_boi4-col_col7_los1",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-ecu_ecu8_boi5-col_col7_los1",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-ecu_ecu9_boi6-col_col7_los1",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-eso_eso24_pdh-col_col7_los1",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col7_los1-col_col5_los2",
+          "active": "True"
+        }
+      }
+    },
+    "col8": {
+      "ID": "col_col8_his1",
+      "eca": "eca_eca2_his",
+      "in": {
+        "input1": {
+          "con": "con-ecu_ecu1_sbo1-col_col8_his1",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-ecu_ecu2_sbo2-col_col8_his1",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-ecu_ecu3_sbo3-col_col8_his1",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-ecu_ecu4_boi1-col_col8_his1",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-ecu_ecu5_boi2-col_col8_his1",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-ecu_ecu6_boi3-col_col8_his1",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-ecu_ecu7_boi4-col_col8_his1",
+          "active": "True"
+        },
+        "input8": {
+          "con": "con-ecu_ecu8_boi5-col_col8_his1",
+          "active": "True"
+        },
+        "input9": {
+          "con": "con-ecu_ecu9_boi6-col_col8_his1",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col8_his1-col_col9_his2",
+          "active": "True"
+        }
+      }
+    },
+    "col9": {
+      "ID": "col_col9_his2",
+      "eca": "eca_eca2_his",
+      "in": {
+        "input1": {
+          "con": "con-col_col8_his1-col_col9_his2",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-ecu_ecu12_stu1-col_col9_his2",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-ecu_ecu13_stu2-col_col9_his2",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-esu_esu2_ste-col_col9_his2",
+          "active": "True"
+        },
+        "input5": {
+          "con": "con-ecu_ecu17_cst1-col_col9_his2",
+          "active": "True"
+        },
+        "input6": {
+          "con": "con-ecu_ecu18_cst2-col_col9_his2",
+          "active": "True"
+        },
+        "input7": {
+          "con": "con-ecu_ecu15_shp1-col_col9_his2",
+          "active": "True"
+        },
+        "input8": {
+          "con": "con-ecu_ecu16_shp2-col_col9_his2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col9_his2-dem_dem1_pro1",
+          "active": "True"
+        },
+        "output2": {
+          "con": "con-col_col9_his2-dem_dem2_pro2",
+          "active": "True"
+        },
+        "output3": {
+          "con": "con-col_col9_his2-dem_dem3_pro3",
+          "active": "True"
+        },
+        "output4": {
+          "con": "con-col_col9_his2-dem_dem4_pro4",
+          "active": "True"
+        }
+      }
+    },
+    "col10": {
+      "ID": "col_col10_hua",
+      "eca": "eca_eca5_hua",
+      "in": {
+        "input1": {
+          "con": "con-dem_dem1_pro1-col_col10_hua",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-dem_dem2_pro2-col_col10_hua",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-dem_dem3_pro3-col_col10_hua",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-dem_dem4_pro4-col_col10_hua",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col10_hua-ecu_ecu15_shp1",
+          "active": "True"
+        },
+        "output2": {
+          "con": "con-col_col10_hua-esu_esu4_wwa",
+          "active": "True"
+        }
+      }
+    },
+    "col11": {
+      "ID": "col_col11_owh",
+      "eca": "eca_eca6_owh",
+      "in": {
+        "input1": {
+          "con": "con-dem_dem1_pro1-col_col11_owh",
+          "active": "True"
+        },
+        "input2": {
+          "con": "con-dem_dem2_pro2-col_col11_owh",
+          "active": "True"
+        },
+        "input3": {
+          "con": "con-dem_dem3_pro3-col_col11_owh",
+          "active": "True"
+        },
+        "input4": {
+          "con": "con-dem_dem4_pro4-col_col11_owh",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "con": "con-col_col11_owh-ecu_ecu14_whp1",
+          "active": "True"
+        },
+        "output2": {
+          "con": "con-col_col11_owh-esu_esu4_wwa",
+          "active": "True"
+        }
+      }
+    }
+  },
+  "ecu": {
+    "ecu1": {
+      "name": "sbo1",
+      "type": "boiler",
+      "description": "solid boiler",
+      "ID": "ecu_ecu1_sbo1",
+      "in": {
+        "input1": {
+          "element": "eso_eso11_bio",
+          "max_share": 1
+        },
+        "input2": {
+          "element": "eso_eso5_slu",
+          "max_share": 0.1
+        },
+        "input3": {
+          "element": "eso_eso6_iwa",
+          "max_share": 0.3
+        },
+        "input4": {
+          "element": "eso_eso7_ewa",
+          "max_share": 0.1
+        },
+        "input5": {
+          "element": "eso_eso8_coa",
+          "max_share": 0.1
+        },
+        "input6": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso2_big",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.1
+        },
+        "input9": {
+          "element": "eso_eso22_ots",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 10,
+          "minload": 30,
+          "fullload_efficiency": 80,
+          "minload_efficiency": 70,
+          "ramp": 0.5,
+          "min_on": 12,
+          "min_off": 12,
+          "start_up": 6,
+          "shut_down": 6,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu2": {
+      "name": "sbo2",
+      "type": "boiler",
+      "description": "solid boiler",
+      "ID": "ecu_ecu2_sbo2",
+      "in": {
+        "input1": {
+          "element": "eso_eso11_bio",
+          "max_share": 1
+        },
+        "input2": {
+          "element": "eso_eso5_slu",
+          "max_share": 0.1
+        },
+        "input3": {
+          "element": "eso_eso6_iwa",
+          "max_share": 0.3
+        },
+        "input4": {
+          "element": "eso_eso7_ewa",
+          "max_share": 0.1
+        },
+        "input5": {
+          "element": "eso_eso8_coa",
+          "max_share": 0.1
+        },
+        "input6": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso2_big",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.1
+        },
+        "input9": {
+          "element": "eso_eso22_ots",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 10,
+          "minload": 30,
+          "fullload_efficiency": 80,
+          "minload_efficiency": 70,
+          "ramp": 0.5,
+          "min_on": 12,
+          "min_off": 12,
+          "start_up": 6,
+          "shut_down": 6,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu3": {
+      "name": "sbo3",
+      "type": "boiler",
+      "description": "solid boiler",
+      "ID": "ecu_ecu3_sbo3",
+      "in": {
+        "input1": {
+          "element": "eso_eso11_bio",
+          "max_share": 1
+        },
+        "input2": {
+          "element": "eso_eso5_slu",
+          "max_share": 0.1
+        },
+        "input3": {
+          "element": "eso_eso6_iwa",
+          "max_share": 0.3
+        },
+        "input4": {
+          "element": "eso_eso7_ewa",
+          "max_share": 0.1
+        },
+        "input5": {
+          "element": "eso_eso8_coa",
+          "max_share": 0.1
+        },
+        "input6": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso2_big",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.1
+        },
+        "input9": {
+          "element": "eso_eso22_ots",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 10,
+          "minload": 30,
+          "fullload_efficiency": 80,
+          "minload_efficiency": 70,
+          "ramp": 0.5,
+          "min_on": 12,
+          "min_off": 12,
+          "start_up": 6,
+          "shut_down": 6,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu4": {
+      "name": "boi1",
+      "type": "boiler",
+      "description": "single-/multi-fuel-boiler",
+      "ID": "ecu_ecu4_boi1",
+      "in": {
+        "input1": {
+          "element": "eso_eso9_oil",
+          "max_share": 0.1
+        },
+        "input2": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.2
+        },
+        "input3": {
+          "element": "eso_eso4_bim",
+          "max_share": 0.2
+        },
+        "input4": {
+          "element": "eso_eso2_big",
+          "max_share": 0.2
+        },
+        "input5": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.2
+        },
+        "input6": {
+          "element": "col_col1_ele1",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso20_bif",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso23_otg",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col7_los1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 50,
+          "min_capacity": 5,
+          "minload": 10,
+          "fullload_efficiency": 85,
+          "minload_efficiency": 75,
+          "ramp": 1,
+          "min_on": 1,
+          "min_off": 1,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu5": {
+      "name": "boi2",
+      "type": "boiler",
+      "description": "single-/multi-fuel-boiler",
+      "ID": "ecu_ecu5_boi2",
+      "in": {
+        "input1": {
+          "element": "eso_eso9_oil",
+          "max_share": 0.1
+        },
+        "input2": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.2
+        },
+        "input3": {
+          "element": "eso_eso4_bim",
+          "max_share": 0.2
+        },
+        "input4": {
+          "element": "eso_eso2_big",
+          "max_share": 0.2
+        },
+        "input5": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.2
+        },
+        "input6": {
+          "element": "col_col1_ele1",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso20_bif",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso23_otg",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col7_los1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 50,
+          "min_capacity": 5,
+          "minload": 10,
+          "fullload_efficiency": 85,
+          "minload_efficiency": 75,
+          "ramp": 1,
+          "min_on": 1,
+          "min_off": 1,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu6": {
+      "name": "boi3",
+      "type": "boiler",
+      "description": "single-/multi-fuel-boiler",
+      "ID": "ecu_ecu6_boi3",
+      "in": {
+        "input1": {
+          "element": "eso_eso9_oil",
+          "max_share": 0.1
+        },
+        "input2": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.2
+        },
+        "input3": {
+          "element": "eso_eso4_bim",
+          "max_share": 0.2
+        },
+        "input4": {
+          "element": "eso_eso2_big",
+          "max_share": 0.2
+        },
+        "input5": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.2
+        },
+        "input6": {
+          "element": "col_col1_ele1",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso20_bif",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso23_otg",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col7_los1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 50,
+          "min_capacity": 5,
+          "minload": 10,
+          "fullload_efficiency": 85,
+          "minload_efficiency": 75,
+          "ramp": 1,
+          "min_on": 1,
+          "min_off": 1,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu7": {
+      "name": "boi4",
+      "type": "boiler",
+      "description": "single-/multi-fuel-boiler",
+      "ID": "ecu_ecu7_boi4",
+      "in": {
+        "input1": {
+          "element": "eso_eso9_oil",
+          "max_share": 0.1
+        },
+        "input2": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.2
+        },
+        "input3": {
+          "element": "eso_eso4_bim",
+          "max_share": 0.2
+        },
+        "input4": {
+          "element": "eso_eso2_big",
+          "max_share": 0.2
+        },
+        "input5": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.2
+        },
+        "input6": {
+          "element": "col_col1_ele1",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso20_bif",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso23_otg",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col7_los1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 50,
+          "min_capacity": 5,
+          "minload": 10,
+          "fullload_efficiency": 85,
+          "minload_efficiency": 75,
+          "ramp": 1,
+          "min_on": 1,
+          "min_off": 1,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu8": {
+      "name": "boi5",
+      "type": "boiler",
+      "description": "single-/multi-fuel-boiler",
+      "ID": "ecu_ecu8_boi5",
+      "in": {
+        "input1": {
+          "element": "eso_eso9_oil",
+          "max_share": 0.1
+        },
+        "input2": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.2
+        },
+        "input3": {
+          "element": "eso_eso4_bim",
+          "max_share": 0.2
+        },
+        "input4": {
+          "element": "eso_eso2_big",
+          "max_share": 0.2
+        },
+        "input5": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.2
+        },
+        "input6": {
+          "element": "col_col1_ele1",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso20_bif",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso23_otg",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col7_los1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 50,
+          "min_capacity": 5,
+          "minload": 10,
+          "fullload_efficiency": 85,
+          "minload_efficiency": 75,
+          "ramp": 1,
+          "min_on": 1,
+          "min_off": 1,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu9": {
+      "name": "boi6",
+      "type": "boiler",
+      "description": "single-/multi-fuel-boiler",
+      "ID": "ecu_ecu9_boi6",
+      "in": {
+        "input1": {
+          "element": "eso_eso9_oil",
+          "max_share": 0.1
+        },
+        "input2": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.2
+        },
+        "input3": {
+          "element": "eso_eso4_bim",
+          "max_share": 0.2
+        },
+        "input4": {
+          "element": "eso_eso2_big",
+          "max_share": 0.2
+        },
+        "input5": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.2
+        },
+        "input6": {
+          "element": "col_col1_ele1",
+          "max_share": 0.1
+        },
+        "input7": {
+          "element": "eso_eso20_bif",
+          "max_share": 0.1
+        },
+        "input8": {
+          "element": "eso_eso23_otg",
+          "max_share": 0.1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col7_los1",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 50,
+          "min_capacity": 5,
+          "minload": 10,
+          "fullload_efficiency": 85,
+          "minload_efficiency": 75,
+          "ramp": 1,
+          "min_on": 1,
+          "min_off": 1,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10
+        }
+      ]
+    },
+    "ecu10": {
+      "name": "gtu1",
+      "type": "turbine",
+      "description": "gas turbine",
+      "ID": "ecu_ecu10_gtu1",
+      "in": {
+        "input1": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.6
+        },
+        "input2": {
+          "element": "eso_eso4_bim",
+          "max_share": 0.2
+        },
+        "input3": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.2
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col6_ele2",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 2.5,
+          "minload": 30,
+          "fullload_efficiency": 35,
+          "minload_efficiency": 30,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    },
+    "ecu11": {
+      "name": "gtu2",
+      "type": "turbine",
+      "description": "gas turbine",
+      "ID": "ecu_ecu11_gtu2",
+      "in": {
+        "input1": {
+          "element": "eso_eso1_nga",
+          "max_share": 0.6
+        },
+        "input2": {
+          "element": "eso_eso4_bim",
+          "max_share": 0.2
+        },
+        "input3": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0.2
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col3_lis1",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col6_ele2",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 2.5,
+          "minload": 30,
+          "fullload_efficiency": 35,
+          "minload_efficiency": 30,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    },
+    "ecu12": {
+      "name": "stu1",
+      "type": "turbine",
+      "description": "backpressure steam turbine",
+      "ID": "ecu_ecu12_stu1",
+      "in": {
+        "input1": {
+          "element": "col_col3_lis1",
+          "max_share": 1
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col9_his2",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col6_ele2",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col4_mis2",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col5_los2",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 5,
+          "minload": 30,
+          "fullload_efficiency": 10,
+          "minload_efficiency": 8,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 1,
+          "shut_down": 1,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    },
+    "ecu13": {
+      "name": "stu2",
+      "type": "turbine",
+      "description": "backpressure steam turbine",
+      "ID": "ecu_ecu13_stu2",
+      "in": {
+        "input1": {
+          "element": "col_col3_lis1",
+          "max_share": 0.6
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col9_his2",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col6_ele2",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col4_mis2",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col5_los2",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 5,
+          "minload": 30,
+          "fullload_efficiency": 10,
+          "minload_efficiency": 8,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 1,
+          "shut_down": 1,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    },
+    "ecu14": {
+      "name": "whp1",
+      "type": "pump",
+      "description": "water heat pump",
+      "ID": "ecu_ecu14_whp1",
+      "in": {
+        "input1": {
+          "element": "col_col1_ele1",
+          "max_share": 0.6
+        },
+        "input2": {
+          "element": "esu_esu4_wwa",
+          "max_share": 0.6
+        },
+        "input3": {
+          "element": "col_col11_owh",
+          "max_share": 0.6
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "eso_eso18_dhe",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "esu_esu3_how",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 20,
+          "min_capacity": 0.5,
+          "minload": 25,
+          "fullload_efficiency": 45,
+          "minload_efficiency": 45,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    },
+    "ecu15": {
+      "name": "shp1",
+      "type": "pump",
+      "description": "steam heat pump",
+      "ID": "ecu_ecu15_shp1",
+      "in": {
+        "input1": {
+          "element": "col_col1_ele1",
+          "max_share": 0.6
+        },
+        "input2": {
+          "element": "col_col10_hua",
+          "max_share": 0.6
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col4_mis2",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col5_los2",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col9_his2",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 50,
+          "min_capacity": 2,
+          "minload": 25,
+          "fullload_efficiency": 45,
+          "minload_efficiency": 45,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    },
+    "ecu16": {
+      "name": "shp2",
+      "type": "pump",
+      "description": "steam heat pump",
+      "ID": "ecu_ecu16_shp2",
+      "in": {
+        "input1": {
+          "element": "col_col1_ele1",
+          "max_share": 0.6
+        },
+        "input2": {
+          "element": "esu_esu3_how",
+          "max_share": 0.6
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col4_mis2",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col5_los2",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "esu_esu4_wwa",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col9_his2",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 50,
+          "min_capacity": 2,
+          "minload": 25,
+          "fullload_efficiency": 45,
+          "minload_efficiency": 45,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 0,
+          "shut_down": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    },
+    "ecu17": {
+      "name": "cst1",
+      "type": "turbine",
+      "description": "condensation steam turbine",
+      "ID": "ecu_ecu17_cst1",
+      "in": {
+        "input1": {
+          "element": "col_col3_lis1",
+          "max_share": 0.6
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col9_his2",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col6_ele2",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col4_mis2",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col5_los2",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 5,
+          "minload": 30,
+          "fullload_efficiency": 20,
+          "minload_efficiency": 18,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 1,
+          "shut_down": 1,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    },
+    "ecu18": {
+      "name": "cst2",
+      "type": "turbine",
+      "description": "condensation steam turbine",
+      "ID": "ecu_ecu18_cst2",
+      "in": {
+        "input1": {
+          "element": "col_col3_lis1",
+          "max_share": 0.6
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col9_his2",
+          "max_share": 0.5
+        },
+        "output2": {
+          "element": "col_col6_ele2",
+          "max_share": 0.5
+        },
+        "output3": {
+          "element": "col_col4_mis2",
+          "max_share": 0.5
+        },
+        "output4": {
+          "element": "col_col5_los2",
+          "max_share": 0.5
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "max_capacity": 100,
+          "min_capacity": 5,
+          "minload": 30,
+          "fullload_efficiency": 20,
+          "minload_efficiency": 18,
+          "ramp": 1,
+          "min_on": 3,
+          "min_off": 3,
+          "start_up": 1,
+          "shut_down": 1,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    }
+  },
+  "esu": {
+    "esu1": {
+      "name": "bat",
+      "type": "storage",
+      "description": "battery for electricity storing",
+      "ID": "esu_esu1_bat",
+      "in": {
+        "input1": {
+          "element": "col_col1_ele1",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col1_ele1",
+          "active": "True"
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "cap_max": 200,
+          "cap_min": 5,
+          "SOC_min": 20,
+          "power_max": 50,
+          "eta_stor": 99,
+          "eta_char": 97,
+          "eta_dis": 97,
+          "inv_fix": 1000,
+          "invest_cap": 1000,
+          "inv_power": 500
+        }
+      ]
+    },
+    "esu2": {
+      "name": "ste",
+      "type": "storage",
+      "description": "steam storage",
+      "ID": "esu_esu2_ste",
+      "in": {
+        "input1": {
+          "element": "col_col3_lis1",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col5_los2",
+          "active": "True"
+        },
+        "output2": {
+          "element": "col_col4_mis2",
+          "active": "True"
+        },
+        "output3": {
+          "element": "col_col9_his2",
+          "active": "True"
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "cap_max": 200,
+          "cap_min": 5,
+          "SOC_min": "!!!",
+          "power_max": 50
+        }
+      ]
+    },
+    "esu3": {
+      "name": "how",
+      "type": "storage",
+      "description": "hot water storage",
+      "ID": "esu_esu3_how",
+      "in": {
+        "input1": {
+          "element": "eso_eso16_geo",
+          "active": "True"
+        },
+        "input2": {
+          "element": "ecu_ecu14_whp1",
+          "active": "True"
+        },
+        "input3": {
+          "element": "eso_eso24_pdh",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "eso_eso18_dhe",
+          "active": "True"
+        },
+        "output2": {
+          "element": "ecu_ecu16_shp2",
+          "active": "True"
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "cap_max": 200,
+          "cap_min": 5,
+          "SOC_min": 5,
+          "power_max": 50
+        }
+      ]
+    },
+    "esu4": {
+      "name": "wwa",
+      "type": "storage",
+      "description": "warm water storage",
+      "ID": "esu_esu4_wwa",
+      "in": {
+        "input1": {
+          "element": "col_col10_hua",
+          "active": "True"
+        },
+        "input2": {
+          "element": "col_col11_owh",
+          "active": "True"
+        },
+        "input3": {
+          "element": "ecu_ecu16_shp2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "ecu_ecu14_whp1",
+          "active": "True"
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "exist": "False",
+          "cap_max": 200,
+          "cap_min": 5,
+          "SOC_min": 5,
+          "power_max": 50
+        }
+      ]
+    }
+  },
+  "dem": {
+    "dem1": {
+      "name": "pro1",
+      "type": "demand",
+      "description": "demand process 1",
+      "ID": "dem_dem1_pro1",
+      "in": {
+        "input1": {
+          "element": "eso_eso1_nga",
+          "active": "True"
+        },
+        "input2": {
+          "element": "col_col4_mis2",
+          "active": "True"
+        },
+        "input3": {
+          "element": "col_col5_los2",
+          "active": "True"
+        },
+        "input4": {
+          "element": "col_col9_his2",
+          "active": "True"
+        },
+        "input5": {
+          "element": "col_col6_ele2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col10_hua",
+          "active": "True"
+        },
+        "output2": {
+          "element": "col_col11_owh",
+          "active": "True"
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "days_off": 15,
+          "p_gas_max": 5,
+          "p_his_max": 2,
+          "p_mis_max": 2,
+          "p_los_max": 2,
+          "p_ele_max": 2,
+          "massflow_hua": 2,
+          "temp_hua": 2,
+          "abshum_hua": 2,
+          "massflow_owh": 2,
+          "medium_owh": {
+            "option1": "air",
+            "option2": "water",
+            "option3": "fluegas"
+          },
+          "temp_owh": 2,
+          "pressure_owh": 2
+        }
+      ]
+    },
+    "dem2": {
+      "name": "pro2",
+      "type": "demand",
+      "description": "demand process 2",
+      "ID": "dem_dem2_pro2",
+      "in": {
+        "input1": {
+          "element": "eso_eso1_nga",
+          "active": "True"
+        },
+        "input2": {
+          "element": "col_col4_mis2",
+          "active": "True"
+        },
+        "input3": {
+          "element": "col_col5_los2",
+          "active": "True"
+        },
+        "input4": {
+          "element": "col_col9_his2",
+          "active": "True"
+        },
+        "input5": {
+          "element": "col_col6_ele2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col10_hua",
+          "active": "True"
+        },
+        "output2": {
+          "element": "col_col11_owh",
+          "active": "True"
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "days_off": 15,
+          "p_gas_max": 5,
+          "p_his_max": 2,
+          "p_mis_max": 2,
+          "p_los_max": 2,
+          "p_ele_max": 2,
+          "massflow_hua": 2,
+          "temp_hua": 2,
+          "abshum_hua": 2,
+          "massflow_owh": 2,
+          "medium_owh": {
+            "option1": "air",
+            "option2": "water",
+            "option3": "fluegas"
+          },
+          "temp_owh": 2,
+          "pressure_owh": 2
+        }
+      ]
+    },
+    "dem3": {
+      "name": "pro3",
+      "type": "demand",
+      "description": "demand process 3",
+      "ID": "dem_dem3_pro3",
+      "in": {
+        "input1": {
+          "element": "eso_eso1_nga",
+          "active": "True"
+        },
+        "input2": {
+          "element": "col_col4_mis2",
+          "active": "True"
+        },
+        "input3": {
+          "element": "col_col5_los2",
+          "active": "True"
+        },
+        "input4": {
+          "element": "col_col9_his2",
+          "active": "True"
+        },
+        "input5": {
+          "element": "col_col6_ele2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col10_hua",
+          "active": "True"
+        },
+        "output2": {
+          "element": "col_col11_owh",
+          "active": "True"
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "days_off": 15,
+          "p_gas_max": 5,
+          "p_his_max": 2,
+          "p_mis_max": 2,
+          "p_los_max": 2,
+          "p_ele_max": 2,
+          "massflow_hua": 2,
+          "temp_hua": 2,
+          "abshum_hua": 2,
+          "massflow_owh": 2,
+          "medium_owh": {
+            "option1": "air",
+            "option2": "water",
+            "option3": "fluegas"
+          },
+          "temp_owh": 2,
+          "pressure_owh": 2
+        }
+      ]
+    },
+    "dem4": {
+      "name": "pro4",
+      "type": "demand",
+      "description": "demand process 4",
+      "ID": "dem_dem4_pro4",
+      "in": {
+        "input1": {
+          "element": "eso_eso1_nga",
+          "active": "True"
+        },
+        "input2": {
+          "element": "col_col4_mis2",
+          "active": "True"
+        },
+        "input3": {
+          "element": "col_col5_los2",
+          "active": "True"
+        },
+        "input4": {
+          "element": "col_col9_his2",
+          "active": "True"
+        },
+        "input5": {
+          "element": "col_col6_ele2",
+          "active": "True"
+        }
+      },
+      "out": {
+        "output1": {
+          "element": "col_col10_hua",
+          "active": "True"
+        },
+        "output2": {
+          "element": "col_col11_owh",
+          "active": "True"
+        }
+      },
+      "param": [
+        {
+          "integrate": "True",
+          "days_off": 15,
+          "p_gas_max": 5,
+          "p_his_max": 2,
+          "p_mis_max": 2,
+          "p_los_max": 2,
+          "p_ele_max": 2,
+          "massflow_hua": 2,
+          "temp_hua": 2,
+          "abshum_hua": 2,
+          "massflow_owh": 2,
+          "medium_owh": {
+            "option1": "air",
+            "option2": "water",
+            "option3": "fluegas"
+          },
+          "temp_owh": 2,
+          "pressure_owh": 2
+        }
+      ]
+    }
+  }
+}
