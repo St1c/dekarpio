@@ -14,7 +14,7 @@
     <ng-container [ngSwitch]="config.type">
       <input *ngSwitchCase="'text'" matInput [formControl]="controlValue">
       <mat-select *ngSwitchCase="'select'" [formControl]="controlValue">
-        <mat-option *ngFor="let option of config.options" value="option.key">{{option.value}}</mat-option>
+        <mat-option *ngFor="let option of config.options" [value]="option.key">{{option.value}}</mat-option>
       </mat-select>
     </ng-container>
 

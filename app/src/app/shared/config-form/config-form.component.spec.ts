@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConnectorsComponent } from './connectors.component';
+import { ConfigFormComponent } from './config-form.component';
 
-describe('ConnectorsComponent', () => {
-  let component: ConnectorsComponent;
-  let fixture: ComponentFixture<ConnectorsComponent>;
+describe('ConfigFormComponent', () => {
+  let component: ConfigFormComponent;
+  let fixture: ComponentFixture<ConfigFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConnectorsComponent ]
+      declarations: [ ConfigFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConnectorsComponent);
+    fixture = TestBed.createComponent(ConfigFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

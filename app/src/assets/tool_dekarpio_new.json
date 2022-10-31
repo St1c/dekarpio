@@ -264,7 +264,7 @@
           "lim_actual": 70,
           "lim_technical": 120,
           "description": "steam extern",
-          "medium_owh":  "air"
+          "medium_owh":  "option1"
         }
       ]
     },

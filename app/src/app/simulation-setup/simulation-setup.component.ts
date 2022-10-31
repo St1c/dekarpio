@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { combineLatest, Subject } from 'rxjs';
 import { ConfigProvider } from '../core/config.provider';
-import { SvgElementDialogComponent } from './svg-element-dialog.component';
+import { SimulationSetupDialogComponent } from '../simulation-setup-dialog/simulation-setup-dialog.component';
 
 export interface DialogData {
   title: any;
@@ -121,7 +121,7 @@ export class SimulationSetupComponent {
   }
 
   private openDialog(title: any, desc: any, element: any, config:  any) {
-    const ref = this.dialog.open(SvgElementDialogComponent, {
+    const ref = this.dialog.open(SimulationSetupDialogComponent, {
       data: { title, desc, element, config },
     });
 

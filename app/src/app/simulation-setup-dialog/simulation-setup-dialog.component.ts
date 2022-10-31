@@ -1,13 +1,13 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogData } from './simulation-setup.component';
+import { DialogData } from '../simulation-setup/simulation-setup.component';
 
 @Component({
-  selector: 'svg-element-dialog',
-  templateUrl: 'svg-element-dialog.html',
+  selector: 'simulation-setup-dialog',
+  templateUrl: './simulation-setup-dialog.html',
 })
-export class SvgElementDialogComponent {
+export class SimulationSetupDialogComponent {
   title = '';
   desc = '';
   element: any;
@@ -16,7 +16,7 @@ export class SvgElementDialogComponent {
   params = new FormControl();
 
   constructor(
-    public dialogRef: MatDialogRef<SvgElementDialogComponent>,
+    public dialogRef: MatDialogRef<SimulationSetupDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     this.title = data.title?.innerHTML || '';

@@ -1,48 +1,47 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-const CONNECTIONS = {
-  "in": 10,
-  "out": "EUR/MW",
-};
-
 @Component({
-  selector: 'app-collectors',
-  templateUrl: './collectors.component.html',
-  styleUrls: ['./collectors.component.scss'],
+  selector: 'app-config-form',
+  templateUrl: './config-form.component.html',
+  styleUrls: ['./config-form.component.scss'],
   providers: [{
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CollectorsComponent),
+      useExisting: forwardRef(() => ConfigFormComponent),
       multi: true
   }]
 })
-export class CollectorsComponent implements ControlValueAccessor {
+export class ConfigFormComponent implements ControlValueAccessor {
 
   form: FormGroup;
+  keys!: string[];
 
   private onChange: any = () => {}
   private onTouch: any = () => {}
 
-  constructor(
-    private fb: FormBuilder
-  ) {
+  constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      "in": CONNECTIONS.in,
-      "out": CONNECTIONS.out,
+      "integrate": false,
     });
 
     this.form.valueChanges.subscribe(changes => {
       this.onChange(this.form.value);
+      this.onTouch();
     });
   }
 
   writeValue(obj: any): void {
     console.log(obj);
-    const params = obj.Param[0];
+    const params = obj;
+
+    this.keys = Object.keys(params).filter(key => key != 'description');
+
+    this.keys.map(key => {
+      this.form.addControl(key, new FormControl(params[key]));
+    });
 
     this.form.patchValue({
-      "in": params.in,
-      "out": params.out,
+      "integrate": params.integrate
     });
   }
 
