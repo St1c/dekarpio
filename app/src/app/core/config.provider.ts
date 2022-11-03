@@ -20,12 +20,12 @@ export class ConfigProvider {
   }
 
   getParamsConfig(): Observable<Object> {
-    return this.http.get('/assets/metadata.json').pipe(
+    return this.http.get('/assets/metadata_nov.json').pipe(
       tap((config: any) => this.metaDataConfig_ = config)
     );
   }
 
   getConfigFromAssets(): Observable<Object> {
-    return this.http.get('/assets/tool_dekarpio_new.json');
+    return this.http.get('/assets/tool_dekarpio_nov.json');
   }
 }

@@ -91,7 +91,7 @@ select:-webkit-autofill:focus {
 
 
 .parameters-form {
-  width: 550px;
+  min-width: 550px;
 
   mat-form-field {
     width: 100%;
