@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node --max-old-space-size=4096 ./node_modules/@angular/cli/bin/ng serve",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider ng serve",
     "start:docker": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
