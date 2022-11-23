@@ -15,7 +15,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapmi
 
 app.layout = dbc.Container([ 
 
-    dbc.Row(dbc.Col(html.H2("Simulation results"), width={'size': 12, 'offset': 0, 'order': 0}), style = {'textAlign': 'center', 'paddingBottom': '1%'}),
+    dbc.Row(dbc.Col(html.H2("Simulation results another Text different text"), width={'size': 12, 'offset': 0, 'order': 0}), style = {'textAlign': 'center', 'paddingBottom': '1%'}),
 
     dbc.Row(dbc.Col(dcc.Loading(children=[dcc.Graph(id ='your-graph'),
                                         dcc.Slider(id='year-slider',
@@ -38,6 +38,8 @@ def update_figure(selected_year):
                     log_x=True, size_max=55)
 
     fig.update_layout(transition_duration=500)
+
+    print("hello python this is a print to console")
 
     return fig
 

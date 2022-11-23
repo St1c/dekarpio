@@ -1,0 +1,9 @@
+### Installation COIN-OR Solvers:
+Download: https://projects.coin-or.org/CoinBinary/browser/binary/CoinAll/CoinAll-1.6.0-win64-intel11.1.zip?rev=885
+
+Path needs to be included in Windows Path-Variable
+Click System and Security, click System, and click Advanced System Settings
+- Environment variables...
+- under"System variables" look for "Path" and add path to the solver binaries (in my case: "C:\Users\becka\CoinAll-1.6.0-win64-intel11.1\CoinAll-1.6.0-win64-intel11.1\bin")
+
+Afterwards the solvers (z.B. CBC für MILP) should be callable from the terminal. In Pyomo they should be interfaced by calling the solvers (i.e. "cbc").
