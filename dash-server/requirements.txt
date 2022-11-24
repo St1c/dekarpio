@@ -31,3 +31,4 @@ pyomo==6.4.2
 coolprop==6.4.1
 scipy==1.7.3
 cplex==22.1.0.0
+glpk==0.4.6

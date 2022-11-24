@@ -6,6 +6,7 @@ import plotly.express as px
 from flask import Flask
 import pandas as pd
 import dash
+import delfort_main
 
 server = Flask(__name__)
 app = dash.Dash(server=server, external_stylesheets=[dbc.themes.FLATLY], url_base_pathname='/dash-server/')
@@ -39,7 +40,9 @@ def update_figure(selected_year):
 
     fig.update_layout(transition_duration=500)
 
-    print("hello python this is a print to console")
+    print("start simulation")
+    delfort_main.run_case()
+    print("simulation finished")
 
     return fig
 

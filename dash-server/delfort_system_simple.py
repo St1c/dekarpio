@@ -909,7 +909,7 @@ def make_simple_timeseries(scenario_nr):
     # Wetterdaten aus Traun
     folder = ( Path("P:\SGP-18574") / "data" / "2.04.01671.1.0 DekarPIO I (Drexler-Schmid)" /
                "AP2 - Energiebedarf- und versorgungsanalyse" / "0 Sonstige Daten" / "Wetterdaten")
-    solar2 = pd.read_csv(folder / "traun_wetterdaten_2019.csv", sep=";").loc[:,"Globalstrahlung horizontal in Wh/m²"] / 1e6
+    solar2 = pd.read_csv("traun_wetterdaten_2019.csv", sep=";").loc[:,"Globalstrahlung horizontal in Wh/m²"] / 1e6
 
     # solar 1 ... gemittelte tägliche Einstrahlung, solar 2 ... gemessene Wetterdaten
     df['solar'] = solar2
