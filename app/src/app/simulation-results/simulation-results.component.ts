@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from 'ng2-ui-auth';
 
@@ -13,7 +14,9 @@ export class SimulationResultsComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2,
   ) {
     this.dashUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       `http://localhost/dash-server/?jwt=${this.auth.getToken()}`
@@ -21,6 +24,11 @@ export class SimulationResultsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.renderer.addClass(this.document.body, 'simulation-results');
+  }
+
+  ngOnDestroy(): void {
+    this.renderer.removeClass(this.document.body, 'simulation-results');
   }
 
 }

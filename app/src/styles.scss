@@ -49,10 +49,9 @@ $my-theme: mat.define-light-theme((
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.mat-typography{
+.simulation-results{
   overflow: hidden;
 }
-
 
 .entered {
   > rect, > path {
