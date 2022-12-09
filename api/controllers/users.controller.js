@@ -60,6 +60,7 @@ async function createUser(ctx, next) {
     const email = ctx.request.body.email;
     const password = ctx.request.body.password;
     const admin = +ctx.request.body.admin || 0;
+    const company = ctx.request.body.company || 'Missing comapny';
 
     if (!password || !email) ctx.throw(400, 'Missing email or password');
 
@@ -77,6 +78,7 @@ async function createUser(ctx, next) {
         email,
         password,
         admin,
+        company
     });
     await activeConnection.release();
 
