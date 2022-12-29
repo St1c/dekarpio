@@ -198,7 +198,7 @@ def update_figure(selected_year):
 
 
 
-    dashTable = dash.dash_table.DataTable(sunBurstDf.to_dict('records'), [{"name": i, "id": i} for i in sunBurstDf.columns])
+    dashTable = dash.dash_table.DataTable(sunBurstDf.to_dict('records'), [{"name": i, "id": i} for i in sunBurstDf.columns],export_format="csv")
 
     
 
