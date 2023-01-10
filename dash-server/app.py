@@ -1,9 +1,10 @@
 from dash.dependencies import Output, Input, State
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import plotly.express as px
 from flask import Flask
+from flask import request, jsonify
 import pandas as pd
 import dash
 import delfort_main
@@ -138,9 +139,22 @@ app.layout = html.Div([
             ],id="card-tabs",active_tab="tab-1")
     ]
     ),
-    dbc.Row(html.P(id="test"))
+    dbc.Row([html.P(id="test"),
+        html.Form([
+            dcc.Input(name='name'),
+            html.Button('Submit', type='submit')
+        ], action='/validate', method='post')
+    ])
 ])
 # ,style={'overflow': 'hidden'}
+
+@app.server.route('/validate', methods=['GET', 'POST'])
+def validateJson():
+    print("Hello")
+    print(request.method)
+    return "Hello World"
+    #return jsonify({'id': 'no errors'})
+
 
 @app.callback(
     Output('FigCostUnit', 'figure'),
