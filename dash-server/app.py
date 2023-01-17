@@ -143,17 +143,18 @@ app.layout = html.Div([
         html.Form([
             dcc.Input(name='name'),
             html.Button('Submit', type='submit')
-        ], action='/validate', method='post')
+        ], action='/dash/validate', method='post')
     ])
 ])
 # ,style={'overflow': 'hidden'}
 
-@app.server.route('/validate', methods=['GET', 'POST'])
+@app.server.route('/dash/validate', methods=['GET', 'POST'])
 def validateJson():
     print("Hello")
     print(request.method)
     return "Hello World"
     #return jsonify({'id': 'no errors'})
+
 
 
 @app.callback(
