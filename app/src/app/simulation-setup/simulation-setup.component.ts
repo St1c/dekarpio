@@ -99,8 +99,11 @@ export class SimulationSetupComponent {
     });
   }
 
-  private svgClicked(target: any) {
-    for (const element of target.path) {
+  private svgClicked(event: any) {
+    // API has changed, see: https://stackoverflow.com/questions/39245488/event-path-is-undefined-running-in-firefox/39245638#39245638
+    const path = event.composedPath ? event.composedPath() : event.path;
+    console.log(path)
+    for (const element of path) {
       if (element.id) {
         const title = element.querySelector('title');
         const desc = element.querySelector('desc');
