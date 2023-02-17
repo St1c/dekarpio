@@ -24,9 +24,12 @@ def startSimulation(id):
 
 @app.route('/dash/validate', methods=['GET', 'POST'])
 def validateJson():
-    print("Hello")
     print(request.method)
-    return "Hello"
+    # return object with data property and status
+    return jsonify({
+        'status': 'OK',
+        'data': ''
+    })
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
