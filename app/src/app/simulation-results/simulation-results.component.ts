@@ -18,8 +18,10 @@ export class SimulationResultsComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
   ) {
+    const userId = this.auth.getPayload().id;
+
     this.dashUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `http://localhost/dash-server/?jwt=${this.auth.getToken()}`
+      `http://localhost/dash-server/${userId}?jwt=${this.auth.getToken()}`
     );
   }
 
