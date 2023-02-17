@@ -76,6 +76,18 @@ services:
     ports:
       - 3002:3002
 
+  flask-server:
+    build: 
+      context: ./
+      dockerfile: .docker/flask-server.dev.dockerfile
+    container_name: dekarpio_dev_flask-server
+    volumes:
+      - ./flask-server:/wd
+    networks:
+      - dekarpio_dev 
+    ports:
+      - 3003:3003
+
   web:
     build:
       context: ./
@@ -85,6 +97,7 @@ services:
       - api
       - app
       - dash-server
+      - flask-server
     volumes:
       - dekarpio_api_data:/var/www
     networks:

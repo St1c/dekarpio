@@ -16,9 +16,6 @@ import plotly.colors as pclr
 from def_names import units, costs, heat_types, capexopex
 
 
-
-
-
 server = Flask(__name__)
 app = dash.Dash(server=server, external_stylesheets=[dbc.themes.FLATLY], url_base_pathname='/dash-server/')
 app.title = 'Dashboard'
@@ -147,15 +144,6 @@ app.layout = html.Div([
     ])
 ])
 # ,style={'overflow': 'hidden'}
-
-@app.server.route('/dash/validate', methods=['GET', 'POST'])
-def validateJson():
-    print("Hello")
-    print(request.method)
-    return "Hello World"
-    #return jsonify({'id': 'no errors'})
-
-
 
 @app.callback(
     Output('FigCostUnit', 'figure'),
