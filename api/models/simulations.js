@@ -4,7 +4,7 @@ const mysql = require('mysql');
 // Readble attributes contains password (for bcrypt internal JWT checking), 
 // all data sent to user must be pruned before sending
 const readable = ['id', 'user_id', 'settings', 'results'];
-const writable = ['user_id', 'settings', 'results'];
+const writable = ['id', 'user_id', 'settings', 'results'];
 
 var simulations = Object.assign(Object.create(db), {
     create,

@@ -3,6 +3,7 @@ const simulations = require('../models/simulations');
 
 module.exports.getAllUserSimulations = getAllUserSimulations;
 module.exports.getLatestUserSimulation = getLatestUserSimulation;
+module.exports.updateSimulationWithResult = updateSimulationWithResult;
 
 /**
  * Get all user settings
@@ -41,4 +42,31 @@ async function getLatestUserSimulation(ctx, next) {
     ctx.body = {
         data: res
     }
+}
+
+/**
+ * Update existing simulation by ID with result
+ *
+ * @param {Object} ctx Request, response
+ * @param {Object} next Next handler
+ */
+async function updateSimulationWithResult(ctx, next) {
+
+    const simulationId = +ctx.params.simulationId;
+    console.log(simulationId)
+    if (!simulationId) ctx.throw(400, 'Missing simulation ID');
+
+    const activeConnection = await db.connect();
+
+    await simulations.update({
+        id: simulationId,
+        results: ctx.request.body.results
+    });
+
+    await activeConnection.release();
+
+    ctx.status = 201;
+    ctx.body = {
+        data: 'Simulation updated with result'
+    };
 }
