@@ -43,6 +43,7 @@ export class SimulationSetupComponent {
     fb: FormBuilder,
     public dialog: MatDialog,
     private renderer: Renderer2,
+    private configProvider: ConfigProvider,
     private simulationService: SimulationsService,
     private router: Router,
     @Inject(DOCUMENT) private document: Document,
@@ -57,9 +58,10 @@ export class SimulationSetupComponent {
     this.subs.add(
       combineLatest([
         this.simulationService.getSimulation(),
+        this.configProvider.getConfigFromAssets(),
         this.svgLoaded$.asObservable()
-      ]).subscribe(([config, svgLoaded]: [Simulation, boolean]) => {
-        this.config = config.settings ? JSON.parse(config.settings) : config;
+      ]).subscribe(([config, defaultConfig, svgLoaded]: [Simulation, Object, boolean]) => {
+        this.config = config?.settings ? JSON.parse(config.settings) : defaultConfig;
         this.configurableShapeNames = this.getConfigurableShapeNames(this.config);
         this.elements = this.getConfigurableElements();
         this.bindHoverListenersToConfigurableElements();
