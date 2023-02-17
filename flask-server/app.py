@@ -11,7 +11,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
 
-
 @app.route('/dash/simulate/<id>', methods=['GET'])
 def startSimulation(id):
     print(id)
@@ -45,4 +44,5 @@ def test_disconnect():
     print('Client disconnected')
     
 if __name__=='__main__':
-    app.run_server(debug=True)
+    # app.run_server(host="0.0.0.0", port=3003, debug=True)
+    socketio.run(app, host="0.0.0.0", port=3003, debug=True)
