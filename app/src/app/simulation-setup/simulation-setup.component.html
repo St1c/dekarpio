@@ -4,13 +4,12 @@
   <div #layout
        class="map-wrapper"
        [inlineSVG]="'assets/VISIO_12_12_2022.svg'"
-       (onSVGInserted)="svgLoaded()"
-       ></div>
+       (onSVGInserted)="svgLoaded()"></div>
   <div class="side-menu">
     <button mat-raised-button
             class="mat-button-large input-block-level"
             type="button"
             [color]="'accent'"
-            routerLink="/simulation-results">Results</button>
+            (click)="processConfig()">Results</button>
   </div>
 </div>

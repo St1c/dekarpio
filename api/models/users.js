@@ -35,7 +35,7 @@ async function create(userObj) {
 
 async function update(userObj) {
     if (!userObj.hasOwnProperty('id')) {
-        throw new Error('Missing ID, user upadate failed!');
+        throw new Error('Missing ID, user update failed!');
     }
 
     if (userObj.password !== '') {

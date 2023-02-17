@@ -1,10 +1,14 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, ElementRef, HostListener, Inject, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-
 import { MatDialog } from '@angular/material/dialog';
-import { combineLatest, Subject } from 'rxjs';
+import { Router } from '@angular/router';
+
+import { combineLatest, Subject, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { ConfigProvider } from '../core/config.provider';
+import { Simulation, SimulationsService } from '../core/simulations/simulations.service';
 import { SimulationSetupDialogComponent } from '../simulation-setup-dialog/simulation-setup-dialog.component';
 
 export interface DialogData {
@@ -27,17 +31,20 @@ export class SimulationSetupComponent {
   options: FormGroup;
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
+  svgFile!: string;
 
   private configurableShapeNames: (string[]) = [];
   private elements: (Node | null)[] | undefined = [];
   private config: any;
-  private svgLoaded$ = new Subject();
+  private svgLoaded$ = new Subject<boolean>();
+  private subs = new Subscription();
 
   constructor(
     fb: FormBuilder,
     public dialog: MatDialog,
     private renderer: Renderer2,
-    private configService: ConfigProvider,
+    private simulationService: SimulationsService,
+    private router: Router,
     @Inject(DOCUMENT) private document: Document,
   ) {
     this.options = fb.group({
@@ -47,16 +54,18 @@ export class SimulationSetupComponent {
   }
 
   ngOnInit() {
-    combineLatest([
-      this.configService.getConfigFromAssets(),
-      this.svgLoaded$.asObservable()
-    ]).subscribe(([config, svgLoaded]) => {
-      this.config = config;
-      this.configurableShapeNames = this.getConfigurableShapeNames(config);
-      this.elements = this.getConfigurableElements();
-      this.bindHoverListenersToConfigurableElements();
-      this.bindClickListenersToConfigurableElements();
-    });
+    this.subs.add(
+      combineLatest([
+        this.simulationService.getSimulation(),
+        this.svgLoaded$.asObservable()
+      ]).subscribe(([config, svgLoaded]: [Simulation, boolean]) => {
+        this.config = config.settings ? JSON.parse(config.settings) : config;
+        this.configurableShapeNames = this.getConfigurableShapeNames(this.config);
+        this.elements = this.getConfigurableElements();
+        this.bindHoverListenersToConfigurableElements();
+        this.bindClickListenersToConfigurableElements();
+      })
+    );
   }
 
   svgLoaded() {
@@ -69,15 +78,31 @@ export class SimulationSetupComponent {
       el?.removeEventListener('mouseenter', this.elementEnter.bind(this), true);
       el?.removeEventListener('mouseleave', this.svgClicked.bind(this), true);
     });
+
+    this.subs.unsubscribe();
+  }
+
+  processConfig() {
+    this.subs.add(
+      this.simulationService.createSimulation(JSON.stringify(this.config))
+        .pipe(
+          switchMap((res: any) => this.simulationService.validateSimulation()
+          ))
+        .subscribe((res: any) => {
+          this.router.navigate(['/simulation-results']);
+        })
+    );
   }
 
   private getConfigurableShapeNames(config: any) {
-    const {col = {}, con = {}, ...configurables} = { ...config };
+    const { col = {}, con = {}, ...configurables } = { ...config };
+
+    console.log(configurables);
 
     return Object.keys(configurables).map(
       keyL1 => Object.keys(configurables[keyL1])
         .map(keyL2 => configurables[keyL1][keyL2].ID)
-      ).reduce((acc, curVal) => acc.concat(curVal), []);
+    ).reduce((acc, curVal) => acc.concat(curVal), []);
   }
 
   private getConfigurableElements(): (Node | null)[] | undefined {
@@ -102,7 +127,7 @@ export class SimulationSetupComponent {
   private svgClicked(event: any) {
     // API has changed, see: https://stackoverflow.com/questions/39245488/event-path-is-undefined-running-in-firefox/39245638#39245638
     const path = event.composedPath ? event.composedPath() : event.path;
-    console.log(path)
+    console.log(path);
     for (const element of path) {
       if (element.id) {
         const title = element.querySelector('title');
@@ -131,27 +156,27 @@ export class SimulationSetupComponent {
     this.renderer.removeClass(event.target, 'entered');
   }
 
-  private openDialog(title: any, desc: any, element: any, config:  any) {
+  private openDialog(title: any, desc: any, element: any, config: any) {
     const ref = this.dialog.open(SimulationSetupDialogComponent, {
       data: { title, desc, element, config },
     });
 
-    ref.afterClosed().subscribe(result => {
+    this.subs.add(ref.afterClosed().subscribe(result => {
       if (result) {
         this.updateConfig(result);
         this.applyElementSettings(result);
       };
-    });
+    }));
   }
 
-  private updateConfig(result: { element: any, state: boolean, params: any }) {
+  private updateConfig(result: { element: any, state: boolean, params: any; }) {
     const params_id = result.params.ID;
     let [type, id, ...rest] = params_id.split('_');
-    const { unit_type = '', unit_id= '', ...params } = {...result.params};
-    this.config[type][id] = { ... params };
+    const { unit_type = '', unit_id = '', ...params } = { ...result.params };
+    this.config[type][id] = { ...params };
   }
 
-  private applyElementSettings(result: { element: any, state: boolean, params: any }) {
+  private applyElementSettings(result: { element: any, state: boolean, params: any; }) {
     const matchingConnections = this.disableConnectionsByInOutIds(result.params.ID);
     this.findConnecstionLinesById([result.params.ID, ...matchingConnections], result.state);
 

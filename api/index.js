@@ -28,7 +28,12 @@ if (process.env.APP_ENV === 'development') {
 
 // Main app middlewares
 app
-    .use(bodyParser())
+    .use(bodyParser(
+        {
+            maxBodySize: '10mb',
+            formLimit: '10mb', // default is 56kb, increased for large JSON files
+        }
+    ))
     .use(cors)
     .use(router.routes())
     .use(router.allowedMethods());
