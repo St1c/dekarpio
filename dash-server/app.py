@@ -161,19 +161,19 @@ app.layout = html.Div([
     Input("url", "href")
 )
 def getDataFromURL(pathname, href):
-    with open("tool_dekarpio_structure.json", "r") as f:
-        structure = json.load(f)
+    # with open("tool_dekarpio_structure.json", "r") as f:
+    #     structure = json.load(f)
     '''
     Get the UserID from the href and use it to retreive the settings in the Database by calling the API
     Simulation Settings are stored in a dcc.Store Component --> triggers the next Callback automatically
     '''
     temp1 = href.split("?jwt=")[0]
     temp2 = temp1.split("/")[-1]
-    # response = requests.get("http://api:3001/api/simulation-results/"+temp2)
-    # temp = response.json()
-    # dataDict = temp["data"][0]
-    # return dataDict["settings"]
-    return structure
+    response = requests.get("http://api:3001/api/simulation-results/"+temp2)
+    temp = response.json()
+    dataDict = temp["data"][0]
+    return dataDict["settings"]
+    # return structure
 
 @app.long_callback(
     Output("simulationResultStorage", "data"),
@@ -192,7 +192,8 @@ def startSimulation(data):
 
     timelines, period_list, label_list, no_timesteps, timeline_map = ja.read_timelines("tool_dekarpio_timelines.json")
 
-    structure = ja.read_structure('tool_dekarpio_structure.json')
+    #structure = ja.read_structure('tool_dekarpio_structure.json')
+    structure = json.loads(data)
 
     sysParam = ja.read_parameters(structure['par'], period_list, label_list, no_timesteps)
 
