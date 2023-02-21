@@ -46,7 +46,7 @@ app.layout = html.Div([
         dcc.Location(id="url"),
         dcc.Store(id='memory'),
         html.H4("Description:", id="htmlTest"),
-        html.P("Result found in 5.3 seconds.")
+        html.P("Result found in 5.3 seconds.", id="htmlTest2")
     ])),
     dbc.Card([
             dbc.Tabs(
@@ -177,7 +177,7 @@ def getDataFromURL(pathname, href):
     return dataDict["settings"]
 
 @app.long_callback(
-    Output("htmlTest", "children"),
+    Output("htmlTest2", "children"),
     Input("memory", "data"),
     running=[
         (Output("htmlTest", "children"), "Simulation is running...", "Simulatidon is Finished!"),
@@ -260,6 +260,7 @@ def update_figure(jsonStorage):
     dashTable = dash.dash_table.DataTable(sunBurstDf.to_dict('records'), [{"name": i, "id": i} for i in sunBurstDf.columns],export_format="csv")
 
     
+
 
 
     return figCostUnit, figCostEso, fig3, fig4, fig5, ar[0], ar[1], ar[2], ar[3], drawPurchaseConsumptionPlot(), table, figSunBurstType, figSunBurstUnit, figSunBurstUnitCosts, dashTable
