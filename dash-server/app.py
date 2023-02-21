@@ -7,18 +7,29 @@ from flask import Flask
 from flask import request, jsonify
 import pandas as pd
 import dash
-#import delfort_main
 import json
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import numpy as np
 import plotly.colors as pclr
 import requests
+
+## Diskcache
+import diskcache
+from dash.long_callback import DiskcacheLongCallbackManager
+cache = diskcache.Cache("./cache")
+long_callback_manager = DiskcacheLongCallbackManager(cache)
+
+
 from def_names import units, costs, heat_types, capexopex
+import auxiliary as da
+import json_auxiliary as ja
+import os
+
 
 
 server = Flask(__name__)
-app = dash.Dash(server=server, external_stylesheets=[dbc.themes.FLATLY], url_base_pathname='/dash-server/')
+app = dash.Dash(server=server, external_stylesheets=[dbc.themes.FLATLY], url_base_pathname='/dash-server/', long_callback_manager=long_callback_manager)
 app.title = 'Dashboard'
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv')
@@ -33,7 +44,8 @@ app.layout = html.Div([
     dbc.Row(dbc.Col(html.H2("Simulation Results"), width={'size': 12, 'offset': 0, 'order': 0}), style = {'textAlign': 'center', 'paddingBottom': '1%'}),
     dbc.Row(dbc.Col(children=[
         dcc.Location(id="url"),
-        html.H4("Description:"),
+        dcc.Store(id='memory'),
+        html.H4("Description:", id="htmlTest"),
         html.P("Result found in 5.3 seconds.")
     ])),
     dbc.Card([
@@ -148,27 +160,52 @@ app.layout = html.Div([
 # ,style={'overflow': 'hidden'}
 
 @app.callback(
-    Output("url", "pathname"),
+    Output("memory", "data"),
     Input("url", "pathname"),
     Input("url", "href")
 )
 def getDataFromURL(pathname, href):
-    print(pathname)
-    print(href)
-    response = requests.get("http://localhost/api/simulation-results/1")
-
-
+    '''
+    Get the UserID from the href and use it to retreive the settings in the Database by calling the API
+    Simulation Settings are stored in a dcc.Store Component --> triggers the next Callback automatically
+    '''
+    temp1 = href.split("?jwt=")[0]
+    temp2 = temp1.split("/")[-1]
+    response = requests.get("http://api:3001/api/simulation-results/"+temp2)
     temp = response.json()
     dataDict = temp["data"][0]
+    return dataDict["settings"]
 
+@app.long_callback(
+    Output("htmlTest", "children"),
+    Input("memory", "data"),
+    running=[
+        (Output("htmlTest", "children"), "Simulation is running...", "Simulatidon is Finished!"),
+    ],
+    prevent_intial_callback=True
+)
+def startSimulation(data):
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-    # print(dataDict["id"])
-    # print(dataDict["user_id"])
-    # print(dataDict["settings"])
+    timelines, period_list, label_list, no_timesteps, timeline_map = ja.read_timelines("tool_dekarpio_timelines.json")
 
+    structure = ja.read_structure('tool_dekarpio_structure.json')
 
+    sysParam = ja.read_parameters(structure['par'], period_list, label_list, no_timesteps)
 
-    return dash.no_update
+    ini_out_str, res = ja.initialize_model(sysParam)
+
+    add_out_str, res = ja.add_units_and_nodes(res, structure, timelines, timeline_map)
+
+    bui_out_str, res = ja.build_pyomo_model(res)
+
+    ja.print_active_units(res)
+
+    sol_out_str, res = ja.solve_pyomo_model(res)
+
+    resultsdict = ja.return_results_dict(res)
+    return resultsdict
+
 
 @app.callback(
     Output('FigCostUnit', 'figure'),
@@ -187,20 +224,11 @@ def getDataFromURL(pathname, href):
     Output('SunBurst2', 'figure'),
     Output('SunBurst3', 'figure'),
     Output('CostTable', 'children'),
-    Input('test', 'value'),
+    Input('htmlTest', 'data'),
+    #Input('memory', 'data'),
     prevent_initial_call=True
     )
-def update_figure(selected_year):
-    # filtered_df = df[df.year == selected_year]
-
-    # fig = px.scatter(filtered_df, x="gdpPercap", y="lifeExp",
-    #                 size="pop", color="continent", hover_name="country",
-    #                 log_x=True, size_max=55)
-
-    # fig.update_layout(transition_duration=500)
-
-   
-
+def update_figure(jsonStorage):
     print("start simulation")
 
     #delfort_main.run_case()
@@ -209,15 +237,16 @@ def update_figure(selected_year):
     print("simulation finished")
 
 
-    figCostUnit, dfCostUnit, sunBurstDf = drawCostPlotUnit()
-    figCostEso, dfCostEso = drawCostPlotEso()
-    fig3 = drawCostPlotEcuEsu()
-    fig4 = drawLinePlotPower()
-    fig5 = drawLinePlotHeat()
+    figCostUnit, dfCostUnit, sunBurstDf = drawCostPlotUnit(jsonStorage)
+    figCostEso, dfCostEso = drawCostPlotEso(jsonStorage)
+    fig3 = drawCostPlotEcuEsu(jsonStorage)
+    fig4 = drawLinePlotPower(jsonStorage)
+    fig5 = drawLinePlotHeat(jsonStorage)
 
-    ar = drawBilanzPlots()
+    ar = drawBilanzPlots(jsonStorage)
 
     print(dfCostEso)
+
 
     figSunBurstType = px.sunburst(sunBurstDf, path=['Capex/Opex', 'Cost Type'], values='Costs')
     figSunBurstUnit = px.sunburst(sunBurstDf, path=['Capex/Opex', 'Unit'], values='Costs')
@@ -240,7 +269,7 @@ if __name__=='__main__':
 ##########################################################################
 # Cost Plot Functions
 ##########################################################################
-def drawCostPlotUnit():
+def drawCostPlotUnit(jsondata):
     '''
     Cost Plot working, why no pie chart?
     '''
@@ -379,7 +408,7 @@ def drawCostPlotUnit():
                 )
     return fig, df_costs, sunburstdf
 
-def drawCostPlotEso():
+def drawCostPlotEso(jsondata):
     '''
     Draw Cost Plots of Eso working
     '''
@@ -413,7 +442,7 @@ def drawCostPlotEso():
         # .for_each_yaxis(lambda x: x.update(title=('Costs in 10^6 EUR/a')))
     ), df
 
-def drawCostPlotEcuEsu():
+def drawCostPlotEcuEsu(jsondata):
     '''
     Draw Cost Plots of Ecu Esu working
     '''
@@ -445,7 +474,7 @@ def drawCostPlotEcuEsu():
         .for_each_yaxis(lambda x: x.update(title=('Costs in 10^6 EUR/a')))
     )
 
-def drawPurchasePlot():
+def drawPurchasePlot(jsondata):
     #List of all relevant units in order as legend
     units ={  'supply_gas':'Purchase gas',
             'supply_h2':'Purchase Hydrogen','supply_el_buy':'Purchase electricity',
@@ -550,7 +579,7 @@ def drawPurchasePlot():
                   )
     return fig
 
-def drawLinePlotPower():
+def drawLinePlotPower(jsondata):
     '''
     Draw LinePlot Power Working 
     '''
@@ -584,7 +613,7 @@ def drawLinePlotPower():
                                                   or x.anchor=="x5" else None)))
     )
 
-def drawLinePlotHeat():
+def drawLinePlotHeat(jsondata):
     '''
     Draw Line Plot Heat Working
     '''
@@ -622,7 +651,7 @@ def drawLinePlotHeat():
                                                   or x.anchor=='x5' else None)))
     )
 
-def drawBilanzPlots():
+def drawBilanzPlots(jsondata):
     ar = []
     for fig in make_nodes(jsondata):
         ar.append(fig)
@@ -630,7 +659,7 @@ def drawBilanzPlots():
     print("BildanzPlots!!!!!!!!!")
     return ar
 
-def make_fig_Bilanz(steam: str, side: str, alt_colors=False):
+def make_fig_Bilanz(jsondata, steam: str, side: str, alt_colors=False):
     facet_col_wrap = 2
     timelines = ['one','two','three','four','five'] # TODO: get from jsondata?
     symbol_sequence = ['circle', 'square', 'triangle-up', 'diamond', 'diamond-wide']
@@ -677,7 +706,7 @@ def make_nodes(jsondata: dict) -> list[go.Figure]:
     )
     return [make_pos_neg(jsondata, steam) for steam in steams]
 
-def drawPurchaseConsumptionPlot():
+def drawPurchaseConsumptionPlot(jsondata):
     #List of timeline
     timeline =['one','two','three','four','five']
 

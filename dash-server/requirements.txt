@@ -32,3 +32,6 @@ scipy==1.9.3
 glpk==0.4.6
 coolprop==6.4.1
 requests==2.28.2
+dash[diskcache]
+diskcache
+multiprocess==0.70.14

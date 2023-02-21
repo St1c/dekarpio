@@ -32,6 +32,16 @@ def validateJson():
         'data': ''
     })
 
+@app.route('/dash/test', methods=['GET', 'POST'])
+def validateJson2():
+    print(request.method)
+    print("validation received")
+    # return object with data property and status
+    return jsonify({
+        'status': 'OK',
+        'data': ''
+    })
+
 @socketio.on('connect', namespace='/test')
 def test_connect():
     # need visibility of the global thread object
