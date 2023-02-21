@@ -66,4 +66,4 @@ dash-server/long_res.txt/full_results.txt
 dash-server/long_res.txt/timeseries/**/*
 dash-server/cache/cache.db
 .gitignore
-dash-server/cache/cache.db-wal
+dash-server/cache/*

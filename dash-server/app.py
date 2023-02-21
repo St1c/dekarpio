@@ -41,14 +41,15 @@ app.layout = html.Div([
 #dbc.Container([
 
 
-    dbc.Row(dbc.Col(html.H2("Simulation Results"), width={'size': 12, 'offset': 0, 'order': 0}), style = {'textAlign': 'center', 'paddingBottom': '1%'}),
+    dbc.Row(dbc.Col(html.H2("Dekarpio Simulation Tool"), width={'size': 12, 'offset': 0, 'order': 0}), style = {'textAlign': 'center', 'paddingBottom': '1%'}),
     dbc.Row(dbc.Col(children=[
         dcc.Location(id="url"),
-        dcc.Store(id='memory'),
+        dcc.Store(id='simulationSetupStorage'),
+        dcc.Store(id='simulationResultStorage'),
         html.H4("Description:", id="htmlTest"),
-        html.P("Result found in 5.3 seconds.", id="htmlTest2")
+        html.P("", id="simulationInformation")
     ])),
-    dbc.Card([
+    dbc.Card(id="resultCard",children=[
             dbc.Tabs(
             [
                 dbc.Tab(children=[
@@ -148,19 +149,13 @@ app.layout = html.Div([
                 ], label="Tab 6", tab_id="tab-6"),
 
             ],id="card-tabs",active_tab="tab-1")
-    ]
+    ],style= {'display': 'none'}
     ),
-    dbc.Row([html.P(),
-        html.Form([
-            dcc.Input(name='name'),
-            html.Button('Submit', type='submit', id="test")
-        ], action='/dash/validate', method='post')
-    ])
 ])
 # ,style={'overflow': 'hidden'}
 
 @app.callback(
-    Output("memory", "data"),
+    Output("simulationSetupStorage", "data"),
     Input("url", "pathname"),
     Input("url", "href")
 )
@@ -176,15 +171,19 @@ def getDataFromURL(pathname, href):
     dataDict = temp["data"][0]
     return dataDict["settings"]
 
+
 @app.long_callback(
-    Output("htmlTest2", "children"),
-    Input("memory", "data"),
+    Output("simulationResultStorage", "data"),
+    Output("resultCard","style"),
+    Output("simulationInformation", "children"),
+    Input("simulationSetupStorage", "data"),
     running=[
-        (Output("htmlTest", "children"), "Simulation is running...", "Simulatidon is Finished!"),
+        (Output("htmlTest", "children"), "Simulation is running...", "Simulation is Finished!"),
     ],
     prevent_intial_callback=True
 )
 def startSimulation(data):
+
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     timelines, period_list, label_list, no_timesteps, timeline_map = ja.read_timelines("tool_dekarpio_timelines.json")
@@ -195,6 +194,7 @@ def startSimulation(data):
 
     ini_out_str, res = ja.initialize_model(sysParam)
 
+
     add_out_str, res = ja.add_units_and_nodes(res, structure, timelines, timeline_map)
 
     bui_out_str, res = ja.build_pyomo_model(res)
@@ -204,8 +204,10 @@ def startSimulation(data):
     sol_out_str, res = ja.solve_pyomo_model(res)
 
     resultsdict = ja.return_results_dict(res)
-    return resultsdict
 
+    outString = ini_out_str + "\n" + add_out_str + "\n" + bui_out_str + "\n" + sol_out_str
+
+    return json.dumps(resultsdict), {'display': 'block'}, outString
 
 @app.callback(
     Output('FigCostUnit', 'figure'),
@@ -219,23 +221,17 @@ def startSimulation(data):
     Output('Bilanz-4', 'figure'),
     Output('PurchaseConsumptionPlot', 'figure'),
     Output('ColDataTable', 'children'),
-
     Output('SunBurst1', 'figure'),
     Output('SunBurst2', 'figure'),
     Output('SunBurst3', 'figure'),
     Output('CostTable', 'children'),
-    Input('htmlTest', 'data'),
-    #Input('memory', 'data'),
+    #Input('htmlTest', 'data'),
+    Input('simulationResultStorage', 'data'),
     prevent_initial_call=True
     )
 def update_figure(jsonStorage):
-    print("start simulation")
 
-    #delfort_main.run_case()
-    #result_dict = delfort_main.run_case()
-
-    print("simulation finished")
-
+    print(jsonStorage)
 
     figCostUnit, dfCostUnit, sunBurstDf = drawCostPlotUnit(jsonStorage)
     figCostEso, dfCostEso = drawCostPlotEso(jsonStorage)
