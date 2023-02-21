@@ -1,0 +1,93 @@
+version: "3.4"
+
+networks:
+  dekarpio_prod: {}
+
+volumes:
+  nginx_secrets:
+  dekarpio_api_data_prod: {}
+  notused_api_modules_prod:
+  notused_app_modules_prod:
+
+services:
+  mysql:
+    image: mariadb
+    container_name: dekarpio_prod_mariadb
+    volumes:
+      - ./data/db:/var/lib/mysql
+      - ./data/db-imports:/opt/db-imports
+    command: mysqld --performance-schema=ON --max-connections=140
+    environment:
+      - "MYSQL_DATABASE=dekarpio"
+      - "MYSQL_USER=root"
+      - "MYSQL_ROOT_PASSWORD=root"
+    networks:
+      - dekarpio_prod
+
+  api:
+    build:
+      context: ./
+      dockerfile: .docker/api/api.prod.dockerfile
+    container_name: dekarpio_prod_api
+    depends_on:
+      - mysql
+    working_dir: /opt/api
+    networks:
+      - dekarpio_prod
+
+  app:
+    build:
+      context: ./
+      dockerfile: .docker/app/app.prod.dockerfile
+    container_name: dekarpio_prod_app
+    tty: true
+    networks:
+      - dekarpio_prod
+    ports:
+      - 4201:4201
+
+  dash-server:
+    build: 
+      context: ./
+      dockerfile: .docker/dash-server/dash-server.prod.dockerfile
+    container_name: dekarpio_prod_dash-server
+    volumes:
+      - ./dash-server:/wd
+    networks:
+      - dekarpio_prod 
+
+  flask-server:
+    build: 
+      context: ./
+      dockerfile: .docker/flask-server/flask-server.prod.dockerfile
+    container_name: dekarpio_prod_flask-server
+    volumes:
+      - ./flask-server:/wd
+    networks:
+      - dekarpio_prod 
+
+  web:
+    container_name: dekarpio_prod_web
+    image: jonasal/nginx-certbot:3.2.0
+    restart: unless-stopped
+    command: /bin/bash -c "envsubst '$$DEKARPIO_HOSTNAME' < /etc/nginx/user_conf_template.d/vhosts.conf.template > /etc/nginx/user_conf.d/vhosts.conf && /scripts/start_nginx_certbot.sh"
+    env_file:
+      - ./.docker/nginx/prod/nginx-certbot.prod.env
+    ports:
+    - target: 80
+      published: 80
+      mode: host
+    - target: 443
+      published: 443
+      mode: host
+    volumes:
+      - nginx_secrets:/etc/letsencrypt
+      - ./.docker/nginx/prod/user_conf.d:/etc/nginx/user_conf_template.d
+      - ./.docker/nginx/prod/logs:/var/log/nginx
+    depends_on:
+      - app
+      - api
+      - dash-server
+      - flask-server
+    networks:
+      - dekarpio_prod

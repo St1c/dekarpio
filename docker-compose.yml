@@ -28,7 +28,7 @@ services:
   api:
     build:
       context: ./
-      dockerfile: .docker/api.dev.dockerfile
+      dockerfile: .docker/api/api.dev.dockerfile
     container_name: dekarpio_dev_api
     depends_on:
       - mysql
@@ -51,7 +51,7 @@ services:
   app:
     build:
       context: ./
-      dockerfile: .docker/app.dev.dockerfile
+      dockerfile: .docker/app/app.dev.dockerfile
     container_name: dekarpio_dev_app
     working_dir: /home/node/app
     volumes:
@@ -67,7 +67,7 @@ services:
   dash-server:
     build: 
       context: ./
-      dockerfile: .docker/dash-server.dev.dockerfile
+      dockerfile: .docker/dash-server/dash-server.dev.dockerfile
     container_name: dekarpio_dev_dash-server
     volumes:
       - ./dash-server:/wd
@@ -79,7 +79,7 @@ services:
   flask-server:
     build: 
       context: ./
-      dockerfile: .docker/flask-server.dev.dockerfile
+      dockerfile: .docker/flask-server/flask-server.dev.dockerfile
     container_name: dekarpio_dev_flask-server
     volumes:
       - ./flask-server:/wd
@@ -91,7 +91,7 @@ services:
   web:
     build:
       context: ./
-      dockerfile: .docker/nginx.dev.dockerfile
+      dockerfile: .docker/nginx/dev/nginx.dev.dockerfile
     container_name: dekarpio_dev_web
     depends_on:
       - api

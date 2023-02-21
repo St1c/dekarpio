@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
 
 export interface Simulation {
@@ -16,6 +17,8 @@ export interface Simulation {
 })
 export class SimulationsService {
 
+  private apiUrl = environment.apiUrl;
+  private flaskUrl = environment.flaskUrl;
   private userId: number;
 
   constructor(
@@ -26,19 +29,19 @@ export class SimulationsService {
   }
 
   createSimulation(settings: string): Observable<any> {
-    return this.http.post<Simulation>('/api/simulation-setup', {
+    return this.http.post<Simulation>(`${this.apiUrl}/simulation-setup`, {
       settings,
     });
   }
 
   getSimulation(): Observable<Simulation> {
-    return this.http.get(`/api/simulation-results/${this.userId}`).pipe(
+    return this.http.get(`${this.apiUrl}/simulation-results/${this.userId}`).pipe(
       map((res: any) => res.data[0]),
     );
   }
 
   validateSimulation(): Observable<any> {  
-    return this.http.post('/dash/validate', {
+    return this.http.post(`${this.flaskUrl}/validate`, {
       user_id: this.userId,
     });
   }

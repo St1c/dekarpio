@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from 'ng2-ui-auth';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-simulation-results',
@@ -11,6 +12,7 @@ import { AuthService } from 'ng2-ui-auth';
 export class SimulationResultsComponent implements OnInit {
 
   dashUrl: SafeResourceUrl;
+  dashBaseUrl = environment.dashUrl;
 
   constructor(
     private auth: AuthService,
@@ -21,7 +23,7 @@ export class SimulationResultsComponent implements OnInit {
     const userId = this.auth.getPayload().id;
 
     this.dashUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `http://localhost/dash-server/${userId}?jwt=${this.auth.getToken()}`
+      `${this.dashBaseUrl}/${userId}?jwt=${this.auth.getToken()}`
     );
   }
 

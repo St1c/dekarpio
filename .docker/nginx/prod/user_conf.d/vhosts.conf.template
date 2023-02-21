@@ -1,0 +1,131 @@
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    ''      close;
+}
+
+upstream dekarpio_prod_api {
+    least_conn;
+    server api:3001 weight=10 max_fails=3 fail_timeout=30s;
+}
+
+upstream dekarpio_prod_app {
+    least_conn;
+    server app:4201 weight=10 max_fails=3 fail_timeout=30s;
+}
+
+upstream dekarpio_prod_dash_server {
+    least_conn;
+    server dash-server:3002 weight=10 max_fails=3 fail_timeout=30s;
+}
+
+upstream dekarpio_prod_flask_server {
+    least_conn;
+    server flask-server:3003 weight=10 max_fails=3 fail_timeout=30s;
+}
+
+server {
+    client_max_body_size 50M;
+    proxy_buffer_size 128k;
+    proxy_buffers 4 256k;
+    proxy_busy_buffers_size 256k;
+
+    access_log  /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log;
+
+    # Listen to port 443 on both IPv4 and IPv6.
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    # Domain names this server should respond to.
+    server_name ${DEKARPIO_HOSTNAME};
+
+    # Load the certificate files.
+    # this needs to be changes for every domain name <dev-intervention-framework>
+    ssl_certificate         /etc/letsencrypt/live/${DEKARPIO_HOSTNAME}/fullchain.pem;
+    ssl_certificate_key     /etc/letsencrypt/live/${DEKARPIO_HOSTNAME}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/${DEKARPIO_HOSTNAME}/chain.pem;
+
+    # Load the Diffie-Hellman parameter.
+    ssl_dhparam /etc/letsencrypt/dhparams/dhparam.pem;
+
+    root /var/www;
+
+    location /api {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_max_temp_file_size 0;
+        proxy_pass http://dekarpio_prod_api;
+        proxy_redirect off;
+        proxy_read_timeout 240s;
+    }
+
+    location = /api/auth/checkJwt {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Original-URI $request_uri;
+        proxy_set_header X-Original-METHOD $request_method;
+        proxy_pass_request_body off;
+        proxy_set_header Content-Length "";
+
+        proxy_pass http://dekarpio_prod_api;
+    }
+
+    location ~ /dash-server/_dash(.*) {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_max_temp_file_size 0;
+        rewrite /dash-server/(.*) /dash-server/$1  break;
+        proxy_pass http://dekarpio_prod_dash_server;
+        proxy_redirect off;
+        proxy_read_timeout 240s;
+    }
+
+    location /dash-server {
+        auth_request /api/auth/checkJwt;
+
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_max_temp_file_size 0;
+        rewrite /dash-server/(.*) /dash-server/$1  break;
+        proxy_pass http://dekarpio_prod_dash_server;
+        proxy_redirect off;
+        proxy_read_timeout 240s;
+    }
+
+    location /dash {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_max_temp_file_size 0;
+        proxy_pass http://dekarpio_prod_flask_server;
+        proxy_redirect off;
+        proxy_read_timeout 240s;
+    }
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_max_temp_file_size 0;
+        proxy_pass http://dekarpio_prod_app;
+        proxy_redirect off;
+        proxy_read_timeout 240s;
+    }
+}
