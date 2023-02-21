@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   apiUrl: 'http://localhost/api',
   flaskUrl: 'http://localhost/dash',
+  dashUrl: 'http://localhost/dash-server',
 };
 
 /*

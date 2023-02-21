@@ -4,4 +4,5 @@ export const environment = {
   // flaskUrl: 'http://localhost/dash',
   apiUrl: '/api',
   flaskUrl: '/dash',
+  dashUrl: 'https://dekarpio.ait.ac.at/dash-server',
 };
