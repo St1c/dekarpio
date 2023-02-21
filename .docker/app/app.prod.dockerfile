@@ -25,7 +25,7 @@ USER node
 FROM nginx:latest
 
 # Change nginx port
-ADD .docker/app.vhosts.prod.conf /etc/nginx/nginx.conf
+ADD .docker/app/app.vhosts.prod.conf /etc/nginx/nginx.conf
 
 # Copy the build output to replace the default nginx contents.
 COPY --from=build /home/node/app/dist/dekarpio /usr/share/nginx/html
