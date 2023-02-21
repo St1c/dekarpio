@@ -7,12 +7,13 @@ from flask import Flask
 from flask import request, jsonify
 import pandas as pd
 import dash
-import delfort_main
+#import delfort_main
 import json
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import numpy as np
 import plotly.colors as pclr
+import requests
 from def_names import units, costs, heat_types, capexopex
 
 
@@ -31,6 +32,7 @@ app.layout = html.Div([
 
     dbc.Row(dbc.Col(html.H2("Simulation Results"), width={'size': 12, 'offset': 0, 'order': 0}), style = {'textAlign': 'center', 'paddingBottom': '1%'}),
     dbc.Row(dbc.Col(children=[
+        dcc.Location(id="url"),
         html.H4("Description:"),
         html.P("Result found in 5.3 seconds.")
     ])),
@@ -136,14 +138,37 @@ app.layout = html.Div([
             ],id="card-tabs",active_tab="tab-1")
     ]
     ),
-    dbc.Row([html.P(id="test"),
+    dbc.Row([html.P(),
         html.Form([
             dcc.Input(name='name'),
-            html.Button('Submit', type='submit')
+            html.Button('Submit', type='submit', id="test")
         ], action='/dash/validate', method='post')
     ])
 ])
 # ,style={'overflow': 'hidden'}
+
+@app.callback(
+    Output("url", "pathname"),
+    Input("url", "pathname"),
+    Input("url", "href")
+)
+def getDataFromURL(pathname, href):
+    print(pathname)
+    print(href)
+    response = requests.get("http://localhost/api/simulation-results/1")
+
+
+    temp = response.json()
+    dataDict = temp["data"][0]
+
+
+    # print(dataDict["id"])
+    # print(dataDict["user_id"])
+    # print(dataDict["settings"])
+
+
+
+    return dash.no_update
 
 @app.callback(
     Output('FigCostUnit', 'figure'),
@@ -162,7 +187,9 @@ app.layout = html.Div([
     Output('SunBurst2', 'figure'),
     Output('SunBurst3', 'figure'),
     Output('CostTable', 'children'),
-    Input('test', 'value'))
+    Input('test', 'value'),
+    prevent_initial_call=True
+    )
 def update_figure(selected_year):
     # filtered_df = df[df.year == selected_year]
 

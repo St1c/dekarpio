@@ -25,6 +25,7 @@ def startSimulation(id):
 @app.route('/dash/validate', methods=['GET', 'POST'])
 def validateJson():
     print(request.method)
+    print("validation received")
     # return object with data property and status
     return jsonify({
         'status': 'OK',
