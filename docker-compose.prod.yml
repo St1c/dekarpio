@@ -49,7 +49,7 @@ services:
   dash-server:
     build: 
       context: ./
-      dockerfile: .docker/dash-server/dash-server.dev.dockerfile
+      dockerfile: .docker/dash-server/dash-server.prod.dockerfile
     container_name: dekarpio_prod_dash-server
     volumes:
       - ./dash-server:/wd
@@ -59,7 +59,7 @@ services:
   flask-server:
     build: 
       context: ./
-      dockerfile: .docker/flask-server/flask-server.dev.dockerfile
+      dockerfile: .docker/flask-server/flask-server.prod.dockerfile
     container_name: dekarpio_prod_flask-server
     volumes:
       - ./flask-server:/wd
