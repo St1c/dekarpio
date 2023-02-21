@@ -463,36 +463,45 @@ def add_obj_u_v_w(system, unit):
 
 
 def solve_model(system, solver='cplex', threads=1, mipgap=0):
-    opt = pyo.SolverFactory(solver)
-    print('Starting optimization...')
-    if solver == 'cplex':
-        system.model.result = opt.solve(system.model,
-                                        warmstart=False,
-                                        tee=True,
-                                        timelimit=system.param['opt']['timelimit'],
-                                        options_string="mipgap={}".format(mipgap)
-                                        )
-    elif solver == 'glpk':
-        system.model.result = opt.solve(system.model,
-                                        # warmstart=False,
-                                        tee=True,
-                                        timelimit=system.param['opt']['timelimit'],
-                                        options_string="mipgap={}".format(mipgap)
-                                        )
-    elif solver == 'cbc':
-        options = {
-            'ratio': system.param['opt']['optimality_gap'],
-            'threads': threads
-        }
-        system.model.result = opt.solve(system.model,
-                                        warmstart=False,
-                                        tee=True,
-                                        timelimit=system.param['opt']['timelimit'],
-                                        options=options  # mipgap and threads cannot be passed to cbc via options_string
-                                        )
-    elif solver == 'gurobi': # todo: does not work yet -- activate license (--> Sophie?)
-        system.model.result = opt.solve(system.model, tee=True,
-                                        )
+    if solver == 'highs':
+        from pyomo.contrib import appsi
+        opt = appsi.solvers.Highs()
+        opt.highs_options = dict(time_limit=system.param['opt']['timelimit'],
+                                 log_to_console='true',
+                                 )
+        # opt.config(timelimit=600)
+        system.model.results = opt.solve(system.model)
+    else:
+        opt = pyo.SolverFactory(solver)
+        print('Starting optimization...')
+        if solver == 'cplex':
+            system.model.result = opt.solve(system.model,
+                                            warmstart=False,
+                                            tee=True,
+                                            timelimit=system.param['opt']['timelimit'],
+                                            options_string="mipgap={}".format(mipgap)
+                                            )
+        elif solver == 'glpk':
+            system.model.result = opt.solve(system.model,
+                                            # warmstart=False,
+                                            tee=True,
+                                            timelimit=system.param['opt']['timelimit'],
+                                            options_string="mipgap={}".format(mipgap)
+                                            )
+        elif solver == 'cbc':
+            options = {
+                'ratio': system.param['opt']['optimality_gap'],
+                'threads': threads
+            }
+            system.model.result = opt.solve(system.model,
+                                            warmstart=False,
+                                            tee=True,
+                                            timelimit=system.param['opt']['timelimit'],
+                                            options=options  # mipgap and threads cannot be passed to cbc via options_string
+                                            )
+        elif solver == 'gurobi': # todo: does not work yet -- activate license (--> Sophie?)
+            system.model.result = opt.solve(system.model, tee=True,
+                                            )
     return system
 
 

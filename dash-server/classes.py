@@ -2175,11 +2175,6 @@ class Photovoltaic(Unit):
         if self.param['cap_area'][0] > 0:
             self.param['i_active'] = True
 
-        # note: param['seq']['solar'] muss Global Horizontal Irradiance in W/m^2 sein
-        # (GHI = Direkte Normalstrahlung * cos(z) + Diffuse Strahlung ...)
-        # Fläche in cap == Fläche in m^2
-        self.param['solar'] = system.param['seq']['solar']
-
         # Variables
         self.var['seq'] = dict()
         self.var['scalar'] = dict()
@@ -2197,21 +2192,81 @@ class Photovoltaic(Unit):
         # Constraints
         da.add_cap_lim(self, ['area'])
 
+        # note: param['seq']['solar'] muss Global Horizontal Irradiance in W/m^2 sein
+        # (GHI = Direkte Normalstrahlung * cos(z) + Diffuse Strahlung ...)
+        # Fläche in cap == Fläche in m^2
+        self.param['solar'] = self.param['seq']
+
         def con_rule(m, s, t):
             if 'ppa_mode' in self.param.keys():
                 if self.param['ppa_mode'] == 1:
-                    return self.var['seq']['p'][s, t] == float(self.param['eta'] * self.param['solar'][s][t]) * \
+                    return self.var['seq']['p'][s, t] == float(self.param['eta'] * self.param['solar'][s][t]/1e6) * \
                    self.var['scalar']['cap']
                 else:
-                    return self.var['seq']['p'][s, t] <= float(self.param['eta'] * self.param['solar'][s][t]) * \
+                    return self.var['seq']['p'][s, t] <= float(self.param['eta'] * self.param['solar'][s][t]/1e6) * \
                    self.var['scalar']['cap']
             else:
-                return self.var['seq']['p'][s, t] <= float(self.param['eta'] * self.param['solar'][s][t]) * \
+                return self.var['seq']['p'][s, t] <= float(self.param['eta'] * self.param['solar'][s][t]/1e6) * \
                    self.var['scalar']['cap']
 
         namestr = 'max_p'
         self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
 
+        # Objectives
+        da.add_obj_inv(system, self)
+
+        # Total objective, which is assigned directly to unit
+        obj = 0
+        obj += self.obj['inv']
+        namestr = 'obj_' + self.name + '_total'
+        system.model.add_component(namestr, pyo.Objective(expr=obj))
+        system.model.component(namestr).deactivate()
+        self.obj['total'] = system.model.component(namestr)
+
+class WindTurbinePark(Unit):
+    def __init__(self, param, system):
+        Unit.__init__(self, param, system)
+
+        # Parameters
+        da.init_uvwi_param(self)
+
+        if self.param['cap_max_power'][0] > 0:
+            self.param['i_active'] = True
+
+        # Variables
+        self.var['seq'] = dict()
+        self.var['scalar'] = dict()
+        self.var['seq']['p'] = pyo.Var(system.model.set_sc, system.model.set_t, domain=pyo.NonNegativeReals)
+        self.var['scalar']['cap'] = pyo.Var(domain=pyo.NonNegativeReals)
+        da.add_var_uvwi(system, self)
+
+        da.add_var_to_model(system, self)
+
+        # Ports
+        self.port['p'] = self.var['seq']['p']
+
+        da.add_inv_param(system, self, param)
+
+        # Constraints
+        da.add_cap_lim(self, ['max_power'])
+
+
+        def con_rule(m, s, t):
+            # todo: ppa mode needs to be implemented
+            # if 'ppa_mode' in self.param.keys():
+            #     if self.param['ppa_mode'] == 1:
+            #         return self.var['seq']['p'][s, t] == float(self.param['eta'] * self.param['solar'][s][t]) * \
+            #        self.var['scalar']['cap']
+            #     else:
+            #         return self.var['seq']['p'][s, t] <= float(self.param['eta'] * self.param['solar'][s][t]) * \
+            #        self.var['scalar']['cap']
+            # else:
+            return self.var['seq']['p'][s, t] <= float(self.var['scalar']['rotor_radius'] * self.param['solar'][s][t]) * \
+                   self.var['scalar']['cap']
+        namestr = 'max_p'
+        self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
+
+        # note: param['seq']['wind_speed'] muss Windgeschwindigkeit im m/s sein
         # Objectives
         da.add_obj_inv(system, self)
 

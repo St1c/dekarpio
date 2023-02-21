@@ -9,7 +9,7 @@
           "integrate": "True",
           "grid": 0,
           "energy": 40,
-          "lim_actual": 70,
+          "lim_actual": 10,
           "lim_technical": 120,
           "description": "natural gas"
         }
@@ -21,9 +21,9 @@
       "ID": "eso_eso2_big",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
-          "energy": 20,
+          "energy": 50,
           "lim_actual": 70,
           "lim_technical": 120,
           "description": "biogas"
@@ -36,7 +36,7 @@
       "ID": "eso_eso3_elg",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 39,
           "lim_actual": 70,
@@ -51,9 +51,9 @@
       "ID": "eso_eso4_bim",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
-          "energy": 40,
+          "energy": 41,
           "lim_actual": 70,
           "lim_technical": 120,
           "description": "biomethan"
@@ -66,7 +66,7 @@
       "ID": "eso_eso5_slu",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -81,7 +81,7 @@
       "ID": "eso_eso6_iwa",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -96,7 +96,7 @@
       "ID": "eso_eso7_ewa",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -111,7 +111,7 @@
       "ID": "eso_eso8_coa",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -126,7 +126,7 @@
       "ID": "eso_eso9_oil",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -141,7 +141,7 @@
       "ID": "eso_eso10_hyd",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -156,7 +156,7 @@
       "ID": "eso_eso11_bio",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -171,15 +171,15 @@
       "ID": "eso_eso12_elp",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
-          "lim_actual": 70,
-          "lim_technical": 120,
-          "inv_fix": 40,
-          "inv_power": 40,
-          "inv_energy": 40,
-          "description": "electricity_pv"
+          "lim_actual": 10000,
+          "lim_technical": 100000,
+          "inv_fix": 0,
+          "inv_power": 500,
+          "inv_energy": 0,
+          "description": "electricity pv"
         }
       ]
     },
@@ -207,7 +207,7 @@
       "ID": "eso_eso14_elh",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -273,7 +273,7 @@
       "ID": "eso_eso18_dhe",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": -60,
           "lim_actual": 70,
@@ -291,7 +291,7 @@
       "ID": "eso_eso19_feg",
       "param": [
         {
-          "integrate": "False",
+          "integrate": "True",
           "grid": 0,
           "energy": -10,
           "lim_actual": 70,
@@ -438,7 +438,7 @@
         {
           "integrate": "True",
           "temp": 400,
-          "pressure": 6000000,
+          "pressure": 60,
           "description": "very high pressure steam"
         }
       ]
@@ -522,7 +522,7 @@
         {
           "integrate": "True",
           "temp": 220,
-          "pressure": 1200000,
+          "pressure": 12,
           "description": "high pressure steam"
         }
       ]
@@ -609,7 +609,7 @@
         {
           "integrate": "True",
           "temp": 180,
-          "pressure": 800000,
+          "pressure": 8,
           "description": "middle pressure steam"
         }
       ]
@@ -690,7 +690,7 @@
         {
           "integrate": "True",
           "temp": 145,
-          "pressure": 400000,
+          "pressure": 4,
           "description": "low pressure steam"
         }
       ]
@@ -2373,15 +2373,15 @@
           "max_capacity": 100,
           "min_capacity": 10,
           "minload": 30,
-          "fullload_efficiency": 40,
-          "minload_efficiency": 40,
+          "fullload_efficiency": 92,
+          "minload_efficiency": 85,
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
           "start_up": 6,
           "shut_down": 6,
-          "inv_fix": 10000,
-          "inv_cap": 100,
+          "inv_fix": 100000,
+          "inv_cap": 40000,
           "opex_main": 0.01,
           "opex_fix": 10,
           "opex_start": 0
@@ -2447,20 +2447,20 @@
       },
       "param": [
         {
-          "integrate": "False",
-          "exist": "False",
+          "integrate": "True",
+          "exist": "True",
           "max_capacity": 40,
           "min_capacity": 5,
           "minload": 30,
-          "fullload_efficiency": 95,
-          "minload_efficiency": 85,
+          "fullload_efficiency": 91,
+          "minload_efficiency": 91,
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
           "start_up": 6,
           "shut_down": 6,
-          "inv_fix": 10000,
-          "inv_cap": 100,
+          "inv_fix": 100000,
+          "inv_cap": 40000,
           "opex_main": 0.01,
           "opex_fix": 10,
           "opex_start": 0
@@ -3546,7 +3546,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "cap_max": 200,
           "cap_min": 1,
@@ -3691,12 +3691,12 @@
       "param": [
         {
           "integrate": "True",
-          "days_off": 15,
-          "p_gas_max": 0,
+          "days_off": 0,
+          "p_gas_max": 3,
           "p_his_max": 0,
-          "p_mis_max": 30,
-          "p_los_max": 0,
-          "p_ele_max": 0,
+          "p_mis_max": 20,
+          "p_los_max": 20,
+          "p_ele_max": 15,
           "massflow_hua": 0,
           "temp_hua": 60,
           "abshum_hua": 2,

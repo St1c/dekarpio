@@ -124,7 +124,7 @@ def return_results_dict(system, filepath=None):
 
 
 def get_active_units(system):
-    caps = ['cap_s', 'cap_p', 'cap_q', 'cap_q_sink', 'cap_soc']
+    caps = ['cap_s', 'cap_p', 'cap_q', 'cap_q_sink', 'cap_soc', 'cap_area']
     units_active = {}
     for unit in system.unit:
         if 'coupler' not in unit:
@@ -197,7 +197,7 @@ def read_parameters(param_dict, period_list, label_list, no_timesteps):
         'interest_rate': 0.0,               # from global parameters
         'depreciation_period': 10,          # from global parameters
         'opt': {'timelimit': 600,
-                'optimality_gap': 0.01},
+                'optimality_gap': 0.00},
         'expansion_costs': 5e4      # todo: €/MW ???
     }
 
@@ -247,9 +247,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                         temp_param[cap] = (0, 0)
 
         def get_eso_classname(eso_object):
-            if (eso_object['param'][0]['description'] == "electricity pv" or
-                    eso_object['param'][0]['description'] == "electricity ppa pv"):
-                return "Supply"
+            if eso_object['param'][0]['description'] in ["electricity pv", "electricity ppa pv"]:
+                return "Photovoltaic"
             else:
                 return "Supply"
 
@@ -704,6 +703,12 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         # ==============================================================================================================
         # HELPER FUNCTIONS
         # ==============================================================================================================
+        def get_eso_out_port(eso_name):
+            if sys.unit[eso_name].param['classname'] == 'Supply':
+                return 's'
+            elif sys.unit[eso_name].param['classname'] == 'Photovoltaic':
+                return 'p'
+
         def get_ecu_in_ports(ecu_name):
             if sys.unit[ecu_name].param['classname'] == 'GasBoiler':
                 return dict({'fuel': 'f'})
@@ -774,7 +779,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         # 1 out node for each energy source - distributes to conversion units, demands, collectors, storage units
         for eso in struct['eso']:
             eso_name = struct['eso'][eso]['ID']
-            eso_out_port = 's'
+            eso_out_port = get_eso_out_port(eso_name)
             node_name = eso_name + '_out_node'
             nodes.update({node_name: {
                 'lhs': [[eso_name, eso_out_port]],
@@ -1297,7 +1302,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
     return out_str, system
 
 
-def build_pyomo_model(system:dc.System):
+def build_pyomo_model(system: dc.System):
     tic = time.time()
     system.build_model()
     toc = time.time()
@@ -1305,9 +1310,9 @@ def build_pyomo_model(system:dc.System):
     return out_str, system
 
 
-def solve_pyomo_model(system:dc.System):
+def solve_pyomo_model(system: dc.System):
     tic = time.time()
-    solver = 'glpk'
+    solver = 'highs'
     system = da.solve_model(system, solver=solver)
     toc = time.time()
     out_str = "Solved model with {} in {:.2f} seconds.".format(solver, toc-tic)
