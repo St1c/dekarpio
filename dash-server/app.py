@@ -195,6 +195,8 @@ def startSimulation(data):
     #structure = ja.read_structure('tool_dekarpio_structure.json')
     structure = json.loads(data)
 
+    print(structure)
+
     sysParam = ja.read_parameters(structure['par'], period_list, label_list, no_timesteps)
 
     ini_out_str, res = ja.initialize_model(sysParam)
@@ -239,7 +241,6 @@ def startSimulation(data):
 
 def update_figure(jsonStorage, period_list):
 
-    print(jsonStorage)
     jsonStorage = json.loads(jsonStorage)
     figCostUnit, dfCostUnit, sunBurstDf = drawCostPlotUnit(jsonStorage)
     figCostEso, dfCostEso = drawCostPlotEso(jsonStorage)
