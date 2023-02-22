@@ -201,7 +201,6 @@ def startSimulation(data):
 
     ini_out_str, res = ja.initialize_model(sysParam)
 
-
     add_out_str, res = ja.add_units_and_nodes(res, structure, timelines, timeline_map)
 
     bui_out_str, res = ja.build_pyomo_model(res)
