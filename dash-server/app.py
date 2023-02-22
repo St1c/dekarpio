@@ -48,8 +48,10 @@ app.layout = html.Div([
         dcc.Store(id='timelineListStorage'),
         dcc.Store(id='simulationResultStorage'),
         html.H4("Description:", id="htmlTest"),
-        html.P("", id="simulationInformation")
+        html.P("", id="simulationInformation"),
+        html.Progress(id="progress_bar", style= {'width': '99%', 'height': '25%'}),
     ])),
+    dcc.Loading(id="loadingResults", type="dot", children=[
     dbc.Card(id="resultCard",children=[
             dbc.Tabs(
             [
@@ -152,6 +154,7 @@ app.layout = html.Div([
             ],id="card-tabs",active_tab="tab-1")
     ],style= {'display': 'none'}
     ),
+    ]),
 ])
 # ,style={'overflow': 'hidden'}
 
@@ -178,15 +181,22 @@ def getDataFromURL(pathname, href):
 @app.long_callback(
     Output("simulationResultStorage", "data"),
     Output("timelineListStorage", "data"),
-    Output("resultCard","style"),
     Output("simulationInformation", "children"),
     Input("simulationSetupStorage", "data"),
     running=[
-        (Output("htmlTest", "children"), "Simulation is running...", "Simulation is Finished!"),
+        (Output("htmlTest", "children"), "Simulation is running...", "Simulation is Finished! Building Diagrams ..."),
+        (Output("progress_bar", "style"),{"visibility": "visible", 'width': '99%', 'height': '25%'},{"visibility": "hidden"}),
     ],
+    progress=[Output("progress_bar", "value"), Output("progress_bar", "max")],
     prevent_intial_callback=True
 )
-def startSimulation(data):
+def startSimulation(set_progress, data):
+
+    totalSteps = 9
+    count=0
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
 
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
@@ -195,25 +205,44 @@ def startSimulation(data):
     #structure = ja.read_structure('tool_dekarpio_structure.json')
     structure = json.loads(data)
 
-    print(structure)
+    count+=1
+    set_progress((str(count), str(totalSteps)))
 
     sysParam = ja.read_parameters(structure['par'], period_list, label_list, no_timesteps)
 
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
     ini_out_str, res = ja.initialize_model(sysParam)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
 
     add_out_str, res = ja.add_units_and_nodes(res, structure, timelines, timeline_map)
 
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
     bui_out_str, res = ja.build_pyomo_model(res)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
 
     ja.print_active_units(res)
 
     sol_out_str, res = ja.solve_pyomo_model(res)
 
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
     resultsdict = ja.return_results_dict(res)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
 
     outString = ini_out_str + "\n" + add_out_str + "\n" + bui_out_str + "\n" + sol_out_str
 
-    return json.dumps(resultsdict), period_list, {'display': 'block'}, outString
+    return json.dumps(resultsdict), period_list, outString
 
 @app.callback(
     Output('FigCostUnit', 'figure'),
@@ -231,13 +260,13 @@ def startSimulation(data):
     Output('SunBurst2', 'figure'),
     Output('SunBurst3', 'figure'),
     Output('CostTable', 'children'),
+    Output("resultCard","style"),
+    Output("htmlTest", "children"),
     #Input('htmlTest', 'data'),
     Input('simulationResultStorage', 'data'),
     State('timelineListStorage', 'data'),
     prevent_initial_call=True
     )
-
-
 def update_figure(jsonStorage, period_list):
 
     jsonStorage = json.loads(jsonStorage)
@@ -267,7 +296,7 @@ def update_figure(jsonStorage, period_list):
 
 
 
-    return figCostUnit, figCostEso, fig3, fig4, fig5, ar[0], ar[1], ar[2], ar[3], drawPurchaseConsumptionPlot(jsonStorage, period_list), table, figSunBurstType, figSunBurstUnit, figSunBurstUnitCosts, dashTable
+    return figCostUnit, figCostEso, fig3, fig4, fig5, ar[0], ar[1], ar[2], ar[3], drawPurchaseConsumptionPlot(jsonStorage, period_list), table, figSunBurstType, figSunBurstUnit, figSunBurstUnitCosts, dashTable, {"display":"block"}, "Simulation Results:"
 
 ##########################################################################
 # Cost Plot Functions
