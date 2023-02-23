@@ -7,36 +7,52 @@ from flask import Flask
 from flask import request, jsonify
 import pandas as pd
 import dash
-#import delfort_main
 import json
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import numpy as np
 import plotly.colors as pclr
 import requests
+
+## Diskcache
+import diskcache
+from dash.long_callback import DiskcacheLongCallbackManager
+cache = diskcache.Cache("./cache")
+long_callback_manager = DiskcacheLongCallbackManager(cache)
+
+
 from def_names import units, costs, heat_types, capexopex
+import auxiliary as da
+import json_auxiliary as ja
+import os
+
 
 
 server = Flask(__name__)
-app = dash.Dash(server=server, external_stylesheets=[dbc.themes.FLATLY], url_base_pathname='/dash-server/')
+app = dash.Dash(server=server, external_stylesheets=[dbc.themes.FLATLY], url_base_pathname='/dash-server/', long_callback_manager=long_callback_manager)
 app.title = 'Dashboard'
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv')
 
-r=open('output_1.json')
-jsondata=json.load(r)
+# r=open('output_1.json')
+# jsondata=json.load(r)
 
 app.layout = html.Div([
 #dbc.Container([
 
 
-    dbc.Row(dbc.Col(html.H2("Simulation Results"), width={'size': 12, 'offset': 0, 'order': 0}), style = {'textAlign': 'center', 'paddingBottom': '1%'}),
+    dbc.Row(dbc.Col(html.H2("Dekarpio Simulation Tool"), width={'size': 12, 'offset': 0, 'order': 0}), style = {'textAlign': 'center', 'paddingBottom': '1%'}),
     dbc.Row(dbc.Col(children=[
         dcc.Location(id="url"),
-        html.H4("Description:"),
-        html.P("Result found in 5.3 seconds.")
+        dcc.Store(id='simulationSetupStorage'),
+        dcc.Store(id='timelineListStorage'),
+        dcc.Store(id='simulationResultStorage'),
+        html.H4("Description:", id="htmlTest"),
+        html.P("", id="simulationInformation"),
+        html.Progress(id="progress_bar", style= {'width': '99%', 'height': '25%'}),
     ])),
-    dbc.Card([
+    dcc.Loading(id="loadingResults", type="dot", children=[
+    dbc.Card(id="resultCard",children=[
             dbc.Tabs(
             [
                 dbc.Tab(children=[
@@ -136,39 +152,97 @@ app.layout = html.Div([
                 ], label="Tab 6", tab_id="tab-6"),
 
             ],id="card-tabs",active_tab="tab-1")
-    ]
+    ],style= {'display': 'none'}
     ),
-    dbc.Row([html.P(),
-        html.Form([
-            dcc.Input(name='name'),
-            html.Button('Submit', type='submit', id="test")
-        ], action='/dash/validate', method='post')
-    ])
+    ]),
 ])
 # ,style={'overflow': 'hidden'}
 
 @app.callback(
-    Output("url", "pathname"),
+    Output("simulationSetupStorage", "data"),
     Input("url", "pathname"),
     Input("url", "href")
 )
 def getDataFromURL(pathname, href):
-    print(pathname)
-    print(href)
-    response = requests.get("http://localhost/api/simulation-results/1")
-
-
+    # with open("tool_dekarpio_structure.json", "r") as f:
+    #     structure = json.load(f)
+    '''
+    Get the UserID from the href and use it to retreive the settings in the Database by calling the API
+    Simulation Settings are stored in a dcc.Store Component --> triggers the next Callback automatically
+    '''
+    temp1 = href.split("?jwt=")[0]
+    temp2 = temp1.split("/")[-1]
+    response = requests.get("http://api:3001/api/simulation-results/"+temp2)
     temp = response.json()
     dataDict = temp["data"][0]
+    return dataDict["settings"]
+    # return structure
 
+@app.long_callback(
+    Output("simulationResultStorage", "data"),
+    Output("timelineListStorage", "data"),
+    Output("simulationInformation", "children"),
+    Input("simulationSetupStorage", "data"),
+    running=[
+        (Output("htmlTest", "children"), "Simulation is running...", "Simulation is Finished! Building Diagrams ..."),
+        (Output("progress_bar", "style"),{"visibility": "visible", 'width': '99%', 'height': '25%'},{"visibility": "hidden"}),
+    ],
+    progress=[Output("progress_bar", "value"), Output("progress_bar", "max")],
+    prevent_intial_callback=True
+)
+def startSimulation(set_progress, data):
 
-    # print(dataDict["id"])
-    # print(dataDict["user_id"])
-    # print(dataDict["settings"])
+    totalSteps = 9
+    count=0
 
+    count+=1
+    set_progress((str(count), str(totalSteps)))
 
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-    return dash.no_update
+    timelines, period_list, label_list, no_timesteps, timeline_map = ja.read_timelines("tool_dekarpio_timelines.json")
+
+    #structure = ja.read_structure('tool_dekarpio_structure.json')
+    structure = json.loads(data)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
+    sysParam = ja.read_parameters(structure['par'], period_list, label_list, no_timesteps)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
+    ini_out_str, res = ja.initialize_model(sysParam)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
+    add_out_str, res = ja.add_units_and_nodes(res, structure, timelines, timeline_map)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
+    bui_out_str, res = ja.build_pyomo_model(res)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
+    ja.print_active_units(res)
+
+    sol_out_str, res = ja.solve_pyomo_model(res)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
+    resultsdict = ja.return_results_dict(res)
+
+    count+=1
+    set_progress((str(count), str(totalSteps)))
+
+    outString = ini_out_str + "\n" + add_out_str + "\n" + bui_out_str + "\n" + sol_out_str
+
+    return json.dumps(resultsdict), period_list, outString
 
 @app.callback(
     Output('FigCostUnit', 'figure'),
@@ -182,42 +256,30 @@ def getDataFromURL(pathname, href):
     Output('Bilanz-4', 'figure'),
     Output('PurchaseConsumptionPlot', 'figure'),
     Output('ColDataTable', 'children'),
-
     Output('SunBurst1', 'figure'),
     Output('SunBurst2', 'figure'),
     Output('SunBurst3', 'figure'),
     Output('CostTable', 'children'),
-    Input('test', 'value'),
+    Output("resultCard","style"),
+    Output("htmlTest", "children"),
+    #Input('htmlTest', 'data'),
+    Input('simulationResultStorage', 'data'),
+    State('timelineListStorage', 'data'),
     prevent_initial_call=True
     )
-def update_figure(selected_year):
-    # filtered_df = df[df.year == selected_year]
+def update_figure(jsonStorage, period_list):
 
-    # fig = px.scatter(filtered_df, x="gdpPercap", y="lifeExp",
-    #                 size="pop", color="continent", hover_name="country",
-    #                 log_x=True, size_max=55)
+    jsonStorage = json.loads(jsonStorage)
+    figCostUnit, dfCostUnit, sunBurstDf = drawCostPlotUnit(jsonStorage)
+    figCostEso, dfCostEso = drawCostPlotEso(jsonStorage)
+    fig3 = drawCostPlotEcuEsu(jsonStorage)
+    fig4 = drawLinePlotPower(jsonStorage, period_list)
+    fig5 = drawLinePlotHeat(jsonStorage, period_list)
 
-    # fig.update_layout(transition_duration=500)
-
-   
-
-    print("start simulation")
-
-    #delfort_main.run_case()
-    #result_dict = delfort_main.run_case()
-
-    print("simulation finished")
-
-
-    figCostUnit, dfCostUnit, sunBurstDf = drawCostPlotUnit()
-    figCostEso, dfCostEso = drawCostPlotEso()
-    fig3 = drawCostPlotEcuEsu()
-    fig4 = drawLinePlotPower()
-    fig5 = drawLinePlotHeat()
-
-    ar = drawBilanzPlots()
+    ar = drawBilanzPlots(jsonStorage, period_list)
 
     print(dfCostEso)
+
 
     figSunBurstType = px.sunburst(sunBurstDf, path=['Capex/Opex', 'Cost Type'], values='Costs')
     figSunBurstUnit = px.sunburst(sunBurstDf, path=['Capex/Opex', 'Unit'], values='Costs')
@@ -233,14 +295,13 @@ def update_figure(selected_year):
     
 
 
-    return figCostUnit, figCostEso, fig3, fig4, fig5, ar[0], ar[1], ar[2], ar[3], drawPurchaseConsumptionPlot(), table, figSunBurstType, figSunBurstUnit, figSunBurstUnitCosts, dashTable
 
-if __name__=='__main__':
-    app.run_server(debug=True)
+    return figCostUnit, figCostEso, fig3, fig4, fig5, ar[0], ar[1], ar[2], ar[3], drawPurchaseConsumptionPlot(jsonStorage, period_list), table, figSunBurstType, figSunBurstUnit, figSunBurstUnitCosts, dashTable, {"display":"block"}, "Simulation Results:"
+
 ##########################################################################
 # Cost Plot Functions
 ##########################################################################
-def drawCostPlotUnit():
+def drawCostPlotUnit(jsondata):
     '''
     Cost Plot working, why no pie chart?
     '''
@@ -379,7 +440,7 @@ def drawCostPlotUnit():
                 )
     return fig, df_costs, sunburstdf
 
-def drawCostPlotEso():
+def drawCostPlotEso(jsondata):
     '''
     Draw Cost Plots of Eso working
     '''
@@ -413,7 +474,7 @@ def drawCostPlotEso():
         # .for_each_yaxis(lambda x: x.update(title=('Costs in 10^6 EUR/a')))
     ), df
 
-def drawCostPlotEcuEsu():
+def drawCostPlotEcuEsu(jsondata):
     '''
     Draw Cost Plots of Ecu Esu working
     '''
@@ -445,7 +506,7 @@ def drawCostPlotEcuEsu():
         .for_each_yaxis(lambda x: x.update(title=('Costs in 10^6 EUR/a')))
     )
 
-def drawPurchasePlot():
+def drawPurchasePlot(jsondata, period_list):
     #List of all relevant units in order as legend
     units ={  'supply_gas':'Purchase gas',
             'supply_h2':'Purchase Hydrogen','supply_el_buy':'Purchase electricity',
@@ -454,9 +515,6 @@ def drawPurchasePlot():
             'demand_steam_2':'Demand steam 2', 'demand_el':'Demand electricity',
             'demand_gas':'Demand gas',
             'sales_ele_grid':'Sales to power grid'}
-
-    #List of timeline
-    timeline =['one','two']
 
     #List of all purchases
     purchase_list = ['Purchase gas', 'Purchase electricity',
@@ -487,8 +545,8 @@ def drawPurchasePlot():
         seq = jsondata['units'][unit]['var']['seq']
         for sequence in sequences:
             if sequence in seq.keys():
-                for tl in timeline:
-                    sum_values += sum(seq[sequence][tl]['values'])
+                for per in period_list:
+                    sum_values += sum(seq[sequence][per]['values'])
                 dict_data = {sequence : sum_values}
                 df_temp = pd.DataFrame(dict_data,index=[unit])
                 df_seq = pd.concat([df_seq, df_temp])
@@ -550,12 +608,11 @@ def drawPurchasePlot():
                   )
     return fig
 
-def drawLinePlotPower():
+def drawLinePlotPower(jsondata, period_list):
     '''
     Draw LinePlot Power Working 
     '''
     facet_col_wrap = 2
-    timelines = ['one', 'two', 'three', 'four', 'five'] # TODO: get from jsondata?
 
     sym_sequence = ["circle", "square", "triangle-up", "diamond", "diamond-wide"]
     return (
@@ -563,12 +620,12 @@ def drawLinePlotPower():
             pd.concat([
                 pd.DataFrame(
                     dict(
-                        values=seq['p'][timeline]['values'],
-                        Unit=unit_long, Timeline=timeline
+                        values=seq['p'][per]['values'],
+                        Unit=unit_long, Timeline=per
                     ),
-                    index=[f'{timestep:02g}:00' for timestep in seq['p'][timeline]['timesteps']] 
+                    index=[f'{timestep:02g}:00' for timestep in seq['p'][per]['timesteps']]
                 )
-                for timeline              in timelines
+                for per              in period_list
                 for unit_short, unit_long in units.items()
                 if unit_short             in jsondata['units'] #1
                 for seq                   in [jsondata['units'][unit_short]['var']['seq']] 
@@ -584,27 +641,26 @@ def drawLinePlotPower():
                                                   or x.anchor=="x5" else None)))
     )
 
-def drawLinePlotHeat():
+def drawLinePlotHeat(jsondata, period_list):
     '''
     Draw Line Plot Heat Working
     '''
     facet_col_wrap = 2
-    timelines = ['one', 'two', 'three', 'four', 'five'] # TODO: get from jsondata?
-
+    print(period_list, units.items(), jsondata['units'], heat_types.items(), )
     symbol_sequence = ["circle", "square", "triangle-up", "diamond", "diamond-wide"]
     return (
         px.line(
             pd.concat([
                 pd.DataFrame(
                     dict(
-                        values= jsondata['units'][unit_short]['var']['seq'][heat_short][timeline]['values'],
-                        Unit=unit_long, Steamlevel = heat_long, Timeline=timeline
+                        values= jsondata['units'][unit_short]['var']['seq'][heat_short][per]['values'],
+                        Unit=unit_long, Steamlevel = heat_long, Timeline=per
                     ),
                     index=[f'{timestep:02g}:00' 
                            for timestep in jsondata['units'][unit_short]['var']['seq']
-                           [heat_short][timeline]['timesteps']] 
+                           [heat_short][per]['timesteps']]
                 )
-                for timeline               in timelines
+                for per               in period_list
                 for unit_short, unit_long  in units.items()
                 if unit_short             in jsondata['units'] #1
                 for heat_short, heat_long  in heat_types.items()
@@ -622,17 +678,16 @@ def drawLinePlotHeat():
                                                   or x.anchor=='x5' else None)))
     )
 
-def drawBilanzPlots():
+def drawBilanzPlots(jsondata, period_list):
     ar = []
-    for fig in make_nodes(jsondata):
+    for fig in make_nodes(jsondata, period_list):
         ar.append(fig)
 
     print("BildanzPlots!!!!!!!!!")
     return ar
 
-def make_fig_Bilanz(steam: str, side: str, alt_colors=False):
+def make_fig_Bilanz(jsondata, period_list, steam: str, side: str, alt_colors=False):
     facet_col_wrap = 2
-    timelines = ['one','two','three','four','five'] # TODO: get from jsondata?
     symbol_sequence = ['circle', 'square', 'triangle-up', 'diamond', 'diamond-wide']
     color_discrete_sequence = pclr.qualitative.Plotly if not alt_colors else pclr.qualitative.Vivid
     return (
@@ -640,13 +695,13 @@ def make_fig_Bilanz(steam: str, side: str, alt_colors=False):
             pd.concat([
                 pd.DataFrame(
                     dict(
-                        values=jsondata['nodes'][steam][side][unit][timeline]['values'],
-                        Unit=unit, Timeline=timeline
+                        values=jsondata['nodes'][steam][side][unit][per]['values'],
+                        Unit=unit, Timeline=per
                     ),
-                    index=[f'{timestep}:00' for timestep in jsondata['nodes'][steam][side][unit][timeline]['timesteps']] 
+                    index=[f'{timestep}:00' for timestep in jsondata['nodes'][steam][side][unit][per]['timesteps']]
                 )
-                for timeline in timelines
-                for unit     in jsondata['nodes'][steam][side]
+                for per in period_list
+                for unit in jsondata['nodes'][steam][side]
             ]),
             color='Unit', facet_col='Timeline', 
             facet_col_wrap=facet_col_wrap, markers=True, symbol_sequence=symbol_sequence,
@@ -658,9 +713,9 @@ def make_fig_Bilanz(steam: str, side: str, alt_colors=False):
         .for_each_yaxis(lambda x: x.update(title=('MWh' if x.anchor=="x3" else None)))
     )
 
-def make_pos_neg(jsondata: dict, steam: str) -> go.Figure:
-    fig_lhs = make_fig_Bilanz(steam, 'lhs')
-    fig_rhs = make_fig_Bilanz(steam, 'rhs', alt_colors=True)
+def make_pos_neg(jsondata: dict, period_list, steam: str) -> go.Figure:
+    fig_lhs = make_fig_Bilanz(jsondata, period_list, steam, 'lhs')
+    fig_rhs = make_fig_Bilanz(jsondata, period_list, steam, 'rhs', alt_colors=True)
     
     for trc in fig_rhs.data:
         trc.stackgroup = "2"
@@ -668,19 +723,16 @@ def make_pos_neg(jsondata: dict, steam: str) -> go.Figure:
 
     return fig_lhs.add_traces(fig_rhs.data)
 
-def make_nodes(jsondata: dict) -> list[go.Figure]:
+def make_nodes(jsondata: dict, period_list) -> list[go.Figure]:
     steams = dict(
-        col_col2_mis1='Middle pressure steam 1',
-        col_col4_mis2='Middle pressure steam 2',
-        col_col8_his1='High pressure steam 2',
-        col_col9_his2='High pressure steam 2'
+        col_col2_mis1_node='Middle pressure steam 1',
+        col_col4_mis2_node='Middle pressure steam 2',
+        col_col8_his1_node='High pressure steam 2',
+        col_col9_his2_node='High pressure steam 2'
     )
-    return [make_pos_neg(jsondata, steam) for steam in steams]
+    return [make_pos_neg(jsondata, period_list, steam) for steam in steams]
 
-def drawPurchaseConsumptionPlot():
-    #List of timeline
-    timeline =['one','two','three','four','five']
-
+def drawPurchaseConsumptionPlot(jsondata, period_list):
     #List of all purchases (selber anpassen aus Units)
     purchase_list = ['Electricirty PPA PV','Electricity PPA wind',
                     'Purchased district heat','Electricity grid']
@@ -698,7 +750,7 @@ def drawPurchaseConsumptionPlot():
                     'Steam extern','Gasturbine 1','Gasturbine 2']
 
     #List of sequences (selber anpassen)
-    sequences=['s','q_lis','q_mis','q_his','p']
+    sequences=['s', 'p']
 
     
     '''
@@ -725,8 +777,9 @@ def drawPurchaseConsumptionPlot():
 
         for sequence in sequences: 
             if sequence in seq.keys():
-                for tl in timeline:
-                    sum_values += sum(seq[sequence][tl]['values'])
+                for per in period_list:
+                    print(seq[sequence].keys())
+                    sum_values += sum(seq[sequence][per]['values'])
                 dict_data[sequence] = sum_values
                 #dict_data = {sequence : sum_values}
             #df_temp = pd.DataFrame(dict_data,index=[unit_long])
@@ -787,3 +840,6 @@ def drawPurchaseConsumptionPlot():
                         legend_traceorder= "normal"
                     )
     return fig
+
+if __name__=='__main__':
+    app.run_server(debug=True)

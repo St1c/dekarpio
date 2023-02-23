@@ -9,7 +9,7 @@
           "integrate": "True",
           "grid": 0,
           "energy": 40,
-          "lim_actual": 70,
+          "lim_actual": 10,
           "lim_technical": 120,
           "description": "natural gas"
         }
@@ -23,7 +23,7 @@
         {
           "integrate": "True",
           "grid": 0,
-          "energy": 40,
+          "energy": 50,
           "lim_actual": 70,
           "lim_technical": 120,
           "description": "biogas"
@@ -38,7 +38,7 @@
         {
           "integrate": "True",
           "grid": 0,
-          "energy": 40,
+          "energy": 39,
           "lim_actual": 70,
           "lim_technical": 120,
           "description": "electricity grid"
@@ -53,7 +53,7 @@
         {
           "integrate": "True",
           "grid": 0,
-          "energy": 40,
+          "energy": 41,
           "lim_actual": 70,
           "lim_technical": 120,
           "description": "biomethan"
@@ -174,12 +174,12 @@
           "integrate": "True",
           "grid": 0,
           "energy": 40,
-          "lim_actual": 70,
-          "lim_technical": 120,
-          "inv_fix": 40,
-          "inv_power": 40,
-          "inv_energy": 40,
-          "description": "electricity_pv"
+          "lim_actual": 10000,
+          "lim_technical": 100000,
+          "inv_fix": 0,
+          "inv_power": 500,
+          "inv_energy": 0,
+          "description": "electricity pv"
         }
       ]
     },
@@ -189,7 +189,7 @@
       "ID": "eso_eso13_elw",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -225,7 +225,7 @@
       "ID": "eso_eso15_ppapv",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -240,7 +240,7 @@
       "ID": "eso_eso16_geo",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -258,7 +258,7 @@
       "ID": "eso_eso17_ste",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -275,7 +275,7 @@
         {
           "integrate": "True",
           "grid": 0,
-          "energy": 40,
+          "energy": -60,
           "lim_actual": 70,
           "lim_technical": 120,
           "inv_fix": 40,
@@ -293,7 +293,7 @@
         {
           "integrate": "True",
           "grid": 0,
-          "energy": 40,
+          "energy": -10,
           "lim_actual": 70,
           "lim_technical": 120,
           "description": "feed electricity grid"
@@ -306,7 +306,7 @@
       "ID": "eso_eso20_bif",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -321,7 +321,7 @@
       "ID": "eso_eso21_ppaw",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -336,7 +336,7 @@
       "ID": "eso_eso22_ots",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -351,7 +351,7 @@
       "ID": "eso_eso23_otg",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -366,7 +366,7 @@
       "ID": "eso_eso24_pdh",
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "grid": 0,
           "energy": 40,
           "lim_actual": 70,
@@ -381,10 +381,64 @@
       "name": "lis",
       "type": "gaseous",
       "ID": "par_par1_lis",
+      "inp": {
+        "input1": {
+          "element": "col_col3_lis1"
+        },
+        "input2": {
+          "con": "con-ecu_ecu1_sbo1-col_col3_lis1"
+        },
+        "input3": {
+          "con": "con-ecu_ecu2_sbo2-col_col3_lis1"
+        },
+        "input4": {
+          "con": "con-ecu_ecu3_sbo3-col_col3_lis1"
+        },
+        "input5": {
+          "con": "con-ecu_ecu4_boi1-col_col3_lis1"
+        },
+        "input6": {
+          "con": "con-ecu_ecu5_boi2-col_col3_lis1"
+        },
+        "input7": {
+          "con": "con-ecu_ecu6_boi3-col_col3_lis1"
+        },
+        "input8": {
+          "con": "con-ecu_ecu7_boi4-col_col3_lis1"
+        },
+        "input9": {
+          "con": "con-ecu_ecu8_boi5-col_col3_lis1"
+        },
+        "input10": {
+          "con": "con-ecu_ecu9_boi6-col_col3_lis1"
+        },
+        "input11": {
+          "con": "con-ecu_ecu10_gtu1-col_col3_lis1"
+        },
+        "input12": {
+          "con": "con-ecu_ecu11_gtu2-col_col3_lis1"
+        },
+        "input13": {
+          "con": "con-col_col3_lis1-ecu_ecu12_stu1"
+        },
+        "input14": {
+          "con": "con-col_col3_lis1-ecu_ecu13_stu2"
+        },
+        "input15": {
+          "con": "con-col_col3_lis1-esu_esu2_ste"
+        },
+        "input16": {
+          "con": "con-col_col3_lis1-ecu_ecu17_cst1"
+        },
+        "input17": {
+          "con": "con-col_col3_lis1-ecu_ecu18_cst2"
+        }
+      },	
       "param": [
         {
+          "integrate": "True",
           "temp": 400,
-          "pressure": 6000000,
+          "pressure": 60,
           "description": "very high pressure steam"
         }
       ]
@@ -393,10 +447,82 @@
       "name": "his",
       "type": "gaseous",
       "ID": "par_par2_his",
+      "inp": {
+        "input1": {
+          "element": "col_col8_his1"
+        },
+        "input2": {
+          "element": "col_col9_his2"
+        },
+        "input3": {
+          "con": "con-ecu_ecu1_sbo1-col_col8_his1"
+        },
+        "input4": {
+          "con": "con-ecu_ecu2_sbo2-col_col8_his1"
+        },
+        "input5": {
+          "con": "con-ecu_ecu3_sbo3-col_col8_his1"
+        },
+        "input6": {
+          "con": "con-ecu_ecu4_boi1-col_col8_his1"
+        },
+        "input7": {
+          "con": "con-ecu_ecu5_boi2-col_col8_his1"
+        },
+        "input8": {
+          "con": "con-ecu_ecu6_boi3-col_col8_his1"
+        },
+        "input9": {
+          "con": "con-ecu_ecu7_boi4-col_col8_his1"
+        },
+        "input10": {
+          "con": "con-ecu_ecu8_boi5-col_col8_his1"
+        },
+        "input11": {
+          "con": "con-ecu_ecu9_boi6-col_col8_his1"
+        },
+        "input12": {
+          "con": "con-ecu_ecu12_stu1-col_col9_his2"
+        },
+        "input13": {
+          "con": "con-ecu_ecu13_stu2-col_col9_his2"
+        },
+        "input14": {
+          "con": "con-esu_esu2_ste-col_col9_his2"
+        },
+        "input15": {
+          "con": "con-col_col8_his1-col_col9_his2"
+        },
+        "input16": {
+          "con": "con-col_col9_his2-dem_dem1_pro1"
+        },
+        "input17": {
+          "con": "con-col_col9_his2-dem_dem2_pro2"
+        },
+        "input18": {
+          "con": "con-col_col9_his2-dem_dem3_pro3"
+        },
+        "input19": {
+          "con": "con-col_col9_his2-dem_dem4_pro4"
+        },
+        "input20": {
+          "con": "con-ecu_ecu17_cst1-col_col9_his2"
+        },
+        "input21": {
+          "con": "con-ecu_ecu18_cst2-col_col9_his2"
+        },
+        "input22": {
+          "con": "con-ecu_ecu15_shp1-col_col9_his2"
+        },
+        "input23": {
+          "con": "con-ecu_ecu16_shp2-col_col9_his2"
+        }
+      },
       "param": [
         {
+          "integrate": "True",
           "temp": 220,
-          "pressure": 1200000,
+          "pressure": 12,
           "description": "high pressure steam"
         }
       ]
@@ -405,10 +531,85 @@
       "name": "mis",
       "type": "gaseous",
       "ID": "par_par3_mis",
+      "inp": {
+        "input1": {
+          "element": "col_col2_mis1"
+        },
+        "input2": {
+          "element": "col_col4_mis2"
+        },
+        "input3": {
+          "con": "con-ecu_ecu1_sbo1-col_col2_mis1"
+        },
+        "input4": {
+          "con": "con-ecu_ecu2_sbo2-col_col2_mis1"
+        },
+        "input5": {
+          "con": "con-ecu_ecu3_sbo3-col_col2_mis1"
+        },
+        "input6": {
+          "con": "con-ecu_ecu4_boi1-col_col2_mis1"
+        },
+        "input7": {
+          "con": "con-ecu_ecu5_boi2-col_col2_mis1"
+        },
+        "input8": {
+          "con": "con-ecu_ecu6_boi3-col_col2_mis1"
+        },
+        "input9": {
+          "con": "con-ecu_ecu7_boi4-col_col2_mis1"
+        },
+        "input10": {
+          "con": "con-ecu_ecu8_boi5-col_col2_mis1"
+        },
+        "input11": {
+          "con": "con-ecu_ecu9_boi6-col_col2_mis1"
+        },
+        "input12": {
+          "con": "con-ecu_ecu12_stu1-col_col4_mis2"
+        },
+        "input13": {
+          "con": "con-ecu_ecu13_stu2-col_col4_mis2"
+        },
+        "input14": {
+          "con": "con-esu_esu2_ste-col_col4_mis2"
+        },
+        "input15": {
+          "con": "con-col_col2_mis1-col_col4_mis2"
+        },
+        "input16": {
+          "con": "con-col_col4_mis2-dem_dem1_pro1"
+        },
+        "input17": {
+          "con": "con-col_col4_mis2-dem_dem2_pro2"
+        },
+        "input18": {
+          "con": "con-col_col4_mis2-dem_dem3_pro3"
+        },
+        "input19": {
+          "con": "con-col_col4_mis2-dem_dem4_pro4"
+        },
+        "input20": {
+          "con": "con-ecu_ecu17_cst1-col_col4_mis2"
+        },
+        "input21": {
+          "con": "con-ecu_ecu18_cst2-col_col4_mis2"
+        },
+        "input22": {
+          "con": "con-ecu_ecu15_shp1-col_col4_mis2"
+        },
+        "input23": {
+          "con": "con-ecu_ecu16_shp2-col_col4_mis2"
+        },
+        "input24": {
+          "con": "con-eso_eso17_ste-col_col2_mis1"
+        }
+      },
       "param": [
         {
+          "integrate": "True",
           "temp": 180,
-          "pressure": 800000,
+          "pressure": 8,
           "description": "middle pressure steam"
         }
       ]
@@ -417,10 +618,79 @@
       "name": "los",
       "type": "gaseous",
       "ID": "par_par4_los",
+      "inp": {
+        "input1": {
+          "element": "col_col7_los1"
+        },
+        "input2": {
+          "element": "col_col5_los2"
+        },
+        "input3": {
+          "con": "con-ecu_ecu4_boi1-col_col7_los1"
+        },
+        "input4": {
+          "con": "con-ecu_ecu5_boi2-col_col7_los1"
+        },
+        "input5": {
+          "con": "con-ecu_ecu6_boi3-col_col7_los1"
+        },
+        "input6": {
+          "con": "con-ecu_ecu7_boi4-col_col7_los1"
+        },
+        "input7": {
+          "con": "con-ecu_ecu8_boi5-col_col7_los1"
+        },
+        "input8": {
+          "con": "con-ecu_ecu9_boi6-col_col7_los1"
+        },
+        "input9": {
+          "con": "con-ecu_ecu12_stu1-col_col5_los2"
+        },
+        "input10": {
+          "con": "con-ecu_ecu13_stu2-col_col5_los2"
+        },
+        "input11": {
+          "con": "con-ecu_ecu15_shp1-col_col5_los2"
+        },
+        "input12": {
+          "con": "con-ecu_ecu16_shp2-col_col5_los2"
+        },
+        "input13": {
+          "con": "con-esu_esu2_ste-col_col5_los2"
+        },
+        "input14": {
+          "con": "con-col_col7_los1-col_col5_los2"
+        },
+        "input15": {
+          "con": "con-col_col5_los2-dem_dem1_pro1"
+        },
+        "input16": {
+          "con": "con-col_col5_los2-dem_dem2_pro2"
+        },
+        "input17": {
+          "con": "con-col_col5_los2-dem_dem3_pro3"
+        },
+        "input18": {
+          "con": "con-col_col5_los2-dem_dem4_pro4"
+        },
+        "input19": {
+          "con": "con-col_col5_los2-eso_eso18_dhe"
+        },
+        "input20": {
+          "con": "con-eso_eso24_pdh-col_col7_los1"
+        },
+        "input21": {
+          "con": "con-ecu_ecu17_cst1-col_col5_los2"
+        },
+        "input22": {
+          "con": "con-ecu_ecu18_cst2-col_col5_los2"
+        }
+      },
       "param": [
         {
+          "integrate": "True",
           "temp": 145,
-          "pressure": 400000,
+          "pressure": 4,
           "description": "low pressure steam"
         }
       ]
@@ -1248,23 +1518,23 @@
       "out": "ecu_ecu3_sbo3"
     },
     "con165": {
-      "ID": "con-eso_eso1_nga1-dem_dem1_pro1",
-      "inp": "eso_eso1_nga1",
+      "ID": "con-eso_eso1_nga-dem_dem1_pro1",
+      "inp": "eso_eso1_nga",
       "out": "dem_dem1_pro1"
     },
     "con166": {
-      "ID": "con-eso_eso1_nga1-dem_dem2_pro2",
-      "inp": "eso_eso1_nga1",
+      "ID": "con-eso_eso1_nga-dem_dem2_pro2",
+      "inp": "eso_eso1_nga",
       "out": "dem_dem2_pro2"
     },
     "con167": {
-      "ID": "con-eso_eso1_nga1-dem_dem3_pro3",
-      "inp": "eso_eso1_nga1",
+      "ID": "con-eso_eso1_nga-dem_dem3_pro3",
+      "inp": "eso_eso1_nga",
       "out": "dem_dem3_pro3"
     },
     "con168": {
-      "ID": "con-eso_eso1_nga1-dem_dem4_pro4",
-      "inp": "eso_eso1_nga1",
+      "ID": "con-eso_eso1_nga-dem_dem4_pro4",
+      "inp": "eso_eso1_nga",
       "out": "dem_dem4_pro4"
     },
     "con169": {
@@ -2103,17 +2373,18 @@
           "max_capacity": 100,
           "min_capacity": 10,
           "minload": 30,
-          "fullload_efficiency": 80,
-          "minload_efficiency": 70,
+          "fullload_efficiency": 92,
+          "minload_efficiency": 85,
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
           "start_up": 6,
           "shut_down": 6,
-          "inv_fix": 10000,
-          "inv_cap": 100,
+          "inv_fix": 100000,
+          "inv_cap": 40000,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2177,21 +2448,22 @@
       "param": [
         {
           "integrate": "True",
-          "exist": "False",
-          "max_capacity": 100,
-          "min_capacity": 10,
+          "exist": "True",
+          "max_capacity": 40,
+          "min_capacity": 5,
           "minload": 30,
-          "fullload_efficiency": 80,
-          "minload_efficiency": 70,
+          "fullload_efficiency": 91,
+          "minload_efficiency": 91,
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
           "start_up": 6,
           "shut_down": 6,
-          "inv_fix": 10000,
-          "inv_cap": 100,
+          "inv_fix": 100000,
+          "inv_cap": 40000,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2254,7 +2526,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 100,
           "min_capacity": 10,
@@ -2269,7 +2541,8 @@
           "inv_fix": 10000,
           "inv_cap": 100,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2332,7 +2605,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 50,
           "min_capacity": 5,
@@ -2347,7 +2620,8 @@
           "inv_fix": 10000,
           "inv_cap": 100,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2410,7 +2684,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 50,
           "min_capacity": 5,
@@ -2425,7 +2699,8 @@
           "inv_fix": 10000,
           "inv_cap": 100,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2488,7 +2763,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 50,
           "min_capacity": 5,
@@ -2503,7 +2778,8 @@
           "inv_fix": 10000,
           "inv_cap": 100,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2566,7 +2842,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 50,
           "min_capacity": 5,
@@ -2581,7 +2857,8 @@
           "inv_fix": 10000,
           "inv_cap": 100,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2644,7 +2921,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 50,
           "min_capacity": 5,
@@ -2659,7 +2936,8 @@
           "inv_fix": 10000,
           "inv_cap": 100,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2722,7 +3000,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 50,
           "min_capacity": 5,
@@ -2737,7 +3015,8 @@
           "inv_fix": 10000,
           "inv_cap": 100,
           "opex_main": 0.01,
-          "opex_fix": 10
+          "opex_fix": 10,
+          "opex_start": 0
         }
       ]
     },
@@ -2772,7 +3051,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 100,
           "min_capacity": 2.5,
@@ -2823,7 +3102,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 100,
           "min_capacity": 2.5,
@@ -2874,7 +3153,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 100,
           "min_capacity": 5,
@@ -2925,7 +3204,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 100,
           "min_capacity": 5,
@@ -2976,9 +3255,9 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
-          "max_capacity": 20,
+          "max_capacity": 40,
           "min_capacity": 0.5,
           "minload": 25,
           "fullload_efficiency": 45,
@@ -3027,7 +3306,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 50,
           "min_capacity": 2,
@@ -3082,7 +3361,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 50,
           "min_capacity": 2,
@@ -3133,7 +3412,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 100,
           "min_capacity": 5,
@@ -3184,7 +3463,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "max_capacity": 100,
           "min_capacity": 5,
@@ -3225,7 +3504,7 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "cap_max": 200,
           "cap_min": 5,
@@ -3267,12 +3546,18 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "cap_max": 200,
-          "cap_min": 5,
-          "soc_min": 5,
-          "power_max": 50
+          "cap_min": 1,
+          "soc_min": 1,
+          "power_max": 50,
+          "eta_stor": 99,
+          "eta_char": 97,
+          "eta_dis": 97,
+          "inv_fix": 1000,
+          "invest_cap": 1000,
+          "inv_power": 500
         }
       ]
     },
@@ -3307,12 +3592,18 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "cap_max": 200,
           "cap_min": 5,
           "soc_min": 5,
-          "power_max": 50
+          "power_max": 50,
+          "eta_stor": 99,
+          "eta_char": 97,
+          "eta_dis": 97,
+          "inv_fix": 1000,
+          "invest_cap": 1000,
+          "inv_power": 500
         }
       ]
     },
@@ -3343,12 +3634,18 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "exist": "False",
           "cap_max": 200,
           "cap_min": 5,
           "soc_min": 5,
-          "power_max": 50
+          "power_max": 50,
+          "eta_stor": 99,
+          "eta_char": 97,
+          "eta_dis": 97,
+          "inv_fix": 1000,
+          "invest_cap": 1000,
+          "inv_power": 500
         }
       ]
     }
@@ -3394,22 +3691,22 @@
       "param": [
         {
           "integrate": "True",
-          "days_off": 15,
-          "p_gas_max": 5,
-          "p_his_max": 2,
-          "p_mis_max": 2,
-          "p_los_max": 2,
-          "p_ele_max": 2,
-          "massflow_hua": 2,
-          "temp_hua": 2,
+          "days_off": 0,
+          "p_gas_max": 3,
+          "p_his_max": 0,
+          "p_mis_max": 20,
+          "p_los_max": 20,
+          "p_ele_max": 15,
+          "massflow_hua": 0,
+          "temp_hua": 60,
           "abshum_hua": 2,
-          "massflow_owh": 2,
+          "massflow_owh": 0,
           "medium_owh": {
             "option1": "air",
             "option2": "water",
             "option3": "fluegas"
           },
-          "temp_owh": 2,
+          "temp_owh": 25,
           "pressure_owh": 2
         }
       ]
@@ -3453,19 +3750,19 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "days_off": 15,
-          "p_gas_max": 5,
-          "p_his_max": 2,
-          "p_mis_max": 2,
-          "p_los_max": 2,
-          "p_ele_max": 2,
+          "p_gas_max": 3.4,
+          "p_his_max": 2.5,
+          "p_mis_max": 2.7,
+          "p_los_max": 2.2,
+          "p_ele_max": 3.2,
           "massflow_hua": 2,
-          "temp_hua": 2,
+          "temp_hua": 80,
           "abshum_hua": 2,
           "massflow_owh": 2,
           "medium_owh": "option1",
-          "temp_owh": 2,
+          "temp_owh": 90,
           "pressure_owh": 2
         }
       ]
@@ -3509,19 +3806,19 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,
           "p_mis_max": 2,
           "p_los_max": 2,
           "p_ele_max": 2,
-          "massflow_hua": 2,
-          "temp_hua": 2,
+          "massflow_hua": 40,
+          "temp_hua": 40,
           "abshum_hua": 2,
           "massflow_owh": 2,
           "medium_owh": "option1",
-          "temp_owh": 2,
+          "temp_owh": 20,
           "pressure_owh": 2
         }
       ]
@@ -3565,19 +3862,19 @@
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": "False",
           "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,
           "p_mis_max": 2,
           "p_los_max": 2,
           "p_ele_max": 2,
-          "massflow_hua": 2,
-          "temp_hua": 2,
+          "massflow_hua": 5,
+          "temp_hua": 50,
           "abshum_hua": 2,
           "massflow_owh": 2,
           "medium_owh": "option1",
-          "temp_owh": 2,
+          "temp_owh": 50,
           "pressure_owh": 2
         }
       ]

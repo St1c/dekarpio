@@ -90,6 +90,7 @@ heat_types = dict (
     q_los='ST lp',
     q_mis='ST mp',
     q_his='ST hp',
-    q_lis='ST vhp'
+    q_lis='ST vhp',
+    q='ST'
     )
 
