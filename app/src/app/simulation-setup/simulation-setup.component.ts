@@ -61,7 +61,10 @@ export class SimulationSetupComponent {
         this.configProvider.getConfigFromAssets(),
         this.svgLoaded$.asObservable()
       ]).subscribe(([config, defaultConfig, svgLoaded]: [Simulation, Object, boolean]) => {
-        this.config = config?.settings ? JSON.parse(config.settings) : defaultConfig;
+        // @TODO: For now just use the default config
+        this.config = defaultConfig;
+        // @TODO: But in the future, use the config from the DB
+        // this.config = config?.settings ? JSON.parse(config.settings) : defaultConfig;
         this.configurableShapeNames = this.getConfigurableShapeNames(this.config);
         this.elements = this.getConfigurableElements();
         this.bindHoverListenersToConfigurableElements();
