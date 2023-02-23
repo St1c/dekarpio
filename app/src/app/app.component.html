@@ -1,17 +1,16 @@
 <mat-toolbar color="primary">
   <button mat-icon-button
-          routerLink="/simulation-results"
           class="example-icon"
           aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
   </button>
   <span routerLink="/simulation-setup">DekarPIO</span>
-  <span class="example-spacer"></span>
+  <span class="spacer"></span>
   <button mat-icon-button
-          routerLink="/login"
           class="example-icon"
-          aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
+          aria-label="Example icon-button with share icon"
+          (click)="logout()">
+    <mat-icon>logout</mat-icon>
   </button>
 </mat-toolbar>
 
