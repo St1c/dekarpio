@@ -317,7 +317,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 # --- :                    esoparam['lim_actual']         # handled in parse_eso_type
                 # --- :                    esoparam['inv_fix']            # handled in parse_eso_type
                 # --- :                    esoparam['inv_power']          # handled in parse_eso_type
-                # --- :                    esoparam['inv_energy']         # handled in parse_eso_type
+                'grid_energy':              esoparam['grid_energy']
             }
 
             mapkey = tl_map[esoobj['ID']]
@@ -326,8 +326,10 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
             for period_no, period_dict in enumerate(tl):
                 period_str = str(period_no)
+                fee_costs = 10      #todo automatisieren aus json input (loop ueber grid_energy)
+                energy_costs = np.array(tl[period_no][mapkey]) * esoparam['energy']    # scaling normalized timeline values
                 tempParam['seq'].update({
-                    period_str: np.array(tl[period_no][mapkey]) * esoparam['energy']    # scaling normalized timeline values
+                    period_str: fee_costs + energy_costs
                 })
 
             parse_eso_type(classname, esoobj, tempParam)
