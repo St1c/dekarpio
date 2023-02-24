@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -25,8 +25,24 @@ export class ConfigFormComponent implements ControlValueAccessor {
     });
 
     this.form.valueChanges.subscribe(changes => {
-      this.onChange(this.form.value);
+      this.onChange(this.form.getRawValue());
       this.onTouch();
+    });
+
+    this.form.get('integrate')?.valueChanges.subscribe(value => {
+      if (!value) {
+        // disable all other controls
+        this.keys.map(key => {
+          if (key == 'integrate') return;
+          this.form.get(key)?.disable({emitEvent: false});
+        });
+      } else {
+        // enable all other controls
+        this.keys.map(key => {
+          if (key == 'integrate') return;
+          this.form.get(key)?.enable({emitEvent: false});
+        });
+      }
     });
   }
 
@@ -38,7 +54,7 @@ export class ConfigFormComponent implements ControlValueAccessor {
     });
 
     this.form.patchValue({
-      "integrate": params.integrate
+      "integrate": Boolean(params.integrate)
     });
   }
 

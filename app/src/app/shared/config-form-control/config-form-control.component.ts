@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ConfigProvider } from 'src/app/core/config.provider';
 
 export class ConfigFormControl<T> {
@@ -14,11 +14,10 @@ export class ConfigFormControl<T> {
     name: T,
     displayname: string,
     type: string,
-    options?: any[]
+    options?: any[];
     unit?: string,
     description?: string,
   }) {
-    // console.log(options);
     this.name = options.name;
     this.options = undefined;
     this.displayName = options.displayname;
@@ -65,11 +64,10 @@ export class ConfigFormControlComponent implements OnInit, ControlValueAccessor 
   config!: ConfigFormControl<any>;
 
   private metaData: any;
-  private onChange: any = () => {}
-  private onTouch: any = () => {}
+  private onChange: any = () => { };
+  private onTouch: any = () => { };
 
   constructor(
-    private fb: FormBuilder,
     private configService: ConfigProvider
   ) {
     this.metaData = this.configService.metaDataConfig?.meta;
@@ -77,11 +75,15 @@ export class ConfigFormControlComponent implements OnInit, ControlValueAccessor 
   }
 
   ngOnInit(): void {
-    this.controlValue.valueChanges.subscribe((val: any) => this.onChange(val));
+    this.controlValue.valueChanges.subscribe((val: any) => {
+      if (this.config.type === 'toggle') val = Boolean(val);
+      this.onChange(val);
+    });
     this.config = new ConfigFormControl<any>(this.metaData[this.name]);
   }
 
   writeValue(value: any): void {
+    if (this.config.type === 'toggle') value = Boolean(value);
     this.controlValue.setValue(value);
   }
 
@@ -93,8 +95,7 @@ export class ConfigFormControlComponent implements OnInit, ControlValueAccessor 
     this.onTouch = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    throw new Error('Method not implemented.');
+  setDisabledState(isDisabled: boolean): void {
+    isDisabled ? this.controlValue.disable({ emitEvent: false }) : this.controlValue.enable({ emitEvent: false });
   }
-
 }

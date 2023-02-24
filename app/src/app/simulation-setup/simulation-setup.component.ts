@@ -102,8 +102,6 @@ export class SimulationSetupComponent {
   private getConfigurableShapeNames(config: any) {
     const { col = {}, con = {}, ...configurables } = { ...config };
 
-    console.log(configurables);
-
     return Object.keys(configurables).map(
       keyL1 => Object.keys(configurables[keyL1])
         .map(keyL2 => configurables[keyL1][keyL2].ID)
@@ -132,7 +130,7 @@ export class SimulationSetupComponent {
   private svgClicked(event: any) {
     // API has changed, see: https://stackoverflow.com/questions/39245488/event-path-is-undefined-running-in-firefox/39245638#39245638
     const path = event.composedPath ? event.composedPath() : event.path;
-    console.log(path);
+
     for (const element of path) {
       if (element.id) {
         const title = element.querySelector('title');

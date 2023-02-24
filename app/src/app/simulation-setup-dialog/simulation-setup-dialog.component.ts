@@ -24,6 +24,7 @@ export class SimulationSetupDialogComponent {
     this.element = data.element;
     this.config = data.config;
 
+    // @TODO: This is a hack to get the params to work - probably not needed anymore
     if ('Param' in this.config) {
       this.params.setValue(this.config.Param[0]);
     }
@@ -34,10 +35,9 @@ export class SimulationSetupDialogComponent {
   }
 
   closeDialog() {
-    console.log(this.config)
     this.dialogRef.close({
       element: this.element,
-      params: {...this.config, Param: [{...this.params.value}]},
+      params: {...this.config, param: [{...this.params.value}]},
       state: this.params.value.integrate
     });
   }
