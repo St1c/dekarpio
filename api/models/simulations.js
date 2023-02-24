@@ -43,6 +43,6 @@ async function getAllUserSimulations(userId) {
 
 async function getLatestUserSimulation(userId) {
     return this.query(mysql.format(
-        'SELECT ?? FROM ?? WHERE `user_id` = ? ORDER BY `created_at` LIMIT 1', [this.readableAttributes, this.tableName, userId]
+        'SELECT ?? FROM ?? WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT 1', [this.readableAttributes, this.tableName, userId]
     ));
 }
