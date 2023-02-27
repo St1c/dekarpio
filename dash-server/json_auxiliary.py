@@ -317,7 +317,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 # --- :                    esoparam['lim_actual']         # handled in parse_eso_type
                 # --- :                    esoparam['inv_fix']            # handled in parse_eso_type
                 # --- :                    esoparam['inv_power']          # handled in parse_eso_type
-                'grid_energy':              esoparam['grid_energy']
+                #'grid_energy':              esoparam['grid_energy']
             }
 
             mapkey = tl_map[esoobj['ID']]
