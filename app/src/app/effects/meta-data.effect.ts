@@ -6,10 +6,9 @@ import { createEffect } from './effects.module';
 @Injectable({ providedIn: 'root' })
 export class MetadataEffects {
 
-
   metadata$ = createEffect(() =>
-    this.configService.getParamsConfig().pipe()
+    this.configProvider.getParamsConfig().pipe()
   );
 
-  constructor(private configService: ConfigProvider) {}
+  constructor(private configProvider: ConfigProvider) {}
 }
