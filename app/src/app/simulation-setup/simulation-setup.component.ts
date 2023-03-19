@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 
 import { combineLatest, Subject, Subscription } from 'rxjs';
