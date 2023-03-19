@@ -5,5 +5,5 @@ WORKDIR  /home/node/app
 USER node
 
 COPY --chown=node:node ./app/package.json ./app/package-lock.json ./
-RUN npm ci --force
+RUN npm install --force
 COPY --chown=node:node ./app .

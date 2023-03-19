@@ -47,13 +47,13 @@ $my-theme: mat.define-light-theme((
 
 
 // Imports functions, variables, and mixins that are needed by other Bootstrap files
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
 // Import Reboot
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/grid"; // add the grid
-@import "~bootstrap/scss/utilities"; // add css utilities
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/grid"; // add the grid
+@import "bootstrap/scss/utilities"; // add css utilities
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
