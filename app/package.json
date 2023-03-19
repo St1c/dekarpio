@@ -41,5 +41,11 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "typescript": "~4.2.3"
+  },
+  "overrides": {
+    "ng-ui-auth": {
+      "@angular/common": "^13.0.0 || ^14.0.0 || ^15.0.0",
+      "@angular/core": "^13.0.0 || ^14.0.0 || ^15.0.0"
+    }
   }
 }
