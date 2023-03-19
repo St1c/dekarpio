@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -28,9 +28,9 @@ export class SimulationSetupComponent {
   @ViewChild('layout', { static: false }) svgLayout!: ElementRef;
 
   clickedSvgElement: string = '';
-  options: FormGroup;
-  hideRequiredControl = new FormControl(false);
-  floatLabelControl = new FormControl('auto');
+  options: UntypedFormGroup;
+  hideRequiredControl = new UntypedFormControl(false);
+  floatLabelControl = new UntypedFormControl('auto');
   svgFile!: string;
 
   private configurableShapeNames: (string[]) = [];
@@ -40,7 +40,7 @@ export class SimulationSetupComponent {
   private subs = new Subscription();
 
   constructor(
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     public dialog: MatDialog,
     private renderer: Renderer2,
     private configProvider: ConfigProvider,

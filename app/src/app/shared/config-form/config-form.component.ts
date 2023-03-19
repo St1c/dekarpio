@@ -1,5 +1,5 @@
 import { Component, forwardRef } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-config-form',
@@ -13,13 +13,13 @@ import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALUE_ACC
 })
 export class ConfigFormComponent implements ControlValueAccessor {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   keys!: string[];
 
   private onChange: any = () => {}
   private onTouch: any = () => {}
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: UntypedFormBuilder) {
     this.form = this.fb.group({
       "integrate": false,
     });
@@ -50,7 +50,7 @@ export class ConfigFormComponent implements ControlValueAccessor {
     const params = obj;
     this.keys = Object.keys(params).filter(key => key != 'description');
     this.keys.map(key => {
-      this.form.addControl(key, new FormControl(params[key]));
+      this.form.addControl(key, new UntypedFormControl(params[key]));
     });
 
     this.form.patchValue({

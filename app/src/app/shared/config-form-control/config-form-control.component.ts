@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ConfigProvider } from 'src/app/core/config.provider';
 
 export class ConfigFormControl<T> {
@@ -60,7 +60,7 @@ export class ConfigFormControlComponent implements OnInit, ControlValueAccessor 
 
   @Input('formControlName') name!: string;
 
-  controlValue: FormControl;
+  controlValue: UntypedFormControl;
   config!: ConfigFormControl<any>;
 
   private metaData: any;
@@ -71,7 +71,7 @@ export class ConfigFormControlComponent implements OnInit, ControlValueAccessor 
     private configService: ConfigProvider
   ) {
     this.metaData = this.configService.metaDataConfig?.meta;
-    this.controlValue = new FormControl('');
+    this.controlValue = new UntypedFormControl('');
   }
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from '../simulation-setup/simulation-setup.component';
 
@@ -13,7 +13,7 @@ export class SimulationSetupDialogComponent {
   element: any;
   config: any;
 
-  params = new FormControl();
+  params = new UntypedFormControl();
 
   constructor(
     public dialogRef: MatDialogRef<SimulationSetupDialogComponent>,
