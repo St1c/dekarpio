@@ -1,5 +1,14 @@
+import { CommonModule, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 import { ConfigProvider } from 'src/app/core/config.provider';
 
 export class ConfigFormControl<T> {
@@ -48,6 +57,17 @@ export class ConfigFormControl<T> {
   selector: 'app-config-form-control',
   templateUrl: './config-form-control.component.html',
   styleUrls: ['./config-form-control.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

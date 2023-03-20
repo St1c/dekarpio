@@ -1,9 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
+import { InlineSVGModule } from 'ng-inline-svg';
 import { combineLatest, Subject, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -21,7 +23,15 @@ export interface DialogData {
 @Component({
   selector: 'app-simulation-setup',
   templateUrl: './simulation-setup.component.html',
-  styleUrls: ['./simulation-setup.component.scss']
+  styleUrls: ['./simulation-setup.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    InlineSVGModule,
+
+    MatButtonModule,
+    MatDialogModule
+  ],
 })
 export class SimulationSetupComponent {
 

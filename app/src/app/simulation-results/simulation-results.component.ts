@@ -1,13 +1,16 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 import { AuthService } from 'ng2-ui-auth';
+
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-simulation-results',
-  templateUrl: './simulation-results.component.html',
-  styleUrls: ['./simulation-results.component.scss']
+    selector: 'app-simulation-results',
+    templateUrl: './simulation-results.component.html',
+    styleUrls: ['./simulation-results.component.scss'],
+    standalone: true
 })
 export class SimulationResultsComponent implements OnInit {
 

@@ -1,10 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component, forwardRef } from '@angular/core';
-import { ControlValueAccessor, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+
+import { ConfigFormControlComponent } from '../config-form-control/config-form-control.component';
 
 @Component({
   selector: 'app-config-form',
   templateUrl: './config-form.component.html',
   styleUrls: ['./config-form.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ConfigFormControlComponent
+],
   providers: [{
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ConfigFormComponent),

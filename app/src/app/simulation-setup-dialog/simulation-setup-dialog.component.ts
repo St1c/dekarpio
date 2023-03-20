@@ -1,11 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+// import { ConfigFormControlComponent } from '../shared/config-form-control/config-form-control.component';
+import { ConfigFormComponent } from '../shared/config-form/config-form.component';
 import { DialogData } from '../simulation-setup/simulation-setup.component';
 
 @Component({
   selector: 'simulation-setup-dialog',
   templateUrl: './simulation-setup-dialog.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ConfigFormComponent,
+    MatDialogModule,
+    MatButtonModule,
+    ReactiveFormsModule
+]
 })
 export class SimulationSetupDialogComponent {
   title = '';
