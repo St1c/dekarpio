@@ -165,12 +165,13 @@ def read_structure(path):
     return structure
 
 
-def read_parameters(param_dict, period_list, label_list, no_timesteps):
+def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps):
     # ==================================================================================================================
     # HELPER FUNCTIONS
     # ==================================================================================================================
     def check_integrate_steam_level():
-        if steam_dict['param'][0]['integrate'] == "True":
+        if steam_dict['param'][0]['integrate'] == True:
+           #if steam_dict['param'][0]['integrate'] == "True":
             return True
         else:
             return False
@@ -194,8 +195,12 @@ def read_parameters(param_dict, period_list, label_list, no_timesteps):
         'tss': 24 / no_timesteps,  # tss: timestep length in hours
         'n_ts_sc': no_timesteps,  # n_ts_sc: nr. of timesteps per scenario/period
 
-        'interest_rate': 0.0,               # from global parameters
-        'depreciation_period': 10,          # from global parameters
+        'interest_rate': eco_dict['eco1']['param'][0]['interest_rate']/100,               # from global parameters
+        'depreciation_period': eco_dict['eco1']['param'][0]['depreciation_period'],          # from global parameters
+        'cost_co2_fossil': eco_dict['eco1']['param'][0]['price_co2_fossil'],
+        'cost_co2_biogen': eco_dict['eco1']['param'][0]['price_co2_biogen'],
+        'cost_gas_grid': eco_dict['eco1']['param'][0]['cost_gas_grid'],
+        'cost_power_grid': eco_dict['eco1']['param'][0]['cost_power_grid'],
         'opt': {'timelimit': 600,
                 'optimality_gap': 0.00},
         'expansion_costs': 5e4      # todo: €/MW ???
@@ -241,16 +246,18 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         # HELPER FUNCTIONS
         # ==================================================================================================================
         def check_eso_integration(temp_param):
-            if not esoobj['param'][0]['integrate'] == "True":
+            #if not esoobj['param'][0]['integrate'] == "True":
+            if not esoobj['param'][0]['integrate'] == True:
                 for cap in ['cap_s', 'cap_area']:
                     if cap in temp_param.keys():
                         temp_param[cap] = (0, 0)
 
         def get_eso_classname(eso_object):
-            if eso_object['param'][0]['description'] in ["electricity pv", "electricity ppa pv"]:
-                return "Photovoltaic"
-            else:
-                return "Supply"
+            return "Supply"
+            # 'if eso_object['param'][0]['description'] in ['electricity pv', 'electricity ppa pv']:
+            #     return "Photovoltaic"
+            # else:
+            #     return "Supply"'
 
         def parse_eso_type(name_string, eso_object, temp_param):
             eso_param = eso_object['param'][0]
@@ -286,13 +293,25 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
             elif name_string == 'Supply':
                 temp_param.update({
-                    'cost_max_ex':             sys.param['expansion_costs'],  # inv_var in .json, €/MW Zubau
-                    'cost_fix_ex':             0,                                # todo: inv_fix in .json hinzufügen (Sophie?); Fixkosten wenn zugebaut wird
-                    'cap_s':                   (0, esoparam['lim_technical']),   #
-                    'cap_existing':            esoparam['lim_actual']            #
-
-
+                    'cost_max_ex':             eso_param['inv_power'],           # done: inv_var in .json, €/MW Zubau --> sophie adapted to inv_power - erledigt
+                    'cost_fix_ex':             eso_param['inv_fix'],             # done: inv_fix in .json hinzufügen (Sophie?); Fixkosten wenn zugebaut wird - erledigt
+                    'cap_s':                   (0, eso_param['lim_technical']),   #
+                    'cap_existing':            eso_param['lim_actual']            #
                 })
+
+                # if eso_param['description'] == 'electricity ppa pv':
+                #      energy_costs = np.array(tl[period_no][mapkey]) * esoparam['energy']    # scaling normalized timeline values
+                # tempParam['flexbound'].update({
+                #     period_str: fee_costs + energy_costs
+                # })
+                #     temp_param.update({
+                #         'flexbound': 1,
+                #         # 'cap_existing':   eso_param['lim_actual'],      # todo: implement this for PV?
+                #         'inv_fix': 0,  # has to be zero for PV
+                #         'inv_var': 0,  # has to be zero for PV
+                #         # --- :             eso_param['inv_energy']       # todo: implement this for PV?
+                #
+                #     })
         # ==================================================================================================================
         # FUNCTION BODY
         # ==================================================================================================================
@@ -319,6 +338,14 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 # --- :                    esoparam['inv_power']          # handled in parse_eso_type
                 #'grid_energy':              esoparam['grid_energy']
             }
+            if 'co2_biogen' in esoparam.keys():
+                tempParam.update({
+                    'co2_biogen':            esoparam['co2_biogen'],
+                })
+            if 'co2_fossil' in esoparam.keys():
+                tempParam.update({
+                    'co2_fossil':            esoparam['co2_fossil'],
+                })
 
             mapkey = tl_map[esoobj['ID']]
             # todo: in timelines esostring, esoobj['name'] or esoobj['ID']?
@@ -326,7 +353,10 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
             for period_no, period_dict in enumerate(tl):
                 period_str = str(period_no)
-                fee_costs = 10      #todo automatisieren aus json input (loop ueber grid_energy)
+                if 'grid_energy' in esoparam.keys():
+                    fee_costs = esoparam['grid_energy']      #todo automatisieren aus json input (loop ueber grid_energy)
+                else:
+                    fee_costs = 0
                 energy_costs = np.array(tl[period_no][mapkey]) * esoparam['energy']    # scaling normalized timeline values
                 tempParam['seq'].update({
                     period_str: fee_costs + energy_costs
@@ -345,7 +375,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         # HELPER FUNCTIONS
         # ==================================================================================================================
         def check_ecu_integration(temp_param):
-            if ecuobj['param'][0]['integrate'] == "False":
+            if ecuobj['param'][0]['integrate'] == False:
+            #if ecuobj['param'][0]['integrate'] == "False":
                 for cap in ['cap_p', 'cap_q', 'cap_q_sink']:
                     if cap in temp_param.keys():
                         temp_param[cap] = (0, 0)
@@ -381,7 +412,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                               1 / (ecu_param['fullload_efficiency'] / 100)),
 
                     ## other entries needed for unit definition
-                    'T_in': 40,  # minimum uptime/downtime in hours, induces commitment binary variable
+                    'T_in': 50,  # minimum uptime/downtime in hours, induces commitment binary variable
                     'T_out': 160,  # minimum uptime/downtime in hours, induces commitment binary variable
                     'pressure': 5.5e5,  # minimum uptime/downtime in hours, induces commitment binary variable
                     'medium': 'Water',  # minimum uptime/downtime in hours, induces commitment binary variable
@@ -458,6 +489,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
             classname = get_ecu_classname(ecuobj)
 
             ecuparam = ecuobj['param'][0]
+
             tempParam = {
                 'classname': classname,  #
                 'name': ecuobj['ID'],  # todo: ecustring, ecuobj['name'] or ecuobj['ID']?
@@ -468,20 +500,27 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 # --- :         ecuobj['description']       # is used by method get_ecu_classname
                 # --- :         ecuobj['ID']                # is not relevant
 
-                'exists':       ecuparam['exist'],          # if it exists, inv costs are set to zero
+                #'exists':       ecuparam['exist'],          # if it exists, inv costs are set to zero
                 # --- :         ecuparam['integrate']       # is used by check_ecu_integration function
                 'ramp': (ecuparam['ramp'],
                          ecuparam['ramp']),  #
                 'min_utdt_ts': (ecuparam['min_on'],
                                 ecuparam['min_off']),  #
-                'max_susd': (ecuparam['start_up'],  #
-                             ecuparam['shut_down']),  #
+                'max_susd': (1, 1),  #
                 'inv_fix': ecuparam['inv_fix'],  #
                 'inv_var': ecuparam['inv_cap'],  #
                 # --- :         ecuparam['opex_main']       # todo add to doom
                 'opex_fix': ecuparam['opex_fix'],  # [€/Betriebsstunde]
                 'cost_susd': (ecuparam['opex_start'], 0),  # [€/Startvorgang] todo: needs to be added
             }
+
+            if ecuparam['exist'] == True:
+                tempParam.update({
+                    'exists':       'True', #ecuparam['exist'],
+                })
+                print([ecuobj['ID'], "considered true"])
+            # else:
+            #     tempParam.update({})
 
             parse_ecu_type(classname, ecuobj, tempParam)
 
@@ -501,7 +540,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
             return map[string]
 
         def check_process_integration(max_p):
-            if not processobj['param'][0]['integrate'] == "True":
+            #if not processobj['param'][0]['integrate'] == "True":
+            if not processobj['param'][0]['integrate'] == True:
                 return 0.0
             else:
                 return max_p
@@ -593,7 +633,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         # HELPER FUNCTIONS
         # ==================================================================================================================
         def check_esu_integration(tempParam):
-            if not esuobj['param'][0]['integrate'] == "True":
+            #if not esuobj['param'][0]['integrate'] == "True":
+            if not esuobj['param'][0]['integrate'] == True:
                 for cap in ['cap_soc']:
                     if cap in tempParam.keys():
                         tempParam[cap] = (0, 0)

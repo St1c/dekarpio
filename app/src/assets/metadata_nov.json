@@ -1,260 +1,274 @@
 {
   "meta": {
     "integrate": {
-      "unit":"none",
-      "type":"slide toggle",
-      "description":"Shall this energy carrier be integrated or not",
-      "displayname":"Integration in superstructure"
+      "unit": "none",
+      "type": "slide toggle",
+      "description": "Shall this componenten (e.g. energy carrier, energy conversion unit, storage, demand, etc.) be integrated or not",
+      "displayname": "Integration in superstructure?"
     },
-    "grid": {
-      "unit":"EUR/MW",
-      "type":"value",
-      "description":"Grid related share of energy costs",
-      "displayname":"Grid costs"
+    "grid_power": {
+      "unit": "type",
+      "type": "select",
+      "options": [
+        {
+          "key": "option1",
+          "value": "gas-grid"
+        },
+        {
+          "key": "option2",
+          "value": "power-grid"
+        },
+        {
+          "key": "option3",
+          "value": "no-grid"
+        }
+      ],
+      "description": "Option to indicate whether energy carrier is consumed via gas grid, power grid or no grid",
+      "displayname": "Type of connected grid"
+    },
+    "grid_energy": {
+      "unit": "EUR/MWh",
+      "type": "value",
+      "description": "Energy-related share of infrastructure (grid) energy costs",
+      "displayname": "Infrastructure, e.g. grid, costs for energy"
     },
     "energy": {
-      "unit":"EUR/MWh",
-      "type":"value",
-      "description":"Energy related share of energy costs and purchases",
-      "displayname":"Energy costs"
+      "unit": "EUR/MWh",
+      "type": "value",
+      "description": "Energy costs for purchase and sale of energy",
+      "displayname": "Energy costs"
     },
     "lim_actual": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Actual limit for power consumption or selling, if necessarry: used to scale profile (PV,Wind ,District Heat feed in)",
-      "displayname":"Actual power consumption limit"
+      "unit": "MW",
+      "type": "value",
+      "description": "Actual limit for power consumption or selling, if necessary: used to scale profile (PV,Wind ,District Heat feed in)",
+      "displayname": "Actual power consumption limit"
     },
     "lim_technical": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Technical feasible maximum limit for power consumption, would require additional investment",
-      "displayname":"Technical maximum of power consumption"
+      "unit": "MW",
+      "type": "value",
+      "description": "Technical feasible upper limit for power (thermal or electrical) consumption, increase from 'Actual power consumption limit' towards this number requires additional investment, needs to be >= than 'Actual power consumption limit'",
+      "displayname": "Technical upper bound of power consumption"
+    },
+    "co2_fossil": {
+      "unit": "t/MWh",
+      "type": "value",
+      "description": "Fossil CO2 emissions per MWh of this energy carrier",
+      "displayname": "Fossil CO2-factor"
+    },
+    "co2_biogen": {
+      "unit": "t/MWh",
+      "type": "value",
+      "description": "Biogenous CO2 emissions per MWh of this energy carrier",
+      "displayname": "Biogenous CO2-factor"
     },
     "inv_fix": {
-      "unit":"EUR",
-      "type":"value",
-      "description":"Fixed costs if insvestment decision is made",
-      "displayname":"Fixed investment costs for limit extension"
+      "unit": "EUR",
+      "type": "value",
+      "description": "Fixed costs as soon as investment decision is made",
+      "displayname": "Fixed investment costs"
     },
     "inv_power": {
-      "unit":"EUR/MW",
-      "type":"value",
-      "description":"Power related costs if investment decision is made",
-      "displayname":"Power-related costs for limit extension"
+      "unit": "EUR/MW",
+      "type": "value",
+      "description": "Specific power-related costs for investment, e.g. for limit extension of sources or for conversion units or storages",
+      "displayname": "Power-related costs for investment"
     },
     "inv_energy": {
-      "unit":"EUR/MWh",
-      "type":"value",
-      "description":"Energy related costs if investment decision is made",
-      "displayname":"Energy-related costs for limit extension"
+      "unit": "EUR/MWh",
+      "type": "value",
+      "description": "Energy related costs if investment decision is made",
+      "displayname": "Energy-related costs for limit extension"
     },
     "exist": {
-      "unit":"none",
-      "type":"slide toggle",
-      "description":"does this unit Exist or not",
-      "displayname":"Current existence"
+      "unit": "none",
+      "type": "slide toggle",
+      "description": "does this unit already exist or not (needs to be build, leads to investment",
+      "displayname": "Current existence"
     },
     "max_capacity": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Upper bound of capacity for new units or upper bound of existing unit. Depending on unit: for boilers and heat pumps regarding thermal generation, for turbines regarding electricity generation",
-      "displayname":"Maximum capacity"
+      "unit": "MW",
+      "type": "value",
+      "description": "Upper bound of capacity for new units or upper bound of existing unit. Depending on unit: for boilers and heat pumps regarding thermal generation, for turbines regarding electricity generation",
+      "displayname": "Maximum capacity"
     },
     "min_capacity": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Only relevant for new units à can not be build smaller than this. Depending on unit: for boilers and heat pumps regarding thermal generation, for turbines regarding electricity generation",
-      "displayname":"Minimum capacity"
+      "unit": "MW",
+      "type": "value",
+      "description": "Only relevant for new units à can not be build smaller than this. Depending on unit: for boilers and heat pumps regarding thermal generation, for turbines regarding electricity generation",
+      "displayname": "Minimum capacity"
     },
     "minload": {
-      "unit":"%",
-      "type":"value",
-      "description":"Minimum part-load operation point related to full load.Depending on unit: for boilers and heat pumps regarding thermal generation, for turbines regarding electricity generation",
-      "displayname":"Minimal part load operation"
+      "unit": "%",
+      "type": "value",
+      "description": "Minimum part-load operation point related to full load.Depending on unit: for boilers and heat pumps regarding thermal generation, for turbines regarding electricity generation",
+      "displayname": "Minimal part load operation"
     },
     "fullload_efficiency": {
-      "unit":"%",
-      "type":"value",
-      "description":"Efficiency for full load operation. Depending on unit: for boilers and heat pumps regarding the 2end law efficiency, for turbines regarding electric efficiency",
-      "displayname":"Efficiency for full load"
+      "unit": "%",
+      "type": "value",
+      "description": "Efficiency for full load operation. Depending on unit: for boilers and heat pumps regarding the 2end law efficiency, for turbines regarding electric efficiency",
+      "displayname": "Efficiency for full load"
     },
     "minload_efficiency": {
-      "unit":"%",
-      "type":"value",
-      "description":"Efficiency for minimum load operation. Depending on unit: for boilers and heat pumps regarding the 2end law efficiency, for turbines regarding electric efficiency ",
-      "displayname":"Efficiency for minimum part load"
+      "unit": "%",
+      "type": "value",
+      "description": "Efficiency for minimum load operation. Depending on unit: for boilers and heat pumps regarding the 2end law efficiency, for turbines regarding electric efficiency ",
+      "displayname": "Efficiency at minimum part load"
     },
     "ramp": {
-      "unit":"%cap/h",
-      "type":"value",
-      "description":"ramping ability à 10 MW of 100 MW boiler per hour would be 10%cap/h",
-      "displayname":"Maximum load ramping"
+      "unit": "%cap/h",
+      "type": "value",
+      "description": "ramping ability of a unit, e.g. if a 100 MW boiler can change its load with 20 MW per hour would be 20 %cap/h",
+      "displayname": "Maximum load ramping ability"
     },
     "min_on": {
-      "unit":"h",
-      "type":"value",
-      "description":"Minimum running time after a start-up",
-      "displayname":"Minimum online time after start-up"
+      "unit": "h",
+      "type": "value",
+      "description": "Minimum running time after a start-up",
+      "displayname": "Minimum online time after start-up"
     },
     "min_off": {
-      "unit":"h",
-      "type":"value",
-      "description":"Minimum offline time of a unit after shut-down",
-      "displayname":"Minimum offline time after shut-down"
-    },
-    "start_up":	{
-      "unit":"h",
-      "type":"value",
-      "description":"start-up time",
-      "displayname":"Start-up time"
-    },
-    "shut_down": {
-      "unit":"h",
-      "type":"value",
-      "description":"shut-down time",
-      "displayname":"shut-down time"
+      "unit": "h",
+      "type": "value",
+      "description": "Minimum offline time of a unit after shut-down",
+      "displayname": "Minimum offline time after shut-down"
     },
     "inv_cap": {
-      "unit":"EUR/MW",
-      "type":"value",
-      "description":"Specific investment costs",
-      "displayname":"Specific investment costs"
+      "unit": "EUR/MW",
+      "type": "value",
+      "description": "Specific investment costs for integration of new units or new sources (e.g. PV modules, grid connection)",
+      "displayname": "Specific investment costs"
     },
-    "opex_main": {
-      "unit":"%inv/a",
-      "type":"value",
-      "description":"maintenance costs per year",
-      "displayname":"Annual maintenance costs"
-    },
-    "opex_fix":	{
-      "unit":"EUR/h",
-      "type":"value",
-      "description":"fixed hourly operation costs for unit",
-      "displayname":"Fixed  operation costs"
+    "opex_fix": {
+      "unit": "EUR/h",
+      "type": "value",
+      "description": "fixed hourly operation costs for unit",
+      "displayname": "Fixed  operation costs"
     },
     "opex_start": {
-      "unit":"EUR",
-      "type":"value",
-      "description":"costs for start of unit",
-      "displayname":"Start costs"
+      "unit": "EUR",
+      "type": "value",
+      "description": "costs for start of unit",
+      "displayname": "Start costs"
     },
     "soc_min": {
-      "unit":"%",
-      "type":"value",
-      "description":"minimum state of charge, related to capacity",
-      "displayname":"Minimum storage filling level"
+      "unit": "%",
+      "type": "value",
+      "description": "minimum state of charge, related to capacity",
+      "displayname": "Minimum storage filling level"
     },
     "cap_max": {
-      "unit":"MWh",
-      "type":"value",
-      "description":"Maximum capacity storage",
-      "displayname":"Maximum capacity"
+      "unit": "MWh",
+      "type": "value",
+      "description": "Maximum capacity storage",
+      "displayname": "Maximum capacity"
     },
     "cap_min": {
-      "unit":"MWh",
-      "type":"value",
-      "description":"Minimum capacity storage",
-      "displayname":"Minimum capacity"
+      "unit": "MWh",
+      "type": "value",
+      "description": "Minimum capacity storage",
+      "displayname": "Minimum capacity"
     },
     "power_max": {
-      "unit":"MW",
-      "type":"value",
-      "description":"loading and unloading capacity",
-      "displayname":"Charge and discharge power"
+      "unit": "MW",
+      "type": "value",
+      "description": "loading and unloading capacity",
+      "displayname": "Charge and discharge power"
     },
-    "eta_stor":	{
-      "unit":"%/h",
-      "type":"value",
-      "description":"storage losses",
-      "displayname":"Storage efficiency"
+    "eta_stor": {
+      "unit": "%/h",
+      "type": "value",
+      "description": "storage losses",
+      "displayname": "Storage efficiency"
     },
     "eta_char": {
-      "unit":"%",
-      "type":"value",
-      "description":"charge losses",
-      "displayname":"Charge efficiency"
+      "unit": "%",
+      "type": "value",
+      "description": "charge losses",
+      "displayname": "Charge efficiency"
     },
     "eta_dis": {
-      "unit":"%",
-      "type":"value",
-      "description":"discharge losses",
-      "displayname":"Discharge efficiency"
+      "unit": "%",
+      "type": "value",
+      "description": "discharge losses",
+      "displayname": "Discharge efficiency"
     },
     "invest_cap": {
-      "unit":"EUR/MWh",
-      "type":"value",
-      "description":"storage capacity (energy) related costs if investment decision is made",
-      "displayname":"Specific energy related investment costs"
+      "unit": "EUR/MWh",
+      "type": "value",
+      "description": "storage capacity (energy) related costs if investment decision is made",
+      "displayname": "Specific energy related investment costs"
     },
     "description": {
-      "unit":"none",
-      "type":"boolean",
-      "description":"not adaptable, only description",
-      "displayname":"description"
+      "unit": "none",
+      "type": "boolean",
+      "description": "not adaptable, only description",
+      "displayname": "description"
     },
     "days_off": {
-      "unit":"days/a",
-      "type":"value",
-      "description":"Number of days process is off",
-      "displayname":"Number of days process is off"
+      "unit": "days/a",
+      "type": "value",
+      "description": "Number of days process is off",
+      "displayname": "Number of days process is off"
     },
     "p_gas_max": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Maximum power gas demand",
-      "displayname":"Maximum gas demand"
+      "unit": "MW",
+      "type": "value",
+      "description": "Maximum power gas demand",
+      "displayname": "Maximum gas demand"
     },
     "p_his_max": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Maximum high pressure steam demand",
-      "displayname":"Maximum high pressures steam demand"
+      "unit": "MW",
+      "type": "value",
+      "description": "Maximum high pressure steam demand",
+      "displayname": "Maximum high pressures steam demand"
     },
     "p_mis_max": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Maximum middle pressure steam demand",
-      "displayname":"Maximum middle pressure steam demand"
+      "unit": "MW",
+      "type": "value",
+      "description": "Maximum middle pressure steam demand",
+      "displayname": "Maximum middle pressure steam demand"
     },
     "p_los_max": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Maximum low pressure steam demand",
-      "displayname":"Maximum low pressure steam demand"
+      "unit": "MW",
+      "type": "value",
+      "description": "Maximum low pressure steam demand",
+      "displayname": "Maximum low pressure steam demand"
     },
     "p_ele_max": {
-      "unit":"MW",
-      "type":"value",
-      "description":"Maximum electric power demand",
-      "displayname":"Maximum electric power demand"
+      "unit": "MW",
+      "type": "value",
+      "description": "Maximum electric power demand",
+      "displayname": "Maximum electric power demand"
     },
     "massflow_hua": {
-      "unit":"kg/s",
-      "type":"value",
-      "description":"Massflow humid air",
-      "displayname":"Massflow humid air"
+      "unit": "kg/s",
+      "type": "value",
+      "description": "Massflow humid air",
+      "displayname": "Massflow humid air"
     },
-    "temp_hua":	{
-      "unit":"°C",
-      "type":"value",
-      "description":"Temperature humid air",
-      "displayname":"Temperature humid air"
+    "temp_hua": {
+      "unit": "°C",
+      "type": "value",
+      "description": "Temperature humid air",
+      "displayname": "Temperature humid air"
     },
     "abshum_hua": {
-      "unit":"gH2O/kgDryair",
-      "type":"value",
-      "description":"Absolute humidity humid air",
-      "displayname":"Absolute humidity humid air"
+      "unit": "gH2O/kgDryair",
+      "type": "value",
+      "description": "Absolute humidity humid air",
+      "displayname": "Absolute humidity humid air"
     },
     "massflow_owh": {
-      "unit":"kg/s",
-      "type":"value",
-      "description":"Massflow other waste heat stream",
-      "displayname":"Massflow other waste heat stream"
+      "unit": "kg/s",
+      "type": "value",
+      "description": "Massflow other waste heat stream",
+      "displayname": "Massflow other waste heat stream"
     },
     "medium_owh": {
-      "unit":"none",
-      "type":"select",
+      "unit": "none",
+      "type": "select",
       "options": [
         {
           "key": "option1",
@@ -269,33 +283,182 @@
           "value": "fluegas"
         }
       ],
-      "description":"Medium other waste heat stream (air, water, fluegas)",
-      "displayname":"Medium other waste heat stream"
+      "description": "Medium other waste heat stream (air, water, fluegas)",
+      "displayname": "Medium other waste heat stream"
     },
     "temp_owh": {
-      "unit":"°C",
-      "type":"value",
-      "description":"Initial temperature other waste heat stream",
-      "displayname":"Temperature other waste heat stream"
+      "unit": "°C",
+      "type": "value",
+      "description": "Initial temperature other waste heat stream",
+      "displayname": "Temperature other waste heat stream"
     },
     "pressure_owh": {
-      "unit":"pascal",
-      "type":"value",
-      "description":"pressure other waste heat stream",
-      "displayname":"Pressure other waste heat stream"
+      "unit": "bar_a",
+      "type": "value",
+      "description": "absolute pressure of an other waste heat stream in bar",
+      "displayname": "Pressure (absolute) other waste heat stream"
     },
-    "pressure":	{
-      "unit":"pascal",
-      "type":"value",
-      "description":"pressure of steam levels",
-      "displayname":"Pressure"
+    "pressure": {
+      "unit": "bar_a",
+      "type": "value",
+      "description": "absolute pressure of steam levels in bar",
+      "displayname": "Pressure (absolute)"
     },
     "temp": {
-      "unit":"°C",
-      "type":"value",
-      "description":"temperature of steam levels",
-      "displayname":"Temperature"
+      "unit": "°C",
+      "type": "value",
+      "description": "temperature of steam levels",
+      "displayname": "Temperature"
+    },
+    "max_share_out_mis": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of provided energy of middle pressure steam in percent",
+      "displayname": "Max. heat - middle pressure steam"
+    },
+    "max_share_out_lis": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of provided energy of live steam in percent",
+      "displayname": "Max. heat - live steam"
+    },
+    "max_share_out_his": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of provided energy of high pressure steam in percent",
+      "displayname": "Max. heat - high pressure steam"
+    },
+    "max_share_out_los": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of provided energy of low pressure steam in percent",
+      "displayname": "Max. heat - low pressure steam"
+    },
+    "max_share_out_wwa": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of provided energy of warm water in percent",
+      "displayname": "Max. heat - warm water"
+    },
+    "max_share_in_biomass": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by biomass in percent",
+      "displayname": "Max. energy input - biomass"
+    },
+    "max_share_in_sludge": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by sludge in percent",
+      "displayname": "Max. energy input - sludge"
+    },
+    "max_share_in_internal_waste": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by internal waste streams in percent",
+      "displayname": "Max. energy input - int. waste"
+    },
+    "max_share_in_external_waste": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by external waste in percent",
+      "displayname": "Max. energy input - ext. wate"
+    },
+    "max_share_in_coal": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by coal in percent",
+      "displayname": "Max. energy input - coal"
+    },
+    "max_share_in_natural_gas": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by natural gas in percent",
+      "displayname": "Max. energy input - natural gas"
+    },
+    "max_share_in_biogas": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by biogas in percent",
+      "displayname": "Max. energy input - biogas"
+    },
+    "max_share_in_hydrogen": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by hydrogen in percent",
+      "displayname": "Max. energy input - hydrogen"
+    },
+    "max_share_in_other_solid": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by other solids in percent",
+      "displayname": "Max. energy input - other solid"
+    },
+    "max_share_in_oil": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by oil in percent",
+      "displayname": "Max. energy input - oil"
+    },
+    "max_share_in_biomethan": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by biomethan in percent",
+      "displayname": "Max. energy input - biomethan"
+    },
+    "max_share_in_electricity": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by electric power in percent",
+      "displayname": "Max. energy input - electricity"
+    },
+    "max_share_in_biofuel": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by biofuel in percent",
+      "displayname": "Max. energy input - biofuel"
+    },
+    "max_share_in_other_gaseous": {
+      "unit": "%",
+      "type": "value",
+      "description": "Maximum share of fuel that can be provided by other gaseous in percent",
+      "displayname": "Max. energy input - other gaseous"
+    },
+    "depreciation_period": {
+      "unit": "a",
+      "type": "value",
+      "description": "Depreciation period used to consider investment costs as total annual costs",
+      "displayname": "Depreciation period"
+    },
+    "interest_rate": {
+      "unit": "%",
+      "type": "value",
+      "description": "Interest rate used to consider investment costs as total annual costs",
+      "displayname": "Interest rate"
+    },
+    "price_co2_fossil": {
+      "unit": "EUR/t",
+      "type": "value",
+      "description": "Certificate costs for fossil CO2 emissions",
+      "displayname": "Certificate cost - fossil"
+    },
+    "price_co2_biogen": {
+      "unit": "EUR/t",
+      "type": "value",
+      "description": "Certificate costs for biogen CO2 emissions",
+      "displayname": "Certificate cost - biogen"
+    },
+    "cost_gas_grid": {
+      "unit": "EUR/MW.a",
+      "type": "value",
+      "description": "Power-related costs for gas grid bound energy carriers",
+      "displayname": "Cost gas grid (power-related)"
+    },
+    "cost_power_grid": {
+      "unit": "EUR/MW.a",
+      "type": "value",
+      "description": "Power-related costs for power grid bound energy carriers",
+      "displayname": "Cost power grid (power-related)"
     }
   }
 }
-

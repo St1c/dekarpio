@@ -11,8 +11,8 @@
       "out": {
         "output1":{ "element": "col_col1_mis", "share": 1}},
       "param": [{
-          "integrate": "true",
-          "exist": "true",
+          "integrate": true,
+          "exist": true,
           "cap_max": 10,
           "cap_min": 0.25,
           "min_operation": 0.1,
@@ -41,7 +41,7 @@
         "output1":{ "element": "col_col1_mis", "share": 1 } },
       "param": [
         {
-          "exist": "false",
+          "exist": false,
           "cap_max": 10,
           "cap_min": 0,
           "min_operation": 0,
@@ -206,23 +206,23 @@
       "ID": "col_col1_mis",
       "eca": "eca_eca4_mis",
       "in": {
-        "input1": { "con": "con-ecu_ecu1_gbo1-col_col1_mis", "active": "true" },
-        "input2": { "con": "con-ecu_ecu2_ebo1-col_col1_mis", "active": "true" }
+        "input1": { "con": "con-ecu_ecu1_gbo1-col_col1_mis", "active": true },
+        "input2": { "con": "con-ecu_ecu2_ebo1-col_col1_mis", "active": true }
       },
       "out": {
-        "output1": { "con": "con-col_col1_mis-dem_dem1_mis1", "active": "true"}
+        "output1": { "con": "con-col_col1_mis-dem_dem1_mis1", "active": true}
       }
     },
     "col2": {
       "ID": "col_col2_ele",
       "eca": "eca_eca2_ele",
        "in": {
-         "input1": {"con": "con-eso_eso3_egr-col_col2_ele", "active": "true"},
-         "input2": {"con": "con-est_est1_bat1-col_col2_ele", "active": "true"}
+         "input1": {"con": "con-eso_eso3_egr-col_col2_ele", "active": true},
+         "input2": {"con": "con-est_est1_bat1-col_col2_ele", "active": true}
        },
       "out": {
-        "output1":{"con": "con-col_col2_ele-dem_dem2_ele1", "active": "true"},
-        "output2":{"con": "con-col_col2_ele-est_est1_bat1", "active": "true"}
+        "output1":{"con": "con-col_col2_ele-dem_dem2_ele1", "active": true},
+        "output2":{"con": "con-col_col2_ele-est_est1_bat1", "active": true}
       }
     }
   },
@@ -240,8 +240,8 @@
       },
       "param": [
         {
-          "integrate": "true",
-          "exist": "true",
+          "integrate": true,
+          "exist": true,
           "cap": 3,
           "power": 1,
           "min": 0.15,
@@ -265,7 +265,7 @@
         "input1": {"element": "col_col1_mis", "share": 1}
       },
       "param": [{
-          "exists": "true",
+          "exists": true,
           "temp": 400,
           "pres": 4500000,
           "days_off": 15
@@ -280,7 +280,7 @@
         "input1": {"element": "col_col2_ele", "share": 1}
       },
       "param": [{
-          "exists": "true",
+          "exists": true,
           "P_average": 5
       }]
     }

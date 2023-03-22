@@ -23,7 +23,7 @@ def validateJson():
     dataDict = temp["data"][0]["settings"]
     dataDict = json.loads(dataDict)
 
-    resultDict = ecuRule(dataDict)
+    resultDict = ecuRule(dataDict)      #aktuell nur die umgeschrieben, die anderen zwei gehören noch umprogrammiert
 
     if resultDict:
         return jsonify({

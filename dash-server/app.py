@@ -58,7 +58,7 @@ app.layout = html.Div([
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
                         dbc.Row(
-                            dbc.Col(id="ColDataTable",width=12
+                            dbc.Col(id="ColDataTable", width=10
                             )
                         ),
                         dbc.Row(children=[
@@ -77,7 +77,7 @@ app.layout = html.Div([
                         ]),
                     ]),
                     
-                ], label="Tab 1", tab_id="tab-1"),
+                ], label="Operational Costs", tab_id="tab-1"),
 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -88,7 +88,7 @@ app.layout = html.Div([
                         ]),
                     ]),
                     
-                ], label="Tab 2", tab_id="tab-2"),
+                ], label="El. Generation", tab_id="tab-2"),
                 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -98,7 +98,7 @@ app.layout = html.Div([
                             ],width=12),
                         ]),
                     ]),
-                ], label="Tab 3", tab_id="tab-3"),
+                ], label="Heat Generation", tab_id="tab-3"),
 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -117,7 +117,7 @@ app.layout = html.Div([
                             ],width=12),
                         ]),
                     ]),
-                ], label="Tab 4", tab_id="tab-4"),
+                ], label="Steam Nodes", tab_id="tab-4"),
 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -127,7 +127,7 @@ app.layout = html.Div([
                             ],width=12),
                         ]),
                     ]),
-                ], label="Tab 5", tab_id="tab-5"),
+                ], label="Supply and Consumption", tab_id="tab-5"),
 
 
                 dbc.Tab(children=[
@@ -149,7 +149,7 @@ app.layout = html.Div([
                             dbc.Col(id="CostTable",width=12)
                         ]),
                     ]),
-                ], label="Tab 6", tab_id="tab-6"),
+                ], label="Opex 2", tab_id="tab-6"),
 
             ],id="card-tabs",active_tab="tab-1")
     ],style= {'display': 'none'}
@@ -208,7 +208,7 @@ def startSimulation(set_progress, data):
     count+=1
     set_progress((str(count), str(totalSteps)))
 
-    sysParam = ja.read_parameters(structure['par'], period_list, label_list, no_timesteps)
+    sysParam = ja.read_parameters(structure['par'], structure['eco'], period_list, label_list, no_timesteps)
 
     count+=1
     set_progress((str(count), str(totalSteps)))
@@ -316,21 +316,23 @@ def drawCostPlotUnit(jsondata):
         idCosts:[]
     }
 
-    sum_inv=0
+    sum_inv = 0
     for unit in units:
         if unit in jsondata['units']:
             obj = jsondata['units'][unit]['obj']  
 
-            if (('inv_fix' in obj.keys()) == True):
-                sum_inv += obj['inv_fix']
-            if (('inv_power' in obj.keys()) == True):
-                sum_inv += obj['inv_power']
-            if (('inv_energy' in obj.keys()) == True):
-                sum_inv += obj['inv_energy']
-            if (('inv_cap' in obj.keys()) == True):
-                sum_inv += obj['inv_cap']
-            if (('invest_cap' in obj.keys()) == True):
-                sum_inv += obj['invest_cap']
+            # if (('inv_fix' in obj.keys()) == True):
+            #     sum_inv += obj['inv_fix']
+            # if (('inv_power' in obj.keys()) == True):
+            #     sum_inv += obj['inv_power']
+            # if (('inv_energy' in obj.keys()) == True):
+            #     sum_inv += obj['inv_energy']
+            # if (('inv_cap' in obj.keys()) == True):
+            #     sum_inv += obj['inv_cap']
+            # if (('invest_cap' in obj.keys()) == True):
+            #     sum_inv += obj['invest_cap']
+            if (('inv' in obj.keys()) == True):
+                sum_inv += obj['inv']
 
             for key, val in obj.items():
                 if key not in capexopex.keys(): continue
@@ -374,8 +376,8 @@ def drawCostPlotUnit(jsondata):
             # dictfordf[idCosts].append(sum_start)
 
     
-    #maintenance costs :opex_main
-    sum_main=0
+    #co2 costs : co2_fossil or co2_biogen
+    sum_co2 = 0
     for unit in units:
         if unit in jsondata['units']:
 
@@ -384,14 +386,16 @@ def drawCostPlotUnit(jsondata):
             # dictfordf[idCostType].append("Maintenance Costs")
 
             obj = jsondata['units'][unit]['obj']  
-            if (('opex_main' in obj.keys()) == True):
-                sum_main += obj['opex_main']
+            if (('co2_fossil' in obj.keys()) == True):
+                sum_co2 += obj['co2_fossil']
+            if (('co2_biogen' in obj.keys()) == True):
+                sum_co2 += obj['co2_biogen']
             
             # dictfordf[idCosts].append(sum_main)
 
 
-    #electricity costs -> nochmal mit sophie besprechen ob aufteilung in brennstoff und electricity gerade gemeinsam
-    sum_ele=0
+    #fuel costs
+    sum_fuel = 0
     for unit in units:
         if unit in jsondata['units']:
             obj = jsondata['units'][unit]['obj']  
@@ -401,9 +405,9 @@ def drawCostPlotUnit(jsondata):
             # dictfordf[idCostType].append("Electricity Costs")
 
             if (('energy' in obj.keys()) == True):
-                sum_ele += obj['energy']
-            if (('energy' in obj.keys()) == True and ('grid' in obj.keys()) == True):
-                sum_ele += obj['grid']
+                sum_fuel += obj['energy']
+            if (('energy' in obj.keys()) == True and ('max_s' in obj.keys()) == True):
+                sum_fuel += obj['max_s']
             
             # dictfordf[idCosts].append(sum_ele)
 
@@ -411,9 +415,9 @@ def drawCostPlotUnit(jsondata):
 
 
     df_opex = pd.DataFrame({ 'Start costs': sum_start,
-                'Maintenance costs': sum_main,
+                'CO2 costs': sum_co2,
                 'Unit operation costs': sum_fix,
-                'Electricity costs': sum_ele},
+                'Fuel costs (purchase - sales)': sum_fuel},
                 index= ['Opex']
                 ) 
     df_capex = pd.DataFrame({'Investment costs': sum_inv},
@@ -428,13 +432,13 @@ def drawCostPlotUnit(jsondata):
     print(len(dictfordf[idCAPOP]))
     print(len(dictfordf[idCosts]))
 
-    sunburstdf = pd.DataFrame(dictfordf)
+    sunburstdf = round(pd.DataFrame(dictfordf), 3)
     print(sunburstdf)
 
     fig = px.bar(df_costs,
                 title = 'Total costs',
-                labels ={'index':'Cost type','value':'costs in EUR/a',
-                            'variable':'costs'},
+                labels ={'index': 'Cost Type', 'value': 'Costs in EUR/a',
+                            'variable': 'costs'},
                 barmode='relative',
                 orientation='h'
                 )
@@ -447,8 +451,8 @@ def drawCostPlotEso(jsondata):
     df = pd.concat([
                 pd.DataFrame(
                     {
-                        "Costs in Mio. Eur": jsondata['units'][unit_short]['obj'][cost_short],
-                        "Energy Cost Type" : cost_long
+                        "Costs in Mio. Eur": round(jsondata['units'][unit_short]['obj'][cost_short]/(1e6),3),
+                        "Energy Cost": cost_long
                     },
                     index= [unit_long],
             
@@ -464,14 +468,15 @@ def drawCostPlotEso(jsondata):
     
     df.index.set_names("Sources", inplace=True)
 
+
     return (
         px.bar(
             df,
-            color='Energy Cost Type',
+            color='Energy Cost',
         )
-        # .update_layout(margin=dict(t=25, b=0, l=0, r=0))
-        # .for_each_xaxis(lambda x: x.update(title=('Energy sources')))
-        # .for_each_yaxis(lambda x: x.update(title=('Costs in 10^6 EUR/a')))
+        .update_layout(margin=dict(t=25, b=0, l=0, r=0))
+        .for_each_xaxis(lambda x: x.update(title=('Energy sources')))
+        .for_each_yaxis(lambda x: x.update(title=('Costs in MEUR/a')))
     ), df
 
 def drawCostPlotEcuEsu(jsondata):
@@ -483,7 +488,7 @@ def drawCostPlotEcuEsu(jsondata):
             pd.concat([
                 pd.DataFrame(
                     dict(
-                        values= jsondata['units'][unit_short]['obj'][cost_short],
+                        values= jsondata['units'][unit_short]['obj'][cost_short]/(1e6),
                         Costs = cost_long
                         
                     ),
@@ -503,7 +508,7 @@ def drawCostPlotEcuEsu(jsondata):
         )
         .update_layout(margin=dict(t=25, b=0, l=0, r=0))
         .for_each_xaxis(lambda x: x.update(title=('Energy conversion units and storages')))
-        .for_each_yaxis(lambda x: x.update(title=('Costs in 10^6 EUR/a')))
+        .for_each_yaxis(lambda x: x.update(title=('Costs in MEUR/a')))
     )
 
 def drawPurchasePlot(jsondata, period_list):
@@ -683,7 +688,7 @@ def drawBilanzPlots(jsondata, period_list):
     for fig in make_nodes(jsondata, period_list):
         ar.append(fig)
 
-    print("BildanzPlots!!!!!!!!!")
+    print("BilanzPlots!!!!!!!!!")
     return ar
 
 def make_fig_Bilanz(jsondata, period_list, steam: str, side: str, alt_colors=False):
@@ -734,23 +739,22 @@ def make_nodes(jsondata: dict, period_list) -> list[go.Figure]:
 
 def drawPurchaseConsumptionPlot(jsondata, period_list):
     #List of all purchases (selber anpassen aus Units)
-    purchase_list = ['Electricirty PPA PV','Electricity PPA wind',
-                    'Purchased district heat','Electricity grid']
+    purchase_list = ['Electricity PPA PV', 'Electricity PPA wind', 'Electricity PPA hydro',
+                     'Purchased district heat', 'Electricity grid', 'Natural gas', 'External waste']
 
     #List of all consumptions (selber anpassen)
-    consumption_list = ['Demand process 1', 'Demand process 2','Demand process 3',
-                        'Demand process 4','Demand process 5','Demand process 6',
-                        ]
+    consumption_list = ['Demand process 1', 'Demand process 2', 'Demand process 3',
+                        'Demand process 4', 'Demand process 5', 'Demand process 6']
 
     #List of all sales (selber anpassen)
-    sales_list = ['District heat','Feed electricity grid']
+    sales_list = ['District heat', 'Feed electricity grid']
 
     #List of local production (selber anpassen)
-    production_list = ['Geothermal','Electricity PV','Electricity wind',
-                    'Steam extern','Gasturbine 1','Gasturbine 2']
+    production_list = ['Geothermal', 'Electricity PV', 'Electricity wind',
+                    'Steam extern', 'Gasturbine 1', 'Gasturbine 2', 'Internal waste']
 
     #List of sequences (selber anpassen)
-    sequences=['s', 'p']
+    sequences = ['s','p']
 
     
     '''
@@ -758,8 +762,7 @@ def drawPurchaseConsumptionPlot(jsondata, period_list):
     '''
 
     #Define order of barcharts
-    order=('Sales of energy','Consumption of energy in processes and units',
-        'Local production of energy','Purchase of energy')
+    order=('Sales of energy', 'Consumption of energy in processes and units', 'Local production of energy', ' Purchase of energy')
 
 
 
@@ -783,40 +786,40 @@ def drawPurchaseConsumptionPlot(jsondata, period_list):
                 dict_data[sequence] = sum_values
                 #dict_data = {sequence : sum_values}
             #df_temp = pd.DataFrame(dict_data,index=[unit_long])
-        df_seq = pd.concat([df_seq, pd.DataFrame(dict_data,index=[unit_long])])
+        df_seq = pd.concat([df_seq, pd.DataFrame(dict_data, index=[unit_long])])
 
     fig = go.Figure()
 
     for i, row in df_seq.iterrows():
         for purchase in purchase_list:
-            if purchase == i :
+            if purchase == i:
                 # Get sequence where there is a value in df
                 val = [seq for seq in sequences if not np.isnan(df_seq[seq][i])][0]
                 fig.add_trace(go.Bar(
                     y=['Purchase of energy'],
-                    x=[ df_seq[val][i]],
+                    x=[df_seq[val][i]],
                     orientation='h',
                     name=purchase
                     ))
 
         for consumption in consumption_list:
-            if consumption == i :
+            if consumption == i:
                 # Get sequence where there is a value in df
                 val = [seq for seq in sequences if not np.isnan(df_seq[seq][i])][0]
                 fig.add_trace(go.Bar(
                     y=['Consumption of energy in processes and units'],
-                    x=[ df_seq[val][i]],
+                    x=[df_seq[val][i]],
                     orientation='h',
                     name=consumption
                     ))
 
         for sales in sales_list:
-            if sales == i :
+            if sales == i:
                 # Get sequence where there is a value in df
                 val = [seq for seq in sequences if not np.isnan(df_seq[seq][i])][0]
                 fig.add_trace(go.Bar(
                     y=['Sales of energy'],
-                    x=[ df_seq[val][i]],
+                    x=[df_seq[val][i]],
                     orientation='h',
                     name=sales
                     ))
@@ -834,7 +837,7 @@ def drawPurchaseConsumptionPlot(jsondata, period_list):
 
     fig.update_layout(barmode='stack',legend_title='Units',
                     title='Total consumption, purchase, sales and local production',
-                    yaxis= {'title' :'Supply vs. Demand', 'categoryorder': 'array', 
+                    yaxis={'title': 'Supply vs. Demand', 'categoryorder': 'array',
                             'categoryarray' : order},
                     xaxis_title='MWh',
                         legend_traceorder= "normal"

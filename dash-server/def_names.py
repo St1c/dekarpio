@@ -19,17 +19,19 @@ units = dict(
     eso_eso11_bio = 'Biomass',
     eso_eso12_elp = 'Electricity PV',
     eso_eso13_elw = 'Electricity wind',
-    eso_eso14_elh = 'Electricity hydrogen',
+    eso_eso14_elh = 'Electricity hydro',
     eso_eso15_ppapv = 'Electricity PPA PV',
     eso_eso16_geo = 'Geothermal',
     eso_eso17_ste = 'Steam extern',
     eso_eso18_dhe = 'District heat',
     eso_eso19_feg = 'Feed electricity grid',
     eso_eso20_bif = 'Biofuel',
-    eso_eso21_ppaw = 'Eletricity PPA wind',
+    eso_eso21_ppaw = 'Electricity PPA wind',
     eso_eso22_ots = 'Other solid',
     eso_eso23_otg = 'Other gas',
     eso_eso24_pdh = 'Purchased district heat',
+    eso_eso25_ppah = 'Electricity PPA hydro',
+    eso_eso26_elr = 'Renewable electricity grid',
     ecu_ecu1_sbo1 = 'Solid boiler 1',
     ecu_ecu2_sbo2 = 'Solid boiler 2',
     ecu_ecu3_sbo3 = 'Solid boiler 3',
@@ -61,28 +63,34 @@ units = dict(
 
 costs = dict(
     opex_fix='Fixed operational costs',
+    inv='Investment cost',
     inv_fix='Fixed investment costs for limit extension',
     inv_power='Power-related costs for limit extension',
     inv_energy='Energy-related costs for limit extension',
     inv_cap='Specific investment costs',
-    opex_main='Annual maintenance costs',
+    #opex_main='Annual maintenance costs',
     opex_start='Cost for start of unit',
     invest_cap='Specific energy related investment costs',
     energy='Energy costs',
-    grid='Grid costs'
+    max_s='Grid costs',
+    co2_fossil='Fossil co2 cost',
+    co2_biogen='biogen co2 cost'
     )
 
 capexopex = dict(
     opex_fix='OPEX',
+    inv='CAPEX',
     inv_fix='CAPEX',
     inv_power='CAPEX',
     inv_energy='CAPEX',
     inv_cap='CAPEX',
-    opex_main='OPEX',
+    #opex_main='OPEX',
     opex_start='OPEX',
     invest_cap='CAPEX',
     energy='OPEX',
-    grid='OPEX'
+    max_s='OPEX',
+    co2_fossil='OPEX',
+    co2_biogen='OPEX'
     )
 
 #List of all heat types
