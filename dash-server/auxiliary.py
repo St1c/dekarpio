@@ -346,8 +346,7 @@ def add_lin_dep(system, unit, varname):
     def con_rule(m, s, t):
         if unit.param['u_active']:
             return unit.var['seq'][varname[1]][s, t] == c1 * unit.var['seq'][varname[0]][s, t] + c2 * \
-                   unit.var['seq']['u'][
-                       s, t]
+                   unit.var['seq']['u'][s, t]
         else:
             return unit.var['seq'][varname[1]][s, t] == c1 * unit.var['seq'][varname[0]][s, t]
 
@@ -390,9 +389,9 @@ def add_energy_param(system, unit, param):
 def add_flexbound_param(system, unit, param):
     namestr = 'param_' + unit.name + '_flexbound'
     par = param['flexbound']
-    def param_init(model, sc, t):
+    def param_flex_init(model, sc, t):
         return param['flexbound'][sc][t]
-    system.model.add_component(namestr, pyo.Param(system.model.set_sc, system.model.set_t, initialize=param_init, default=param_init, mutable=True))
+    system.model.add_component(namestr, pyo.Param(system.model.set_sc, system.model.set_t, initialize=param_flex_init, default=param_flex_init, mutable=True))
     unit.param['flexbound'] = system.model.component(namestr)
 
 def add_obj_inv(system, unit):
@@ -575,36 +574,40 @@ def plot_node_slack(system):
     sum_slack = sum([pyo.value(system.node[nodename].var['seq'][n][s, t]) for nodename in system.node.keys() for n in
                      ['slack_lhs', 'slack_rhs'] for s in system.model.set_sc for t in system.model.set_t])
     print('sum of slack is:  %20.2f' % sum_slack)
-
-    if max_slack > 1e-10:
-        nfig = len(system.node)
-        ncols = np.ceil(np.sqrt(nfig)).astype(int)
-        nrows = np.ceil(nfig / ncols).astype(int)
-        fig = plt.figure(figsize=[18, 9])                   # maximization of plot on one screen, can be exchanged with next line
-        #fig = plt.figure()
-        for i, nodename in enumerate(system.node):
-            min_value = 0
-            max_value = 0
-            ax = fig.add_subplot(nrows, ncols, 1 + i)
-            ax.set_title(nodename)
-            for n in ['slack_lhs', 'slack_rhs']:
-                ax.plot([pyo.value(system.node[nodename].var['seq'][n][s, t]) for s in system.model.set_sc for t in
-                         system.model.set_t], label=n)
-                min_value = min(
-                    [min_value] + [pyo.value(system.node[nodename].var['seq'][n][s, t]) for s in system.model.set_sc for t
-                                   in system.model.set_t])
-                max_value = max(
-                    [max_value] + [pyo.value(system.node[nodename].var['seq'][n][s, t]) for s in system.model.set_sc for t
-                                   in system.model.set_t])
-            ax.legend()
-            for ids, s in enumerate(system.model.set_sc):
-                if ids > 0:
-                    ax.plot(ids * np.array([system.param['n_ts_sc'] - 1, system.param['n_ts_sc'] - 1]),
-                            [min_value, max_value], 'k')
-
-        plt.savefig('./plots/slack.svg', bbox_inches='tight', pad_inches=0)
+    if sum_slack > 1e-10:
+        return sum_slack
     else:
-        print('Nothing to plot with "plot_node_slack" - Max. slack value: {:.6F}'.format(max_slack))
+        return 0
+
+    # if max_slack > 1e-10:
+    #     nfig = len(system.node)
+    #     ncols = np.ceil(np.sqrt(nfig)).astype(int)
+    #     nrows = np.ceil(nfig / ncols).astype(int)
+    #     fig = plt.figure(figsize=[18, 9])                   # maximization of plot on one screen, can be exchanged with next line
+    #     #fig = plt.figure()
+    #     for i, nodename in enumerate(system.node):
+    #         min_value = 0
+    #         max_value = 0
+    #         ax = fig.add_subplot(nrows, ncols, 1 + i)
+    #         ax.set_title(nodename)
+    #         for n in ['slack_lhs', 'slack_rhs']:
+    #             ax.plot([pyo.value(system.node[nodename].var['seq'][n][s, t]) for s in system.model.set_sc for t in
+    #                      system.model.set_t], label=n)
+    #             min_value = min(
+    #                 [min_value] + [pyo.value(system.node[nodename].var['seq'][n][s, t]) for s in system.model.set_sc for t
+    #                                in system.model.set_t])
+    #             max_value = max(
+    #                 [max_value] + [pyo.value(system.node[nodename].var['seq'][n][s, t]) for s in system.model.set_sc for t
+    #                                in system.model.set_t])
+    #         ax.legend()
+    #         for ids, s in enumerate(system.model.set_sc):
+    #             if ids > 0:
+    #                 ax.plot(ids * np.array([system.param['n_ts_sc'] - 1, system.param['n_ts_sc'] - 1]),
+    #                         [min_value, max_value], 'k')
+    #
+    #     plt.savefig('./plots/slack.svg', bbox_inches='tight', pad_inches=0)
+    # else:
+    #     print('Nothing to plot with "plot_node_slack" - Max. slack value: {:.6F}'.format(max_slack))
 
 def plot_full_load_hours(system, unit_port):
     plt.figure(figsize=[18, 9])                   # maximization of plot on one screen, can be exchanged with next line

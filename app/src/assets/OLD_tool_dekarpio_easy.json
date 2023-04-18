@@ -1,0 +1,288 @@
+{
+  "ecu":{
+    "ecu1": {
+      "name": "gbo1",
+      "type": "boiler",
+      "description": "boiler for steam provision by gaseous fuels",
+      "ID": "ecu_ecu1_gbo1",
+      "in": {
+        "input1": { "element": "eso_eso1_nga", "share": 1},
+        "input2": { "element": "eso_eso2_bga", "share": 0.5}},
+      "out": {
+        "output1":{ "element": "col_col1_mis", "share": 1}},
+      "param": [{
+          "integrate": true,
+          "exist": true,
+          "cap_max": 10,
+          "cap_min": 0.25,
+          "min_operation": 0.1,
+          "eff_fullload": 0.9,
+          "eff_minload": 0.8,
+          "ramp": 4,
+          "min_on": 1,
+          "min_off": 2,
+          "start_dur": 0,
+          "down_dur": 0,
+          "inv_fix": 100000,
+          "inv_cap": 1000,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 500
+      }]
+    },
+    "ecu2": {
+      "name": "ebo1",
+      "type": "boiler",
+      "description": "boiler for steam provision by electricity",
+      "ID": "ecu_ecu2_ebo1",
+      "in": {
+        "input1": { "element": "eso_eso3_egr", "share": 1 } },
+      "out": {
+        "output1":{ "element": "col_col1_mis", "share": 1 } },
+      "param": [
+        {
+          "exist": false,
+          "cap_max": 10,
+          "cap_min": 0,
+          "min_operation": 0,
+          "eff_fullload": 0.98,
+          "eff_minload": 0.9,
+          "ramp": 10,
+          "min_on": 0,
+          "min_off": 0,
+          "start_dur": 0,
+          "down_dur": 0,
+          "inv_fix": 10000,
+          "inv_cap": 100,
+          "opex_main": 0.01,
+          "opex_fix": 10,
+          "opex_start": 0
+        }
+      ]
+    }
+  },
+  "eca": {
+    "eca1": {
+      "name": "nga",
+      "type": "gaseous",
+      "ID": "eca_eca1_nga"
+    },
+    "eca2": {
+      "name": "bga",
+      "type": "gaseous",
+      "ID": "eca_eca2_bga"
+    },
+    "eca3": {
+      "name": "ele",
+      "type": "electricity",
+      "ID": "eca_eca3_ele"
+    },
+    "eca4": {
+      "name": "mis",
+      "type": "water",
+      "ID": "eca_eca4_mis"
+    }
+  },
+  "eso": {
+    "eso1": {
+      "name": "nga",
+      "type": "gaseous",
+      "ID": "eso_eso1_nga",
+      "Param": [{
+        "cost_grid": 10,
+        "unit_grid": "EUR/MW",
+        "cost_energy": 100,
+        "unit_energy": "EUR/MWh",
+        "description": "natural_gas"
+      }]
+    },
+    "eso2": {
+      "name": "bga",
+      "type": "gaseous",
+      "ID": "eso_eso2_bga",
+      "Param": [{
+        "cost_grid": 0,
+        "unit_grid": "EUR/MW",
+        "cost_energy": 80,
+        "unit_energy": "EUR/MWh",
+        "description": "biogas"
+      }]
+    },
+    "eso3": {
+      "name": "egr",
+      "type": "electricity",
+      "ID": "eso_eso3_egr",
+      "Param": [{
+        "cost_grid": 40,
+        "unit_grid": "EUR/MW",
+        "cost_energy": 300,
+        "unit_energy": "EUR/MWh",
+        "description": "electricity_from_grid"
+      }],
+
+      "Param_new": [{
+        "grid": 40,
+        "energy": 300
+      }],
+      "params_meta": {
+        "grid": {
+          "unit": "Eur/MWh",
+          "type": "text"
+        },
+        "energy": {
+          "unit": "Eur/MWh",
+          "type": "slider",
+          "min": 4,
+          "max": 10,
+          "step": 1
+        }
+      }
+    }
+  },
+  "con": {
+    "con1": {
+      "ID": "con-eso_eso1_nga-ecu_ecu1_gbo1",
+      "eca": "eca_eca1_nga",
+      "in": "eso_eso1_nga",
+      "out": "ecu_ecu1_gbo1"
+    },
+    "con2": {
+      "ID": "con-eso_eso2_bga-ecu_ecu1_gbo1",
+      "eca": "eca_eca2_bga",
+      "in": "eso_eso2_bga",
+      "out": "ecu_ecu1_gbo1"
+    },
+    "con3": {
+      "ID": "con-eso_eso3_egr-ecu_ecu2_ebo1",
+      "eca": "eca_eca3_ele",
+      "in": "eso_eso3_egr",
+      "out": "ecu_ecu2_ebo1"
+    },
+    "con4": {
+      "ID": "con-eso_eso3_egr-col_col2_ele",
+      "eca": "eca_eca3_ele",
+      "in": "eso_eso3_egr",
+      "out": "col_col2_ele"
+    },
+    "con5": {
+      "ID": "con-ecu_ecu1_gbo1-col_col1_mis",
+      "eca": "eca_eca4_mis",
+      "in": "ecu_ecu1_gbo1",
+      "out": "col_col1_mis"
+    },
+    "con6": {
+      "ID": "con-ecu_ecu2_ebo1-col_col1_mis",
+      "eca": "eca_eca4_mis",
+      "in": "ecu_ecu2_ebo1",
+      "out": "col_col1_mis"
+    },
+    "con7": {
+      "ID": "con-col_col1_mis-dem_dem1_mis1",
+      "eca": "eca_eca4_mis",
+      "in": "col_col1_mis",
+      "out": "dem_dem1_mis1"
+    },
+    "con8": {
+      "ID": "con-col_col2_ele-dem_dem2_ele1",
+      "eca": "eca_eca3_ele",
+      "in": "col_col2_ele",
+      "out": "dem_dem2_ele1"
+    },
+    "con9": {
+      "ID": "con-col_col2_ele-est_est1_bat1",
+      "eca": "eca_eca3_ele",
+      "in": "col_col2_ele",
+      "out": "est_est1_bat1"
+    },
+    "con10": {
+      "ID": "con-est_est1_bat1-col_col2_ele",
+      "eca": "eca_eca3_ele",
+      "in": "est_est1_bat1",
+      "out": "col_col2_ele"
+    }
+  },
+  "col": {
+    "col1": {
+      "ID": "col_col1_mis",
+      "eca": "eca_eca4_mis",
+      "in": {
+        "input1": { "con": "con-ecu_ecu1_gbo1-col_col1_mis", "active": true },
+        "input2": { "con": "con-ecu_ecu2_ebo1-col_col1_mis", "active": true }
+      },
+      "out": {
+        "output1": { "con": "con-col_col1_mis-dem_dem1_mis1", "active": true}
+      }
+    },
+    "col2": {
+      "ID": "col_col2_ele",
+      "eca": "eca_eca2_ele",
+       "in": {
+         "input1": {"con": "con-eso_eso3_egr-col_col2_ele", "active": true},
+         "input2": {"con": "con-est_est1_bat1-col_col2_ele", "active": true}
+       },
+      "out": {
+        "output1":{"con": "con-col_col2_ele-dem_dem2_ele1", "active": true},
+        "output2":{"con": "con-col_col2_ele-est_est1_bat1", "active": true}
+      }
+    }
+  },
+  "est": {
+    "est1": {
+      "name": "bat1",
+      "type": "battery",
+      "description": "battery for electricity storing",
+      "ID": "est_est1_bat1",
+      "in": {
+        "input1": {"element": "col_col2_ele", "share": 1}
+      },
+      "out": {
+        "output1":{"element": "col_col2_ele", "share": 1}
+      },
+      "param": [
+        {
+          "integrate": true,
+          "exist": true,
+          "cap": 3,
+          "power": 1,
+          "min": 0.15,
+          "eta_stor": 0.995,
+          "eta_char": 0.995,
+          "eta_dis": 0.995,
+          "invest_fix": 1000,
+          "invest_cap": 1000,
+          "invest_power": 500
+        }
+      ]
+    }
+  },
+  "dem": {
+    "dem1": {
+      "name": "mis1",
+      "type": "water",
+      "description": "steam or water demand",
+      "ID": "dem_dem1_mis1",
+      "in": {
+        "input1": {"element": "col_col1_mis", "share": 1}
+      },
+      "param": [{
+          "exists": true,
+          "temp": 400,
+          "pres": 4500000,
+          "days_off": 15
+        }]
+    },
+     "dem2": {
+      "name": "ele1",
+      "type": "electricity",
+      "description": "electricity demand ",
+      "ID": "dem_dem2_ele1",
+      "in": {
+        "input1": {"element": "col_col2_ele", "share": 1}
+      },
+      "param": [{
+          "exists": true,
+          "P_average": 5
+      }]
+    }
+  }
+}

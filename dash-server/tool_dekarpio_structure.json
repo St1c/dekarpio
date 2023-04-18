@@ -3885,23 +3885,17 @@
       "param": [
         {
           "integrate": true,
-          "days_off": 15,
           "p_gas_max": 0,
           "p_his_max": 0,
           "p_mis_max": 30,
           "p_los_max": 0,
           "p_ele_max": 10,
-          "massflow_hua": 0,
-          "temp_hua": 60,
-          "abshum_hua": 2,
-          "massflow_owh": 0,
-          "medium_owh": {
-            "option1": "air",
-            "option2": "water",
-            "option3": "fluegas"
-          },
-          "temp_owh": 25,
-          "pressure_owh": 2
+          "heat_hua": 0,
+          "temp_in_hua": 60,
+          "temp_out_hua": 30,
+          "heat_owh": 0,
+          "temp_in_owh": 30,
+          "temp_out_owh": 20
         }
       ]
     },
@@ -3951,13 +3945,12 @@
           "p_mis_max": 2.7,
           "p_los_max": 2.2,
           "p_ele_max": 3.2,
-          "massflow_hua": 2,
-          "temp_hua": 80,
-          "abshum_hua": 2,
-          "massflow_owh": 2,
-          "medium_owh": "option1",
-          "temp_owh": 90,
-          "pressure_owh": 2
+          "heat_hua": 0,
+          "temp_in_hua": 60,
+          "temp_out_hua": 30,
+          "heat_owh": 0,
+          "temp_in_owh": 30,
+          "temp_out_owh": 20
         }
       ]
     },
@@ -4007,13 +4000,12 @@
           "p_mis_max": 2,
           "p_los_max": 2,
           "p_ele_max": 2,
-          "massflow_hua": 40,
-          "temp_hua": 40,
-          "abshum_hua": 2,
-          "massflow_owh": 2,
-          "medium_owh": "option1",
-          "temp_owh": 20,
-          "pressure_owh": 2
+          "heat_hua": 0,
+          "temp_in_hua": 60,
+          "temp_out_hua": 30,
+          "heat_owh": 0,
+          "temp_in_owh": 30,
+          "temp_out_owh": 20
         }
       ]
     },
@@ -4057,19 +4049,17 @@
       "param": [
         {
           "integrate": false,
-          "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,
           "p_mis_max": 2,
           "p_los_max": 2,
           "p_ele_max": 2,
-          "massflow_hua": 5,
-          "temp_hua": 50,
-          "abshum_hua": 2,
-          "massflow_owh": 2,
-          "medium_owh": "option1",
-          "temp_owh": 50,
-          "pressure_owh": 2
+          "heat_hua": 0,
+          "temp_in_hua": 60,
+          "temp_out_hua": 30,
+          "heat_owh": 0,
+          "temp_in_owh": 30,
+          "temp_out_owh": 20
         }
       ]
     }

@@ -62,7 +62,7 @@
       "ID": "eso_eso4_bim",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "grid_power": "option1",
           "grid_energy": 2,
           "energy": 110,
@@ -81,7 +81,7 @@
       "ID": "eso_eso5_slu",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "energy": 0,
           "co2_biogen": 0.37,
           "lim_actual": 0,
@@ -132,7 +132,7 @@
       "ID": "eso_eso8_coa",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "energy": 10,
           "co2_fossil": 0.338,
           "lim_actual": 0,
@@ -149,7 +149,7 @@
       "ID": "eso_eso9_oil",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "energy": 40,
           "co2_fossil": 0.26,
           "lim_actual": 0,
@@ -166,10 +166,10 @@
       "ID": "eso_eso10_hyd",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "grid_power": "option1",
           "grid_energy": 2,
-          "energy": 100,
+          "energy": 160,
           "co2_fossil": 0,
           "lim_actual": 20,
           "lim_technical": 20,
@@ -185,7 +185,7 @@
       "ID": "eso_eso11_bio",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "energy": 35,
           "co2_biogen": 0.36576,
           "lim_actual": 70,
@@ -202,7 +202,7 @@
       "ID": "eso_eso12_elp",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "grid_power": "option3",
           "grid_energy": 0,
           "energy": 0,
@@ -220,10 +220,10 @@
       "ID": "eso_eso13_elw",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "grid_power": "option3",
           "grid_energy": 0,
-          "energy": 0,
+          "energy": 50,
           "lim_actual": 0,
           "lim_technical": 2,
           "inv_fix": 100000,
@@ -238,10 +238,10 @@
       "ID": "eso_eso14_elh",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "grid_power": "option3",
           "grid_energy": 0,
-          "energy": 20,
+          "energy": 50,
           "lim_actual": 2,
           "lim_technical": 2,
           "inv_fix": 100000,
@@ -256,7 +256,7 @@
       "ID": "eso_eso15_ppapv",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "grid_power": "option2",
           "grid_energy": 10,
           "energy": 40,
@@ -264,7 +264,7 @@
           "lim_technical": 10,
           "inv_fix": 0,
           "inv_power": 0,
-          "description": "electricity ppa pv"
+          "description": "electricity_ppa_pv"
         }
       ]
     },
@@ -290,8 +290,8 @@
       "ID": "eso_eso17_ste",
       "param": [
         {
-          "integrate": false,
-          "energy": 40,
+          "integrate": true,
+          "energy": 80,
           "lim_actual": 70,
           "lim_technical": 120,
           "inv_fix": 0,
@@ -359,10 +359,10 @@
       "ID": "eso_eso21_ppaw",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "grid_power": "option2",
 		      "grid_energy": 10,
-		      "energy": 40,
+		      "energy": 60,
           "lim_actual": 10,
           "lim_technical": 10,
           "inv_fix": 0,
@@ -415,7 +415,7 @@
       "ID": "eso_eso24_pdh",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "energy": 90,
 		      "co2_biogen": 0,
 		      "co2_fossil": 0.19,
@@ -451,12 +451,12 @@
       "ID": "eso_eso26_elr",
       "param": [
         {
-          "integrate": false,
+          "integrate": true,
           "grid_power": "option3",
           "grid_energy": 10,
-          "energy": 45,
+          "energy": 55,
           "co2_biogen": 0,
-          "co2_fossil": 0.18,
+          "co2_fossil": 0,
           "lim_actual": 50,
           "lim_technical": 50,
           "inv_fix": 1000000,
@@ -2496,8 +2496,8 @@
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
-          "inv_fix": 500000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 500000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_biomass": 1,
@@ -2584,8 +2584,8 @@
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
-          "inv_fix": 500000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 500000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_biomass": 1,
@@ -2672,8 +2672,8 @@
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
-          "inv_fix": 500000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 500000,
           "opex_fix": 1,
           "opex_start": 0,
           "max_share_in_biomass": 1,
@@ -2760,8 +2760,8 @@
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
-          "inv_fix": 100000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 100000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_oil": 0.1,
@@ -2848,8 +2848,8 @@
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
-          "inv_fix": 100000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 100000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_oil": 0.1,
@@ -2936,8 +2936,8 @@
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
-          "inv_fix": 100000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 100000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_oil": 0.1,
@@ -3024,8 +3024,8 @@
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
-          "inv_fix": 100000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 100000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_oil": 0.1,
@@ -3112,8 +3112,8 @@
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
-          "inv_fix": 100000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 100000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_oil": 0.1,
@@ -3200,8 +3200,8 @@
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
-          "inv_fix": 100000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 100000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_oil": 0.1,
@@ -3260,13 +3260,14 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 800000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 900000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_natural_gas": 1,
           "max_share_in_biomethane": 1,
-          "max_share_in_hydrogen": 1
+          "max_share_in_hydrogen": 1,
+          "max_share_out_lis": 1
         }
       ]
     },
@@ -3311,13 +3312,14 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 800000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 900000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_in_natural_gas": 1,
           "max_share_in_biomethane": 1,
-          "max_share_in_hydrogen": 1
+          "max_share_in_hydrogen": 1,
+          "max_share_out_lis": 1
         }
       ]
     },
@@ -3362,8 +3364,8 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 1000000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 1000000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_out_his": 0,
@@ -3413,8 +3415,8 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 1000000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 1000000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_out_his": 0,
@@ -3464,8 +3466,8 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 500000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 300000,
           "opex_fix": 10,
           "opex_start": 0
         }
@@ -3512,8 +3514,8 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 1000000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 1000000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_out_mis": 1,
@@ -3568,8 +3570,8 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 1000000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 1000000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_out_mis": 1,
@@ -3620,8 +3622,8 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 1000000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 1000000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_out_his": 0,
@@ -3671,8 +3673,8 @@
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
-          "inv_fix": 1000000,
-          "inv_cap": 20000,
+          "inv_fix": 50000,
+          "inv_cap": 1000000,
           "opex_fix": 10,
           "opex_start": 0,
           "max_share_out_his": 0,
@@ -3711,7 +3713,7 @@
           "eta_stor": 99,
           "eta_char": 99,
           "eta_dis": 99,
-          "inv_fix": 20000,
+          "inv_fix": 50000,
           "invest_cap": 550000
         }
       ]
@@ -3885,23 +3887,17 @@
       "param": [
         {
           "integrate": true,
-          "days_off": 15,
           "p_gas_max": 0,
           "p_his_max": 0,
           "p_mis_max": 30,
           "p_los_max": 0,
           "p_ele_max": 10,
-          "massflow_hua": 0,
-          "temp_hua": 60,
-          "abshum_hua": 2,
-          "massflow_owh": 0,
-          "medium_owh": {
-            "option1": "air",
-            "option2": "water",
-            "option3": "fluegas"
-          },
-          "temp_owh": 25,
-          "pressure_owh": 2
+          "heat_hua": 0,
+          "temp_in_hua": 60,
+          "temp_out_hua": 30,
+          "heat_owh": 0,
+          "temp_in_owh": 30,
+          "temp_out_owh": 20
         }
       ]
     },
@@ -3945,19 +3941,17 @@
       "param": [
         {
           "integrate": false,
-          "days_off": 15,
           "p_gas_max": 3.4,
           "p_his_max": 2.5,
           "p_mis_max": 2.7,
           "p_los_max": 2.2,
           "p_ele_max": 3.2,
-          "massflow_hua": 2,
-          "temp_hua": 80,
-          "abshum_hua": 2,
-          "massflow_owh": 2,
-          "medium_owh": "option1",
-          "temp_owh": 90,
-          "pressure_owh": 2
+          "heat_hua": 0,
+          "temp_in_hua": 60,
+          "temp_out_hua": 30,
+          "heat_owh": 0,
+          "temp_in_owh": 30,
+          "temp_out_owh": 20
         }
       ]
     },
@@ -4001,19 +3995,17 @@
       "param": [
         {
           "integrate": false,
-          "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,
           "p_mis_max": 2,
           "p_los_max": 2,
           "p_ele_max": 2,
-          "massflow_hua": 40,
-          "temp_hua": 40,
-          "abshum_hua": 2,
-          "massflow_owh": 2,
-          "medium_owh": "option1",
-          "temp_owh": 20,
-          "pressure_owh": 2
+          "heat_hua": 0,
+          "temp_in_hua": 60,
+          "temp_out_hua": 30,
+          "heat_owh": 0,
+          "temp_in_owh": 30,
+          "temp_out_owh": 20
         }
       ]
     },
@@ -4057,19 +4049,17 @@
       "param": [
         {
           "integrate": false,
-          "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,
           "p_mis_max": 2,
           "p_los_max": 2,
           "p_ele_max": 2,
-          "massflow_hua": 5,
-          "temp_hua": 50,
-          "abshum_hua": 2,
-          "massflow_owh": 2,
-          "medium_owh": "option1",
-          "temp_owh": 50,
-          "pressure_owh": 2
+          "heat_hua": 0,
+          "temp_in_hua": 60,
+          "temp_out_hua": 30,
+          "heat_owh": 0,
+          "temp_in_owh": 30,
+          "temp_out_owh": 20
         }
       ]
     }

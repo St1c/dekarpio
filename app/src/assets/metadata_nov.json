@@ -117,9 +117,9 @@
       "displayname": "Efficiency at minimum part load"
     },
     "ramp": {
-      "unit": "%cap/h",
+      "unit": "share_of_cap/h",
       "type": "value",
-      "description": "ramping ability of a unit, e.g. if a 100 MW boiler can change its load with 20 MW per hour would be 20 %cap/h",
+      "description": "ramping ability of a unit, e.g. if a 100 MW boiler can change its load with 20 MW per hour would be 0.2 share_of_cap/h",
       "displayname": "Maximum load ramping ability"
     },
     "min_on": {
@@ -242,61 +242,41 @@
       "description": "Maximum electric power demand",
       "displayname": "Maximum electric power demand"
     },
-    "massflow_hua": {
-      "unit": "kg/s",
+    "heat_hua": {
+      "unit": "MW",
       "type": "value",
-      "description": "Massflow humid air",
-      "displayname": "Massflow humid air"
+      "description": "Heat humid air (between in- and outlet temp)",
+      "displayname": "Heat humid air for T_in ->T_out"
     },
-    "temp_hua": {
+    "temp_in_hua": {
       "unit": "°C",
       "type": "value",
-      "description": "Temperature humid air",
-      "displayname": "Temperature humid air"
+      "description": "Temperature humid air (input heat exchanger)",
+      "displayname": "Temperature humid air at inlet HEX"
     },
-    "abshum_hua": {
-      "unit": "gH2O/kgDryair",
-      "type": "value",
-      "description": "Absolute humidity humid air",
-      "displayname": "Absolute humidity humid air"
-    },
-    "massflow_owh": {
-      "unit": "kg/s",
-      "type": "value",
-      "description": "Massflow other waste heat stream",
-      "displayname": "Massflow other waste heat stream"
-    },
-    "medium_owh": {
-      "unit": "none",
-      "type": "select",
-      "options": [
-        {
-          "key": "option1",
-          "value": "air"
-        },
-        {
-          "key": "option2",
-          "value": "water"
-        },
-        {
-          "key": "option3",
-          "value": "fluegas"
-        }
-      ],
-      "description": "Medium other waste heat stream (air, water, fluegas)",
-      "displayname": "Medium other waste heat stream"
-    },
-    "temp_owh": {
+    "temp_out_hua": {
       "unit": "°C",
       "type": "value",
-      "description": "Initial temperature other waste heat stream",
-      "displayname": "Temperature other waste heat stream"
+      "description": "Temperature humid air (output heat exchanger)",
+      "displayname": "Temperature humid air at outlet HEX"
     },
-    "pressure_owh": {
-      "unit": "bar_a",
+    "heat_owh": {
+      "unit": "MW",
       "type": "value",
-      "description": "absolute pressure of an other waste heat stream in bar",
-      "displayname": "Pressure (absolute) other waste heat stream"
+      "description": "Heat other waste heat  (between in- and outlet temp)",
+      "displayname": "Heat other waste heat for T_in ->T_out"
+    },
+    "temp_in_owh": {
+      "unit": "°C",
+      "type": "value",
+      "description": "Temperature other waste heat (input heat exchanger)",
+      "displayname": "Temperature other waste heat at inlet HEX"
+    },
+    "temp_out_owh": {
+      "unit": "°C",
+      "type": "value",
+      "description": "Outlet temperature other waste heat stream",
+      "displayname": "Temperature other waste heat at outlet HEX"
     },
     "pressure": {
       "unit": "bar_a",
@@ -311,115 +291,115 @@
       "displayname": "Temperature"
     },
     "max_share_out_mis": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of provided energy of middle pressure steam in percent",
       "displayname": "Max. heat - middle pressure steam"
     },
     "max_share_out_lis": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of provided energy of live steam in percent",
       "displayname": "Max. heat - live steam"
     },
     "max_share_out_his": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of provided energy of high pressure steam in percent",
       "displayname": "Max. heat - high pressure steam"
     },
     "max_share_out_los": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of provided energy of low pressure steam in percent",
       "displayname": "Max. heat - low pressure steam"
     },
     "max_share_out_wwa": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of provided energy of warm water in percent",
       "displayname": "Max. heat - warm water"
     },
     "max_share_in_biomass": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by biomass in percent",
       "displayname": "Max. energy input - biomass"
     },
     "max_share_in_sludge": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by sludge in percent",
       "displayname": "Max. energy input - sludge"
     },
     "max_share_in_internal_waste": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by internal waste streams in percent",
       "displayname": "Max. energy input - int. waste"
     },
     "max_share_in_external_waste": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by external waste in percent",
       "displayname": "Max. energy input - ext. wate"
     },
     "max_share_in_coal": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by coal in percent",
       "displayname": "Max. energy input - coal"
     },
     "max_share_in_natural_gas": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by natural gas in percent",
       "displayname": "Max. energy input - natural gas"
     },
     "max_share_in_biogas": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by biogas in percent",
       "displayname": "Max. energy input - biogas"
     },
     "max_share_in_hydrogen": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by hydrogen in percent",
       "displayname": "Max. energy input - hydrogen"
     },
     "max_share_in_other_solid": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by other solids in percent",
       "displayname": "Max. energy input - other solid"
     },
     "max_share_in_oil": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by oil in percent",
       "displayname": "Max. energy input - oil"
     },
-    "max_share_in_biomethan": {
-      "unit": "%",
+    "max_share_in_biomethane": {
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by biomethan in percent",
       "displayname": "Max. energy input - biomethan"
     },
     "max_share_in_electricity": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by electric power in percent",
       "displayname": "Max. energy input - electricity"
     },
     "max_share_in_biofuel": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by biofuel in percent",
       "displayname": "Max. energy input - biofuel"
     },
     "max_share_in_other_gaseous": {
-      "unit": "%",
+      "unit": "(-)",
       "type": "value",
       "description": "Maximum share of fuel that can be provided by other gaseous in percent",
       "displayname": "Max. energy input - other gaseous"

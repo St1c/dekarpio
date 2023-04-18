@@ -4,8 +4,42 @@ Created on Tue Dec 20 12:39:14 2022
 
 @author: PaeffgenE
 """
+fuelsources = dict(
+    eso_eso1_nga = 'Natural gas',
+    eso_eso2_big = 'Biogas',
+    eso_eso4_bim = 'Biomethane',
+    eso_eso5_slu = 'Sludge',
+    eso_eso6_iwa = 'Internal waste',
+    eso_eso7_ewa = 'External waste',
+    eso_eso8_coa = 'Coal',
+    eso_eso9_oil = 'Oil',
+    eso_eso10_hyd = 'Hydrogen',
+    eso_eso11_bio = 'Biomass',
+    eso_eso16_geo = 'Geothermal',
+    eso_eso17_ste = 'Steam extern',
+    eso_eso18_dhe = 'District heat',
+    eso_eso20_bif = 'Biofuel',
+    eso_eso22_ots = 'Other solid',
+    eso_eso23_otg = 'Other gas',
+    eso_eso24_pdh = 'Purchased district heat',
 
+
+)
+
+elsources = dict(
+    eso_eso3_elg = 'Electricity grid',
+    eso_eso12_elp = 'Electricity PV',
+    eso_eso13_elw = 'Electricity Wind',
+    eso_eso14_elh = 'Electricity Hydro',
+    eso_eso15_ppapv = 'Electricity PPA PV',
+    eso_eso19_feg = 'Feed electricity grid',
+    eso_eso21_ppaw = 'Electricity PPA Wind',
+    eso_eso25_ppah = 'Electricity PPA Hydro',
+    eso_eso26_elr = 'Renewable electricity grid',
+)
 units = dict(
+    eso_supply_electric = 'Power Grid',
+    eso_supply_gaseous = 'Gas Grid',
     eso_eso1_nga = 'Natural gas',
     eso_eso2_big = 'Biogas',
     eso_eso3_elg = 'Electricity grid',
@@ -18,19 +52,19 @@ units = dict(
     eso_eso10_hyd = 'Hydrogen',
     eso_eso11_bio = 'Biomass',
     eso_eso12_elp = 'Electricity PV',
-    eso_eso13_elw = 'Electricity wind',
-    eso_eso14_elh = 'Electricity hydro',
+    eso_eso13_elw = 'Electricity Wind',
+    eso_eso14_elh = 'Electricity Hydro',
     eso_eso15_ppapv = 'Electricity PPA PV',
     eso_eso16_geo = 'Geothermal',
     eso_eso17_ste = 'Steam extern',
     eso_eso18_dhe = 'District heat',
     eso_eso19_feg = 'Feed electricity grid',
     eso_eso20_bif = 'Biofuel',
-    eso_eso21_ppaw = 'Electricity PPA wind',
+    eso_eso21_ppaw = 'Electricity PPA Wind',
     eso_eso22_ots = 'Other solid',
     eso_eso23_otg = 'Other gas',
     eso_eso24_pdh = 'Purchased district heat',
-    eso_eso25_ppah = 'Electricity PPA hydro',
+    eso_eso25_ppah = 'Electricity PPA Hydro',
     eso_eso26_elr = 'Renewable electricity grid',
     ecu_ecu1_sbo1 = 'Solid boiler 1',
     ecu_ecu2_sbo2 = 'Solid boiler 2',
@@ -54,27 +88,46 @@ units = dict(
     esu_esu2_ste = 'Steam storage',
     esu_esu3_how = 'Hot water storage',
     esu_esu4_wwa = 'Warm water storage',
-    dem_dem1_pro1 = 'Demand process 1',
-    dem_dem2_pro2 = 'Demand process 2',
-    dem_dem3_pro3 = 'Demand process 3',
-    dem_dem4_pro4 = 'Demand process 4',
-    
+    dem_dem1_pro1_input1 = 'Process 1 Gas',
+    dem_dem1_pro1_input2 = 'Process 1 Power',
+    dem_dem1_pro1_input3 = 'Process 1 Steam_hp',
+    dem_dem1_pro1_input4 = 'Process 1 Steam_mp',
+    dem_dem1_pro1_input5 = 'Process 1 Steam_lp',
+    dem_dem2_pro2_input1 = 'Process 2 Gas',
+    dem_dem2_pro2_input2 = 'Process 2 Power',
+    dem_dem2_pro2_input3 = 'Process 2 Steam_hp',
+    dem_dem2_pro2_input4 = 'Process 2 Steam_mp',
+    dem_dem2_pro2_input5 = 'Process 2 Steam_lp',
+    dem_dem3_pro3_input1 = 'Process 3 Gas',
+    dem_dem3_pro3_input2 = 'Process 3 Power',
+    dem_dem3_pro3_input3 = 'Process 3 Steam_hp',
+    dem_dem3_pro3_input4 = 'Process 3 Steam_mp',
+    dem_dem3_pro3_input5 = 'Process 3 Steam_lp',
+    dem_dem4_pro4_input1 = 'Process 4 Gas',
+    dem_dem4_pro4_input2 = 'Process 4 Power',
+    dem_dem4_pro4_input3 = 'Process 4 Steam_hp',
+    dem_dem4_pro4_input4 = 'Process 4 Steam_mp',
+    dem_dem4_pro4_input5 = 'Process 4 Steam_lp',
+)
+
+couplers = dict(
+    coupler_ecu_ecu1_sbo1_heat_out_node_to_col_col2_mis1_node_out_col_col2_mis1_node='Solid Boiler 1 to Middle Pressure Steam',
 )
 
 costs = dict(
     opex_fix='Fixed operational costs',
-    inv='Investment cost',
+    inv='Investment costs',
     inv_fix='Fixed investment costs for limit extension',
     inv_power='Power-related costs for limit extension',
     inv_energy='Energy-related costs for limit extension',
     inv_cap='Specific investment costs',
     #opex_main='Annual maintenance costs',
-    opex_start='Cost for start of unit',
+    opex_start='Costs for start of unit',
     invest_cap='Specific energy related investment costs',
     energy='Energy costs',
     max_s='Grid costs',
-    co2_fossil='Fossil co2 cost',
-    co2_biogen='biogen co2 cost'
+    co2_fossil="Fossil CO2 costs",
+    co2_biogen="Biogen CO2 costs"
     )
 
 capexopex = dict(
@@ -99,6 +152,7 @@ heat_types = dict (
     q_mis='ST mp',
     q_his='ST hp',
     q_lis='ST vhp',
-    q='ST'
+    q='ST',
+    q_sink='ST'
     )
 
