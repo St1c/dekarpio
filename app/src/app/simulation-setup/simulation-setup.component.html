@@ -4,7 +4,13 @@
   <div #layout
        class="map-wrapper"
        [inlineSVG]="'assets/VISIO_12_12_2022.svg'"
-       (onSVGInserted)="svgLoaded()"></div>
+       (onSVGInserted)="svgLoaded()"
+       appSvgElementsClickListener
+       (appSvgElementsClickListenerChange)="svgClicked($event)"
+       appSvgElementsRightClickListener
+       (appSvgElementsRightClickListenerChange)="svgClicked($event, true)"
+       appSvgElementsHoverListener
+       [configurableShapes]="configurableShapes$ | async"></div>
   <div class="side-menu">
     <button mat-raised-button
             class="mat-button-large input-block-level"

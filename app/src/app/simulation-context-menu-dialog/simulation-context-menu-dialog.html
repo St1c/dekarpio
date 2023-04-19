@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>{{desc}}</h1>
+<mat-dialog-content>
+  <mat-slide-toggle [formControl]="params">Enable/Disable</mat-slide-toggle>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button
+          mat-dialog-close>Cancel</button>
+  <button mat-raised-button
+          color="accent"
+          (click)="closeDialog()"
+          cdkFocusInitial>Save</button>
+</mat-dialog-actions>
