@@ -25,7 +25,7 @@
       "ID": "eso_eso2_big",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "energy": 85,
           "co2_biogen": 0.32610,
           "lim_actual": 20,
@@ -62,7 +62,7 @@
       "ID": "eso_eso4_bim",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "grid_power": "option1",
           "grid_energy": 2,
           "energy": 110,
@@ -81,7 +81,7 @@
       "ID": "eso_eso5_slu",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "energy": 0,
           "co2_biogen": 0.37,
           "lim_actual": 0,
@@ -132,7 +132,7 @@
       "ID": "eso_eso8_coa",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "energy": 10,
           "co2_fossil": 0.338,
           "lim_actual": 0,
@@ -149,7 +149,7 @@
       "ID": "eso_eso9_oil",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "energy": 40,
           "co2_fossil": 0.26,
           "lim_actual": 0,
@@ -166,7 +166,7 @@
       "ID": "eso_eso10_hyd",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "grid_power": "option1",
           "grid_energy": 2,
           "energy": 160,
@@ -220,7 +220,7 @@
       "ID": "eso_eso13_elw",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "grid_power": "option3",
           "grid_energy": 0,
           "energy": 50,
@@ -359,7 +359,7 @@
       "ID": "eso_eso21_ppaw",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "grid_power": "option2",
 		      "grid_energy": 10,
 		      "energy": 60,
@@ -415,7 +415,7 @@
       "ID": "eso_eso24_pdh",
       "param": [
         {
-          "integrate": true,
+          "integrate": false,
           "energy": 90,
 		      "co2_biogen": 0,
 		      "co2_fossil": 0.19,
@@ -452,7 +452,7 @@
       "param": [
         {
           "integrate": true,
-          "grid_power": "option3",
+          "grid_power": "option2",
           "grid_energy": 10,
           "energy": 55,
           "co2_biogen": 0,
@@ -800,6 +800,10 @@
           "price_co2_biogen": 0,
           "cost_gas_grid": 3000,
           "cost_power_grid": 30000,
+          "free_certificate_fossil": 50000,
+          "decarbonization_fossil": "option1",
+          "free_certificate_bio": 50000,
+          "decarbonization_bio": "option1",
           "description": "economic settings"
       }]
     }

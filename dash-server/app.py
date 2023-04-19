@@ -193,7 +193,7 @@ app.layout = html.Div([
                             )
                         ),
                     ]),
-                ], label="SUMMARY", tab_id="tab-7"),
+                ], label="SUMMARY (needs to be adapted", tab_id="tab-7"),
 
             ],id="card-tabs",active_tab="tab-1")
     ],style= {'display': 'none'}
@@ -248,7 +248,7 @@ def startSimulation(set_progress, data):
 
     #structure = ja.read_structure('tool_dekarpio_structure.json')
     structure = json.loads(data)
-    print(structure['eco'])
+
 
     count+=1
     set_progress((str(count), str(totalSteps)))
@@ -325,7 +325,7 @@ def startSimulation(set_progress, data):
 def update_figure(jsonStorage, period_list):
 
     jsonStorage = json.loads(jsonStorage)
-    figCostUnit, dfCostUnit, sunBurstDf = drawCostPlotUnit(jsonStorage)
+    figCostUnit, dfCostUnit, sunBurstDf, capDF = drawCostPlotUnit(jsonStorage)
     figCostEso, dfCostEso = drawCostPlotEso(jsonStorage)
     fig3 = drawCostPlotEcuEsu(jsonStorage)
     fig4 = drawLinePlotPower(jsonStorage, period_list)
@@ -348,6 +348,7 @@ def update_figure(jsonStorage, period_list):
 
 
     dashTable = dash.dash_table.DataTable(sunBurstDf.to_dict('records'), [{"name": i, "id": i} for i in sunBurstDf.columns],export_format="csv")
+    dashTable2 = dash.dash_table.DataTable(capDF.to_dict('records'), [{"name": i, "id": i} for i in capDF.columns],export_format="csv")
 
 
 
@@ -356,7 +357,7 @@ def update_figure(jsonStorage, period_list):
     return figCostUnit, figCostEso, fig3, figconsume, figconsumefuel, fig4, fig5, \
            ar[0], ar[1], ar[2], ar[3], ar[4], ar[5], ar[6], ar[7], ar[8], \
            drawPurchaseConsumptionPlot(jsonStorage, period_list), table, figSunBurstType, figSunBurstUnit, figSunBurstUnitCosts, \
-           dashTable, dashTable, {"display":"block"}, "Simulation Results:"
+           dashTable, dashTable2, {"display":"block"}, "Simulation Results:"
 
 ##########################################################################
 # Cost Plot Functions
@@ -400,6 +401,27 @@ def drawCostPlotUnit(jsondata):
                 dictfordf[idCAPOP].append(capexopex[key])
                 dictfordf[idCostType].append(costs[key])
                 dictfordf[idCosts].append(val/(1e6))
+
+    idUnits = "Unit"
+    idCap = "Capacity"
+    dictfordf_cap = {
+        idUnits:[],
+        idCap:[]
+    }
+
+    for unit in units:
+        if unit in jsondata['units']:
+            dictfordf_cap[idUnits].append(units[unit])
+            print(jsondata['units'][unit]['var']['scalar'].items())
+            if 'cap' in jsondata['units'][unit]['var']['scalar'].items():
+                print('yes')
+                cap = jsondata['units'][unit]['var']['scalar']['cap']
+                dictfordf_cap[idCap].append(cap)
+            else:
+                cap = 0
+                dictfordf_cap[idCap].append(cap)
+
+                # hier mit abfrage ob cap da ist bzw ob obj inv >0 is integrate und exists möglich
 
 
 
@@ -496,12 +518,8 @@ def drawCostPlotUnit(jsondata):
     sunburstdf = round(pd.DataFrame(dictfordf), 3)
     print(sunburstdf)
 
-    #eco_dict=
-    #a = jsondata['params']
-    #eco_df=pd.DataFrame(a, index=range(len(1)))
-    #print(eco_df)
-#    sumTable = dash.dash_table.DataTable(eco_df.to_dict('records'), [{"name": i, "id": i} for i in a.columns], export_format="csv")
-
+    capdf = round(pd.DataFrame(dictfordf_cap), 2)
+    print(capdf)
 
     fig = px.bar(df_costs,
                 #title = 'Total costs',
@@ -512,7 +530,7 @@ def drawCostPlotUnit(jsondata):
                 color = 'variable',
                 color_discrete_sequence = pclr.qualitative.Set2[0:color]
                 )
-    return fig, df_costs, sunburstdf
+    return fig, df_costs, sunburstdf, capdf
 
 def drawCostPlotEso(jsondata):
     '''

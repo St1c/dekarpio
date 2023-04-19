@@ -439,6 +439,58 @@
       "type": "value",
       "description": "Power-related costs for power grid bound energy carriers",
       "displayname": "Cost power grid (power-related)"
+    },
+    "free_certificate_fossil": {
+      "unit": "t/a",
+      "type": "value",
+      "description": "Amount of annual free certificates for industrial site",
+      "displayname": "Amount of annual free certificates for fossil emissions"
+    },
+    "decarbonization_fossil": {
+      "unit": "type",
+      "type": "select",
+      "options": [
+        {
+          "key": "option1",
+          "value": "no forced decarbonization"
+        },
+        {
+          "key": "option2",
+          "value": "only free certificates"
+        },
+        {
+          "key": "option3",
+          "value": "complete decarbonization"
+        }
+      ],
+      "description": "Which level of decarbonization needs to be achieved?",
+      "displayname": "Level of decarbonization (fossil)"
+    },
+    "free_certificate_bio": {
+      "unit": "t/a",
+      "type": "value",
+      "description": "Amount of annual free certificates for industrial site",
+      "displayname": "Amount of annual free certificates for biogen emissions"
+    },
+    "decarbonization_bio": {
+      "unit": "type",
+      "type": "select",
+      "options": [
+        {
+          "key": "option1",
+          "value": "no forced decarbonization"
+        },
+        {
+          "key": "option2",
+          "value": "only free certificates"
+        },
+        {
+          "key": "option3",
+          "value": "complete decarbonization"
+        }
+      ],
+      "description": "Which level of decarbonization needs to be achieved?",
+      "displayname": "Level of decarbonization (biogen)"
     }
   }
 }

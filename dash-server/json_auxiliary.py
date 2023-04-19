@@ -209,6 +209,23 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
         u_w_dict[i] = [no_of_occurrences / sum_weight, no_of_occurrences]     # [weight, nr. of occurances]
         print(u_w_dict)
 
+    if eco_dict['eco1']['param'][0]['decarbonization_fossil'] == 'option1':
+        decarb_rate1 = 100
+    elif eco_dict['eco1']['param'][0]['decarbonization_fossil'] == 'option2':
+        decarb_rate1 = 1
+    elif eco_dict['eco1']['param'][0]['decarbonization_fossil'] == 'option3':
+        decarb_rate1 = 0
+
+    if eco_dict['eco1']['param'][0]['decarbonization_bio'] == 'option1':
+        decarb_rate2 = 100
+    elif eco_dict['eco1']['param'][0]['decarbonization_bio'] == 'option2':
+        decarb_rate2 = 1
+    elif eco_dict['eco1']['param'][0]['decarbonization_bio'] == 'option3':
+        decarb_rate2 = 0
+
+    print(decarb_rate1)
+    print(decarb_rate2)
+
     sysParam = {#'cf': 1000,  # conversion factor for coefficient scaling (Energy, Power)
         #'cf_co2': 0.23,  # conversion factor for kg co2/kWh
         'set_period': period_list,
@@ -225,6 +242,10 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
         'cost_co2_biogen': eco_dict['eco1']['param'][0]['price_co2_biogen'],
         'cost_gas_grid': eco_dict['eco1']['param'][0]['cost_gas_grid'],
         'cost_power_grid': eco_dict['eco1']['param'][0]['cost_power_grid'],
+        'free_certificate_fossil': eco_dict['eco1']['param'][0]['free_certificate_fossil'],
+        'decarb_rate_fossil': decarb_rate1,
+        'free_certificate_bio': eco_dict['eco1']['param'][0]['free_certificate_bio'],
+        'decarb_rate_bio': decarb_rate2,
         'opt': {'timelimit': 600,
                 'optimality_gap': 0.00},
         'expansion_costs': 5e4      # todo: €/MW ???
@@ -485,13 +506,19 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         sys.add_unit(tempParam)
         print(sys.unit['eso_supply_electric'].param['cost_max_load'])
 
-        co2 = 0
+        co2_bio = 0
         for u in sys.unit:
-            if 'co2' in sys.unit[u].obj.keys():
-                co2 += sys.unit[u].obj['co2'].expr
-        expr_co2 = (co2 <= 10000000)
-        sys.model.con_limit_emissions = pyo.Constraint(expr=expr_co2)
-        #'TODO - FREE CERTIFICATES; DECARB RATE FOSSIL; DECARB RATE BIOGEN
+            if 'co2_total_bio' in sys.unit[u].obj.keys():
+                co2_bio += sys.unit[u].obj['co2_total_bio'].expr
+        expr_co2_bio = (co2_bio <= sys.param['free_certificate_bio']*sys.param['decarb_rate_bio'])
+        sys.model.con_limit_bio_emissions = pyo.Constraint(expr=expr_co2_bio)
+
+        co2_fossil = 0
+        for u in sys.unit:
+            if 'co2_total_fossil' in sys.unit[u].obj.keys():
+                co2_fossil += sys.unit[u].obj['co2_total_fossil'].expr
+        expr_co2_fossil = (co2_fossil <= sys.param['free_certificate_fossil']*sys.param['decarb_rate_fossil'])
+        sys.model.con_limit_fos_emissions = pyo.Constraint(expr=expr_co2_fossil)
 
 
         return sys
@@ -1189,6 +1216,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
             'rhs': [],
             'type': '=='
         }})
+
         for eso in struct['eso']:
             eso_name = struct['eso'][eso]['ID']
             eso_out_port = get_eso_out_port(eso_name)

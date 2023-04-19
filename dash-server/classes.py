@@ -55,6 +55,14 @@ class System:
         # Build system objective
         obj = 0
         obj_real = 0
+        if self.param['free_certificate_fossil'] > 0:
+            obj -= self.param['free_certificate_fossil'] * self.param['cost_co2_fossil']
+            obj_real -= self.param['free_certificate_fossil'] * self.param['cost_co2_fossil']
+
+        if self.param['free_certificate_bio'] > 0:
+            obj -= self.param['free_certificate_bio'] * self.param['cost_co2_biogen']
+            obj_real -= self.param['free_certificate_bio'] * self.param['cost_co2_biogen']
+
         for u in self.unit:
             if 'total' in self.unit[u].obj.keys():
                 obj += self.unit[u].obj['total'].expr
@@ -416,8 +424,8 @@ class GasTurbine(Unit): #to do: in steam turbine convert
         da.add_con_a_v(self)    # to do: check what this is
 
         def con_rule(m, s, t):
-            return self.var['seq']['q'][s, t] == 0.5 * self.var['seq']['f'][s, t]                           # comment(7_12_22 SK) new constraint added - todo calculate factor 0.5 with thermodynamic params
-            #return self.var['seq']['q'][s, t] == self.var['seq']['f'][s, t] - self.var['seq']['p'][s, t]   # comment (7_12_22 SK): previous - adapted from thermodynamic considerations - todo add to manual
+            #return self.var['seq']['q'][s, t] == 0.5 * self.var['seq']['f'][s, t]                           # comment(7_12_22 SK) new constraint added - todo calculate factor 0.5 with thermodynamic params
+            return self.var['seq']['q'][s, t] == 0.95* (self.var['seq']['f'][s, t] - self.var['seq']['p'][s, t])   # comment (7_12_22 SK): previous - adapted from thermodynamic considerations - todo add to manual
         namestr = 'energy_balance'
         self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
 
@@ -3286,13 +3294,20 @@ class Supply(Unit):
         obj = 0
         if 'co2_biogen' in self.param:
             obj += self.obj['mass_co2_biogen'].expr
+
+        namestr = 'obj_' + self.name + '_co2_total_bio'
+        system.model.add_component(namestr, pyo.Objective(expr=obj))
+        system.model.component(namestr).deactivate()
+        self.obj['co2_total_bio'] = system.model.component(namestr)
+
+        obj = 0
         if 'co2_fossil' in self.param:
             obj += self.obj['mass_co2_fossil'].expr
 
-        namestr = 'obj_' + self.name + '_co2'
+        namestr = 'obj_' + self.name + '_co2_total_fossil'
         system.model.add_component(namestr, pyo.Objective(expr=obj))
         system.model.component(namestr).deactivate()
-        self.obj['co2'] = system.model.component(namestr)
+        self.obj['co2_total_fossil'] = system.model.component(namestr)
 
     def get_supply(self, system):
         return sum(
