@@ -19,14 +19,11 @@ export class SimulationsService {
 
   private apiUrl = environment.apiUrl;
   private flaskUrl = environment.flaskUrl;
-  private userId: number;
 
   constructor(
     private http: HttpClient,
     private auth: AuthService,
-  ) {
-    this.userId = this.auth.getAuthPayload().id;
-  }
+  ) {}
 
   createSimulation(settings: string): Observable<any> {
     return this.http.post<Simulation>(`${this.apiUrl}/simulation-setup`, {
@@ -35,14 +32,16 @@ export class SimulationsService {
   }
 
   getSimulation(): Observable<Simulation> {
-    return this.http.get(`${this.apiUrl}/simulation-results/${this.userId}`).pipe(
+    const userId = this.auth.getAuthPayload().id;
+    return this.http.get(`${this.apiUrl}/simulation-results/${userId}`).pipe(
       map((res: any) => res.data[0]),
     );
   }
 
   validateSimulation(): Observable<any> {  
+    const userId = this.auth.getAuthPayload().id;
     return this.http.post(`${this.flaskUrl}/validate`, {
-      user_id: this.userId,
+      user_id: userId,
     });
   }
 }
