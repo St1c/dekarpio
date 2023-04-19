@@ -6,7 +6,7 @@
       "ID": "eso_eso1_nga",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -21,7 +21,7 @@
       "ID": "eso_eso2_big",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -36,7 +36,7 @@
       "ID": "eso_eso3_elg",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -51,7 +51,7 @@
       "ID": "eso_eso4_bim",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -66,7 +66,7 @@
       "ID": "eso_eso5_slu",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -81,7 +81,7 @@
       "ID": "eso_eso6_iwa",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -96,7 +96,7 @@
       "ID": "eso_eso7_ewa",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -111,7 +111,7 @@
       "ID": "eso_eso8_coa",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -126,7 +126,7 @@
       "ID": "eso_eso9_oil",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -141,7 +141,7 @@
       "ID": "eso_eso10_hyd",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -156,7 +156,7 @@
       "ID": "eso_eso11_bio",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -171,7 +171,7 @@
       "ID": "eso_eso12_elp",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -189,7 +189,7 @@
       "ID": "eso_eso13_elw",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -207,7 +207,7 @@
       "ID": "eso_eso14_elh",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -225,7 +225,7 @@
       "ID": "eso_eso15_ppapv",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -240,7 +240,7 @@
       "ID": "eso_eso16_geo",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -258,7 +258,7 @@
       "ID": "eso_eso17_ste",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -274,7 +274,7 @@
       "ID": "eso_eso18_dhe",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -292,7 +292,7 @@
       "ID": "eso_eso19_feg",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -307,7 +307,7 @@
       "ID": "eso_eso20_bif",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -322,7 +322,7 @@
       "ID": "eso_eso21_ppaw",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -337,7 +337,7 @@
       "ID": "eso_eso22_ots",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -352,7 +352,7 @@
       "ID": "eso_eso23_otg",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -367,7 +367,7 @@
       "ID": "eso_eso24_pdh",
       "Param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "grid": 0,
           "energy": "XXX",
           "lim_actual": 70,
@@ -1501,77 +1501,77 @@
       "in": {
         "input1": {
           "con": "con-eso_eso3_elg-col_col1_ele1",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-eso_eso12_elp-col_col1_ele1",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-eso_eso13_elw-col_col1_ele1",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-eso_eso14_elh-col_col1_ele1",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-eso_eso15_ppapv-col_col1_ele1",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-esu_esu1_bat-col_col1_ele1",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-eso_eso21_ppapw-col_col1_ele1",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col1_ele1-ecu_ecu4_boi1",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "con": "con-col_col1_ele1-ecu_ecu5_boi2",
-          "active": "True"
+          "active": true
         },
         "output3": {
           "con": "con-col_col1_ele1-ecu_ecu6_boi3",
-          "active": "True"
+          "active": true
         },
         "output4": {
           "con": "con-col_col1_ele1-ecu_ecu7_boi4",
-          "active": "True"
+          "active": true
         },
         "output5": {
           "con": "con-col_col1_ele1-ecu_ecu8_boi5",
-          "active": "True"
+          "active": true
         },
         "output6": {
           "con": "con-col_col1_ele1-ecu_ecu9_boi6",
-          "active": "True"
+          "active": true
         },
         "output7": {
           "con": "con-col_col1_ele1-col_col6_ele2",
-          "active": "True"
+          "active": true
         },
         "output8": {
           "con": "con-col_col1_ele1-ecu_ecu15_shp1",
-          "active": "True"
+          "active": true
         },
         "output9": {
           "con": "con-col_col1_ele1-ecu_ecu14_whp1",
-          "active": "True"
+          "active": true
         },
         "output10": {
           "con": "con-col_col1_ele1-ecu_ecu16_shp2",
-          "active": "True"
+          "active": true
         },
         "output11": {
           "con": "con-col_col1_ele1-esu_esu1_bat",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -1581,49 +1581,49 @@
       "in": {
         "input1": {
           "con": "con-ecu_ecu1_sbo1-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-ecu_ecu2_sbo2-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-ecu_ecu3_sbo3-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-ecu_ecu4_boi1-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-ecu_ecu5_boi2-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-ecu_ecu6_boi3-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-ecu_ecu7_boi4-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input8": {
           "con": "con-ecu_ecu8_boi5-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input9": {
           "con": "con-ecu_ecu9_boi6-col_col2_mis1",
-          "active": "True"
+          "active": true
         },
         "input10": {
           "con": "con-eso_eso17_ste-col_col2_mis1",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col2_mis1-col_col4_mis2",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -1633,69 +1633,69 @@
       "in": {
         "input1": {
           "con": "con-ecu_ecu1_sbo1-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-ecu_ecu2_sbo2-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-ecu_ecu3_sbo3-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-ecu_ecu4_boi1-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-ecu_ecu5_boi2-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-ecu_ecu6_boi3-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-ecu_ecu7_boi4-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input8": {
           "con": "con-ecu_ecu8_boi5-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input9": {
           "con": "con-ecu_ecu9_boi6-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input10": {
           "con": "con-ecu_ecu10_gtu1-col_col3_lis1",
-          "active": "True"
+          "active": true
         },
         "input11": {
           "con": "con-ecu_ecu11_gtu2-col_col3_lis1",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col3_lis1-ecu_ecu12_stu1",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "con": "con-col_col3_lis1-ecu_ecu13_stu2",
-          "active": "True"
+          "active": true
         },
         "output3": {
           "con": "con-col_col3_lis1-esu_esu2_ste",
-          "active": "True"
+          "active": true
         },
         "output4": {
           "con": "con-col_col3_lis1-ecu_ecu17_cst1",
-          "active": "True"
+          "active": true
         },
         "output5": {
           "con": "con-col_col3_lis1-ecu_ecu18_cst2",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -1705,53 +1705,53 @@
       "in": {
         "input1": {
           "con": "con-col_col2_mis1-col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-ecu_ecu12_stu1-col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-ecu_ecu15_shp1-col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-ecu_ecu13_stu2-col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-ecu_ecu16_shp2-col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-esu_esu2_ste-col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-ecu_ecu17_cst1-col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input8": {
           "con": "con-ecu_ecu18_cst2-col_col4_mis2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col4_mis2-dem_dem1_pro1",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "con": "con-col_col4_mis2-dem_dem2_pro2",
-          "active": "True"
+          "active": true
         },
         "output3": {
           "con": "con-col_col4_mis2-dem_dem3_pro3",
-          "active": "True"
+          "active": true
         },
         "output4": {
           "con": "con-col_col4_mis2-dem_dem4_pro4",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -1761,57 +1761,57 @@
       "in": {
         "input1": {
           "con": "con-col_col7_los1-col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-ecu_ecu12_stu1-col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-ecu_ecu13_stu2-col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-ecu_ecu15_shp1-col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-ecu_ecu16_shp2-col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-esu_esu2_ste-col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-ecu_ecu17_cst1-col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input8": {
           "con": "con-ecu_ecu18_cst2-col_col5_los2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col5_los2-dem_dem1_pro1",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "con": "con-col_col5_los2-dem_dem2_pro2",
-          "active": "True"
+          "active": true
         },
         "output3": {
           "con": "con-col_col5_los2-dem_dem3_pro3",
-          "active": "True"
+          "active": true
         },
         "output4": {
           "con": "con-col_col5_los2-dem_dem4_pro4",
-          "active": "True"
+          "active": true
         },
         "output5": {
           "con": "con-col_col5_los2-eso_eso18_dhe",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -1821,53 +1821,53 @@
       "in": {
         "input1": {
           "con": "con-ecu_ecu10_gtu1-col_col6_ele2",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-ecu_ecu11_gtu2-col_col6_ele2",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-col_col1_ele1-col_col6_ele2",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-ecu_ecu12_stu1-col_col6_ele2",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-ecu_ecu13_stu2-col_col6_ele2",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-ecu_ecu17_cst1-col_col6_ele2",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-ecu_ecu18_cst2-col_col6_ele2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col6_ele2-dem_dem1_pro1",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "con": "con-col_col6_ele2-dem_dem2_pro2",
-          "active": "True"
+          "active": true
         },
         "output3": {
           "con": "con-col_col6_ele2-dem_dem3_pro3",
-          "active": "True"
+          "active": true
         },
         "output4": {
           "con": "con-col_col6_ele2-dem_dem4_pro4",
-          "active": "True"
+          "active": true
         },
         "output5": {
           "con": "con-col_col6_ele2-eso_eso19_feg",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -1877,37 +1877,37 @@
       "in": {
         "input1": {
           "con": "con-ecu_ecu4_boi1-col_col7_los1",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-ecu_ecu5_boi2-col_col7_los1",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-ecu_ecu6_boi3-col_col7_los1",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-ecu_ecu7_boi4-col_col7_los1",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-ecu_ecu8_boi5-col_col7_los1",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-ecu_ecu9_boi6-col_col7_los1",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-eso_eso24_pdh-col_col7_los1",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col7_los1-col_col5_los2",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -1917,45 +1917,45 @@
       "in": {
         "input1": {
           "con": "con-ecu_ecu1_sbo1-col_col8_his1",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-ecu_ecu2_sbo2-col_col8_his1",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-ecu_ecu3_sbo3-col_col8_his1",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-ecu_ecu4_boi1-col_col8_his1",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-ecu_ecu5_boi2-col_col8_his1",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-ecu_ecu6_boi3-col_col8_his1",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-ecu_ecu7_boi4-col_col8_his1",
-          "active": "True"
+          "active": true
         },
         "input8": {
           "con": "con-ecu_ecu8_boi5-col_col8_his1",
-          "active": "True"
+          "active": true
         },
         "input9": {
           "con": "con-ecu_ecu9_boi6-col_col8_his1",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col8_his1-col_col9_his2",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -1965,53 +1965,53 @@
       "in": {
         "input1": {
           "con": "con-col_col8_his1-col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-ecu_ecu12_stu1-col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-ecu_ecu13_stu2-col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-esu_esu2_ste-col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "con": "con-ecu_ecu17_cst1-col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input6": {
           "con": "con-ecu_ecu18_cst2-col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input7": {
           "con": "con-ecu_ecu15_shp1-col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input8": {
           "con": "con-ecu_ecu16_shp2-col_col9_his2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col9_his2-dem_dem1_pro1",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "con": "con-col_col9_his2-dem_dem2_pro2",
-          "active": "True"
+          "active": true
         },
         "output3": {
           "con": "con-col_col9_his2-dem_dem3_pro3",
-          "active": "True"
+          "active": true
         },
         "output4": {
           "con": "con-col_col9_his2-dem_dem4_pro4",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -2021,29 +2021,29 @@
       "in": {
         "input1": {
           "con": "con-dem_dem1_pro1-col_col10_hua",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-dem_dem2_pro2-col_col10_hua",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-dem_dem3_pro3-col_col10_hua",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-dem_dem4_pro4-col_col10_hua",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col10_hua-ecu_ecu15_shp1",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "con": "con-col_col10_hua-esu_esu4_wwa",
-          "active": "True"
+          "active": true
         }
       }
     },
@@ -2053,29 +2053,29 @@
       "in": {
         "input1": {
           "con": "con-dem_dem1_pro1-col_col11_owh",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "con": "con-dem_dem2_pro2-col_col11_owh",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "con": "con-dem_dem3_pro3-col_col11_owh",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "con": "con-dem_dem4_pro4-col_col11_owh",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "con": "con-col_col11_owh-ecu_ecu14_whp1",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "con": "con-col_col11_owh-esu_esu4_wwa",
-          "active": "True"
+          "active": true
         }
       }
     }
@@ -2140,8 +2140,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 10,
           "minload": 30,
@@ -2218,8 +2218,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 10,
           "minload": 30,
@@ -2296,8 +2296,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 10,
           "minload": 30,
@@ -2374,8 +2374,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 50,
           "min_capacity": 5,
           "minload": 10,
@@ -2452,8 +2452,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 50,
           "min_capacity": 5,
           "minload": 10,
@@ -2530,8 +2530,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 50,
           "min_capacity": 5,
           "minload": 10,
@@ -2608,8 +2608,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 50,
           "min_capacity": 5,
           "minload": 10,
@@ -2686,8 +2686,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 50,
           "min_capacity": 5,
           "minload": 10,
@@ -2764,8 +2764,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 50,
           "min_capacity": 5,
           "minload": 10,
@@ -2814,8 +2814,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 2.5,
           "minload": 30,
@@ -2865,8 +2865,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 2.5,
           "minload": 30,
@@ -2916,8 +2916,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 5,
           "minload": 30,
@@ -2967,8 +2967,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 5,
           "minload": 30,
@@ -3018,8 +3018,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 20,
           "min_capacity": 0.5,
           "minload": 25,
@@ -3069,8 +3069,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 50,
           "min_capacity": 2,
           "minload": 25,
@@ -3124,8 +3124,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 50,
           "min_capacity": 2,
           "minload": 25,
@@ -3175,8 +3175,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 5,
           "minload": 30,
@@ -3226,8 +3226,8 @@
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "max_capacity": 100,
           "min_capacity": 5,
           "minload": 30,
@@ -3256,19 +3256,19 @@
       "in": {
         "input1": {
           "element": "col_col1_ele1",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "element": "col_col1_ele1",
-          "active": "True"
+          "active": true
         }
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "cap_max": 200,
           "cap_min": 5,
           "SOC_min": 20,
@@ -3290,27 +3290,27 @@
       "in": {
         "input1": {
           "element": "col_col3_lis1",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "element": "col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "element": "col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "output3": {
           "element": "col_col9_his2",
-          "active": "True"
+          "active": true
         }
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "cap_max": 200,
           "cap_min": 5,
           "SOC_min": "!!!",
@@ -3326,31 +3326,31 @@
       "in": {
         "input1": {
           "element": "eso_eso16_geo",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "element": "ecu_ecu14_whp1",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "element": "eso_eso24_pdh",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "element": "eso_eso18_dhe",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "element": "ecu_ecu16_shp2",
-          "active": "True"
+          "active": true
         }
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "cap_max": 200,
           "cap_min": 5,
           "SOC_min": 5,
@@ -3366,27 +3366,27 @@
       "in": {
         "input1": {
           "element": "col_col10_hua",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "element": "col_col11_owh",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "element": "ecu_ecu16_shp2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "element": "ecu_ecu14_whp1",
-          "active": "True"
+          "active": true
         }
       },
       "param": [
         {
-          "integrate": "True",
-          "exist": "False",
+          "integrate": true,
+          "exist": false,
           "cap_max": 200,
           "cap_min": 5,
           "SOC_min": 5,
@@ -3404,38 +3404,38 @@
       "in": {
         "input1": {
           "element": "eso_eso1_nga",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "element": "col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "element": "col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "element": "col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "element": "col_col6_ele2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "element": "col_col10_hua",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "element": "col_col11_owh",
-          "active": "True"
+          "active": true
         }
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,
@@ -3464,38 +3464,38 @@
       "in": {
         "input1": {
           "element": "eso_eso1_nga",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "element": "col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "element": "col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "element": "col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "element": "col_col6_ele2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "element": "col_col10_hua",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "element": "col_col11_owh",
-          "active": "True"
+          "active": true
         }
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,
@@ -3524,38 +3524,38 @@
       "in": {
         "input1": {
           "element": "eso_eso1_nga",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "element": "col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "element": "col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "element": "col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "element": "col_col6_ele2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "element": "col_col10_hua",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "element": "col_col11_owh",
-          "active": "True"
+          "active": true
         }
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,
@@ -3584,38 +3584,38 @@
       "in": {
         "input1": {
           "element": "eso_eso1_nga",
-          "active": "True"
+          "active": true
         },
         "input2": {
           "element": "col_col4_mis2",
-          "active": "True"
+          "active": true
         },
         "input3": {
           "element": "col_col5_los2",
-          "active": "True"
+          "active": true
         },
         "input4": {
           "element": "col_col9_his2",
-          "active": "True"
+          "active": true
         },
         "input5": {
           "element": "col_col6_ele2",
-          "active": "True"
+          "active": true
         }
       },
       "out": {
         "output1": {
           "element": "col_col10_hua",
-          "active": "True"
+          "active": true
         },
         "output2": {
           "element": "col_col11_owh",
-          "active": "True"
+          "active": true
         }
       },
       "param": [
         {
-          "integrate": "True",
+          "integrate": true,
           "days_off": 15,
           "p_gas_max": 5,
           "p_his_max": 2,

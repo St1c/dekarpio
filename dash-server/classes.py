@@ -34,6 +34,9 @@ class System:
     def add_node(self, param):
         self.node[param['name']] = Node(param, self)
 
+    # def add_con(self, param):
+    #     self.con[param['name']] = Node(param, self)
+
     def build_model(self):
         # Build system constraints
         for u in self.unit:
@@ -52,6 +55,14 @@ class System:
         # Build system objective
         obj = 0
         obj_real = 0
+        if self.param['free_certificate_fossil'] > 0:
+            obj -= self.param['free_certificate_fossil'] * self.param['cost_co2_fossil']
+            obj_real -= self.param['free_certificate_fossil'] * self.param['cost_co2_fossil']
+
+        if self.param['free_certificate_bio'] > 0:
+            obj -= self.param['free_certificate_bio'] * self.param['cost_co2_biogen']
+            obj_real -= self.param['free_certificate_bio'] * self.param['cost_co2_biogen']
+
         for u in self.unit:
             if 'total' in self.unit[u].obj.keys():
                 obj += self.unit[u].obj['total'].expr
@@ -413,8 +424,8 @@ class GasTurbine(Unit): #to do: in steam turbine convert
         da.add_con_a_v(self)    # to do: check what this is
 
         def con_rule(m, s, t):
-            return self.var['seq']['q'][s, t] == 0.5 * self.var['seq']['f'][s, t]                           # comment(7_12_22 SK) new constraint added - todo calculate factor 0.5 with thermodynamic params
-            #return self.var['seq']['q'][s, t] == self.var['seq']['f'][s, t] - self.var['seq']['p'][s, t]   # comment (7_12_22 SK): previous - adapted from thermodynamic considerations - todo add to manual
+            #return self.var['seq']['q'][s, t] == 0.5 * self.var['seq']['f'][s, t]                           # comment(7_12_22 SK) new constraint added - todo calculate factor 0.5 with thermodynamic params
+            return self.var['seq']['q'][s, t] == 0.95* (self.var['seq']['f'][s, t] - self.var['seq']['p'][s, t])   # comment (7_12_22 SK): previous - adapted from thermodynamic considerations - todo add to manual
         namestr = 'energy_balance'
         self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
 
@@ -3125,10 +3136,11 @@ class Supply(Unit):
             self.param['i_active'] = False
 
         da.add_energy_param(system, self, param)
+
         if 'flexbound' in self.param.keys():
             da.add_flexbound_param(system, self, param)
 
-        # Variables
+         # Variables
         self.var['seq'] = dict()
         self.var['scalar'] = dict()
         self.var['seq']['s'] = pyo.Var(system.model.set_sc, system.model.set_t, domain=pyo.NonNegativeReals)
@@ -3149,6 +3161,12 @@ class Supply(Unit):
         # Ports
         self.port['s'] = self.var['seq']['s']
 
+        if 'co2_fossil' in self.param.keys():
+            self.port['m_co2_fossil'] = self.var['seq']['m_co2_fossil']
+
+        if 'co2_biogen' in self.param.keys():
+            self.port['m_co2_biogen'] = self.var['seq']['m_co2_biogen']
+
         # Constraints
         da.add_op_lim(system, self, ['s'])
         da.add_cap_lim(self, ['s'])                 #
@@ -3158,7 +3176,13 @@ class Supply(Unit):
             def con_rule(m, s, t):
                 return self.var['seq']['s'][s, t] <= self.param['flexbound'][s, t] * self.var['scalar']['cap']
 
-            namestr = '_atyp_grid_use'
+            namestr = '_flexbound_UB'
+            self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
+
+            def con_rule(m, s, t):
+                return self.var['seq']['s'][s, t] >= 0.99 * self.param['flexbound'][s, t] * self.var['scalar']['cap']
+
+            namestr = '_flexbound_LB'
             self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
 
         if 'cap_existing' in self.param.keys():
@@ -3175,6 +3199,20 @@ class Supply(Unit):
             namestr = '_dec_expansion'
             self.con[namestr] = pyo.Constraint(rule=con_rule)
 
+        if 'co2_biogen' in self.param.keys():
+            def con_rule(m, s, t):
+                return self.var['seq']['m_co2_biogen'][s, t] == self.param['co2_biogen'] * self.var['seq']['s'][s, t]
+
+            namestr = '_calc_co2_biogen'
+            self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
+
+        if 'co2_fossil' in self.param.keys():
+            def con_rule(m, s, t):
+                return self.var['seq']['m_co2_fossil'][s, t] == self.param['co2_fossil'] * self.var['seq']['s'][s, t]
+
+            namestr = '_calc_co2_fossil'
+            self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
+
 
         # Objectives
         obj = sum(
@@ -3185,7 +3223,7 @@ class Supply(Unit):
         system.model.component(namestr).deactivate()
         self.obj['energy'] = system.model.component(namestr)
 
-        # add costs for additional max power (investment)
+        # add costs for additional features, max power investment co2 factors
         if 'cap_existing' in self.param.keys():
             obj = (self.var['scalar']['dec_cap_expansion'] * self.param['cost_fix_ex'] +
                    self.var['scalar']['cap_expansion'] * self.param['cost_max_ex']) / system.param['depreciation_period']
@@ -3194,10 +3232,42 @@ class Supply(Unit):
             system.model.component(namestr).deactivate()
             self.obj['inv'] = system.model.component(namestr)
 
-         # if 'co2_biogen'
-             # obj = (self.var) self.param['cost_co2_biogen']... --> SIMON
+        if 'co2_biogen' in self.param.keys():
+            obj = sum(
+                self.var['seq']['m_co2_biogen'][s, t] * system.param['sc'][s][0] for s in system.model.set_sc
+                for t in system.model.set_t) * system.param['cost_co2_biogen'] / system.param['dur_sc'] * 8760
+            namestr = 'obj_' + self.name + '_co2_biogen'
+            system.model.add_component(namestr, pyo.Objective(expr=obj))
+            system.model.component(namestr).deactivate()
+            self.obj['co2_biogen'] = system.model.component(namestr)
+
+            obj_mass =sum(
+                self.var['seq']['m_co2_biogen'][s, t] * system.param['sc'][s][0] for s in system.model.set_sc
+                for t in system.model.set_t) / system.param['dur_sc'] * 8760
+            namestr = 'obj_mass_' + self.name + '_co2_biogen'
+            system.model.add_component(namestr, pyo.Objective(expr=obj_mass))
+            system.model.component(namestr).deactivate()
+            self.obj['mass_co2_biogen'] = system.model.component(namestr)
+
+        if 'co2_fossil' in self.param.keys():
+            obj = sum(
+                self.var['seq']['m_co2_fossil'][s, t] * system.param['sc'][s][0] for s in system.model.set_sc
+                for t in system.model.set_t) * system.param['cost_co2_fossil'] / system.param['dur_sc'] * 8760
+            namestr = 'obj_' + self.name + '_co2_fossil'
+            system.model.add_component(namestr, pyo.Objective(expr=obj))
+            system.model.component(namestr).deactivate()
+            self.obj['co2_fossil'] = system.model.component(namestr)
+
+            obj_mass =sum(
+                self.var['seq']['m_co2_fossil'][s, t] * system.param['sc'][s][0] for s in system.model.set_sc
+                for t in system.model.set_t) / system.param['dur_sc'] * 8760
+            namestr = 'obj_mass_' + self.name + '_co2_fossil'
+            system.model.add_component(namestr, pyo.Objective(expr=obj_mass))
+            system.model.component(namestr).deactivate()
+            self.obj['mass_co2_fossil'] = system.model.component(namestr)
 
         # add costs for peak load (annual costs)
+
         if 'cost_max_load' in self.param:
             obj = self.var['scalar']['cap'] * self.param['cost_max_load']
             namestr = 'obj_' + self.name + '_max_s'
@@ -3211,10 +3281,33 @@ class Supply(Unit):
             obj += self.obj['max_s'].expr
         if 'cap_existing' in self.param:
             obj += self.obj['inv'].expr
+        if 'co2_biogen' in self.param:
+            obj += self.obj['co2_biogen'].expr
+        if 'co2_fossil' in self.param:
+            obj += self.obj['co2_fossil'].expr
+
         namestr = 'obj_' + self.name + '_total'
         system.model.add_component(namestr, pyo.Objective(expr=obj))
         system.model.component(namestr).deactivate()
         self.obj['total'] = system.model.component(namestr)
+
+        obj = 0
+        if 'co2_biogen' in self.param:
+            obj += self.obj['mass_co2_biogen'].expr
+
+        namestr = 'obj_' + self.name + '_co2_total_bio'
+        system.model.add_component(namestr, pyo.Objective(expr=obj))
+        system.model.component(namestr).deactivate()
+        self.obj['co2_total_bio'] = system.model.component(namestr)
+
+        obj = 0
+        if 'co2_fossil' in self.param:
+            obj += self.obj['mass_co2_fossil'].expr
+
+        namestr = 'obj_' + self.name + '_co2_total_fossil'
+        system.model.add_component(namestr, pyo.Objective(expr=obj))
+        system.model.component(namestr).deactivate()
+        self.obj['co2_total_fossil'] = system.model.component(namestr)
 
     def get_supply(self, system):
         return sum(
