@@ -33,6 +33,13 @@ export class SvgElementToolsService {
     return this.document.evaluate(`//*[contains(text(),"${title}")]/..`, context, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
   }
 
+  findConnecstionLinesById(ids: string[], state: boolean, svgLayout: ElementRef) {
+    ids.map(id => {
+      const item: HTMLElement | null = this.findElementByName(id, svgLayout.nativeElement) as HTMLElement;
+      state ? item?.classList.remove('inactive') : item?.classList.add('inactive');
+    });
+  }
+
   private getElementsFromShapeNames(names: string[], context: any): (Node | null)[] {
     return names.map(name => {
       return this.findElementByName(name, context);

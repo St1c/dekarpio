@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../auth/auth.service';
+import { SimulationDefault } from 'src/app/shared/data-access/store/simulation-config';
 
 export interface Simulation {
   id?: number;
@@ -26,6 +27,7 @@ export class SimulationsService {
   ) {}
 
   createSimulation(settings: string): Observable<any> {
+    console.log('settings', settings)
     return this.http.post<Simulation>(`${this.apiUrl}/simulation-setup`, {
       settings,
     });

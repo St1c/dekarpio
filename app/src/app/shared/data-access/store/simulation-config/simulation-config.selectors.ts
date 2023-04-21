@@ -3,7 +3,7 @@ import { createSelector,  Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 
-import { AppState, SimulationConfigState, SimulationSetup } from './simulation-config.reducer';
+import { AppState, SimulationConfigState, SimulationDefault, SimulationSetup } from './simulation-config.reducer';
 import { Simulation } from 'src/app/core/simulations/simulations.service';
 
 const getAppState = (state: AppState) => state;
@@ -48,6 +48,11 @@ const getSimulationDefaultConfigValue = createSelector(
     (state: SimulationConfigState) => state.value
 );
 
+const getSimulationConfigConnections = createSelector(
+    getSimulationDefaultConfigValue, 
+    (state: SimulationDefault) => state.con
+);
+
 const getSimulationDefaultConfigLoading = createSelector(
     getSimulationDefaultConfig,
     (state: SimulationConfigState) => state.loading
@@ -67,15 +72,17 @@ const getSimulationConfigSVGLoaded = createSelector(
 export class SimulationConfigSelectorService {
 
     simulationConfig$: Observable<SimulationConfigState> = this.store.select(getSimulationConfig);
-    simulationConfigValue$: Observable<Simulation> = this.store.select(getSimulationConfigValue);
+    simulationConfigValue$: Observable<SimulationDefault> = this.store.select(getSimulationConfigValue);
     simulationConfigLoading$: Observable<boolean> = this.store.select(getSimulationConfigLoading);
     simulationConfigLoaded$: Observable<boolean> = this.store.select(getSimulationConfigLoaded);
 
     simulationDefaultConfig$: Observable<SimulationConfigState> = this.store.select(getSimulationDefaultConfig);
-    simulationDefaultConfigValue$: Observable<Simulation> = this.store.select(getSimulationDefaultConfigValue);
+    simulationDefaultConfigValue$: Observable<SimulationDefault> = this.store.select(getSimulationDefaultConfigValue);
     simulationDefaultConfigLoading$: Observable<boolean> = this.store.select(getSimulationDefaultConfigLoading);
     simulationDefaultConfigLoaded$: Observable<boolean> = this.store.select(getSimulationDefaultConfigLoaded);
 
+
+    simulationConfigConnections$: Observable<any> = this.store.select(getSimulationConfigConnections);
     configurableShapeNames$: Observable<string[]> = this.store.select(getConfigurableShapeNames);
 
     simulationConfigSVGLoaded$: Observable<boolean> = this.store.select(getSimulationConfigSVGLoaded);

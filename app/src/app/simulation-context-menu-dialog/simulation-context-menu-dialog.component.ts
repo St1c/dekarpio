@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,6 +9,8 @@ import { ConfigFormComponent } from '../shared/ui/config-form/config-form.compon
 import { DialogData } from '../simulation-setup/simulation-setup.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { toBoolean } from '../shared/utils/type-coercion';
+import { SimulationConfigSelectorService } from '../shared/data-access/store/simulation-config/simulation-config.selectors';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'simulation-context-menu-dialog',
@@ -23,7 +25,7 @@ import { toBoolean } from '../shared/utils/type-coercion';
     ReactiveFormsModule
 ]
 })
-export class SimulationContextMenuDialogComponent {
+export class SimulationContextMenuDialogComponent implements OnDestroy {
   title = '';
   desc = '';
   element: any;
@@ -31,21 +33,35 @@ export class SimulationContextMenuDialogComponent {
 
   params = new UntypedFormControl();
 
+  private subs = new Subscription();
+
   constructor(
     public dialogRef: MatDialogRef<SimulationContextMenuDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private simulationConfigSelectorService: SimulationConfigSelectorService
   ) {
     this.title = data.title?.innerHTML || '';
     this.desc = data.desc?.innerHTML || '';
     this.element = data.element;
-    this.config = data.config;
-    
-    let integrate = toBoolean(this.config.param[0].integrate);
+    const unit_type = data.unit_meta?.unit_type;
+    const unit_id = data.unit_meta?.unit_id;
 
-    if ('param' in this.config) {
-      console.log(integrate);
-      this.params.setValue(integrate);
-    }
+    this.subs.add(this.simulationConfigSelectorService.simulationDefaultConfigValue$
+      .subscribe((defaultConfig: any) => {
+        this.config = { unit_type, unit_id, ...defaultConfig[unit_type][unit_id] };
+
+        let integrate = toBoolean(this.config.param[0].integrate);
+
+        if ('param' in this.config) {
+          console.log(integrate);
+          this.params.setValue(integrate);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
   }
 
   closeDialog() {

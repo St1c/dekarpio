@@ -1,4 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { SimulationDefault } from './simulation-config.reducer';
 
 // export const loadDefaultConfig = createAction('[API] Load default config');
 
@@ -6,7 +7,8 @@ export const SimulationDefaultConfigActions = createActionGroup({
   source: 'Simulation Config Defaults',
   events: {
     'Load config': emptyProps(),
-    'Loading config success': props<{ config: any, configurableShapes: string[] }>(),
+    'Loading config success': props<{ config: SimulationDefault, configurableShapes: string[] }>(),
+    'Update config': props<{ unit_type: string, unit_id: string, config: any }>(),
   }
 });
 
@@ -14,9 +16,13 @@ export const SimulationSetupAPIActions = createActionGroup({
   source: 'Simulation API',
   events: {
     'Load config': emptyProps(),
-    'Loading config success': props<{ config: any }>(),
+    'Loading config success': props<{ config: SimulationDefault }>(),
     'Update config': props<{ config: any }>(),
-    'Updating config success': emptyProps()
+    'Updating config success': emptyProps(),
+    'Create config': emptyProps(),
+    'Creating config success': emptyProps(),
+    'Validate config': emptyProps(),
+    'Validating config success': emptyProps(),
   }
 });
 
