@@ -1,5 +1,4 @@
 import { Directive, ElementRef, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges } from '@angular/core';
-import { Simulation } from 'src/app/core/simulations/simulations.service';
 import { SvgElementToolsService } from '../../utils/svg-element-tools.service';
 
 @Directive({

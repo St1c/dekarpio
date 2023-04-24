@@ -50,7 +50,7 @@ const getSimulationDefaultConfigValue = createSelector(
 
 const getSimulationConfigConnections = createSelector(
     getSimulationDefaultConfigValue, 
-    (state: SimulationDefault) => state.con
+    (state: any) => state.con
 );
 
 const getSimulationDefaultConfigLoading = createSelector(
@@ -72,12 +72,12 @@ const getSimulationConfigSVGLoaded = createSelector(
 export class SimulationConfigSelectorService {
 
     simulationConfig$: Observable<SimulationConfigState> = this.store.select(getSimulationConfig);
-    simulationConfigValue$: Observable<SimulationDefault> = this.store.select(getSimulationConfigValue);
+    simulationConfigValue$: Observable<any> = this.store.select(getSimulationConfigValue);
     simulationConfigLoading$: Observable<boolean> = this.store.select(getSimulationConfigLoading);
     simulationConfigLoaded$: Observable<boolean> = this.store.select(getSimulationConfigLoaded);
 
     simulationDefaultConfig$: Observable<SimulationConfigState> = this.store.select(getSimulationDefaultConfig);
-    simulationDefaultConfigValue$: Observable<SimulationDefault> = this.store.select(getSimulationDefaultConfigValue);
+    simulationDefaultConfigValue$: Observable<any> = this.store.select(getSimulationDefaultConfigValue);
     simulationDefaultConfigLoading$: Observable<boolean> = this.store.select(getSimulationDefaultConfigLoading);
     simulationDefaultConfigLoaded$: Observable<boolean> = this.store.select(getSimulationDefaultConfigLoaded);
 

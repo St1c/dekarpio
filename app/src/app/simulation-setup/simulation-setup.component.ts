@@ -1,20 +1,20 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
-import { InlineSVGModule } from 'ng-inline-svg';
 import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { InlineSVGModule } from 'ng-inline-svg';
 
 import { SimulationSetupDialogComponent } from '../simulation-setup-dialog/simulation-setup-dialog.component';
-import { SvgElementToolsService } from '../shared/utils/svg-element-tools.service';
 import { SvgElementsHoverListenerDirective } from '../shared/ui/svg-elements-hover-listener/svg-elements-hover-listener.directive';
 import { SimulationDefaultConfigActions, SimulationSetupAPIActions, SimulationSetupPageActions } from '../shared/data-access/store/simulation-config';
 import { SimulationConfigSelectorService } from '../shared/data-access/store/simulation-config/simulation-config.selectors';
-import { AsyncPipe } from '@angular/common';
 import { SvgElementsClickListenerDirective } from '../shared/ui/svg-elements-click-listener/svg-elements-click-listener.directive';
-import { Observable } from 'rxjs';
 import { SimulationContextMenuDialogComponent } from '../simulation-context-menu-dialog/simulation-context-menu-dialog.component';
 import { SvgElementsRightClickListenerDirective } from '../shared/ui/svg-elements-right-click-listener/svg-elements-right-click-listener.directive';
 
@@ -32,6 +32,7 @@ export interface DialogData {
   standalone: true,
   imports: [
     AsyncPipe,
+    CommonModule, 
     ReactiveFormsModule,
     InlineSVGModule,
 
@@ -48,27 +49,24 @@ export class SimulationSetupComponent {
   @ViewChild('layout', { static: false }) svgLayout!: ElementRef;
 
   clickedSvgElement: string = '';
-  configConnections!: any;
   configurableShapes$: Observable<string[]> = this.simulationConfigSelectorService.configurableShapeNames$;
+  simulationConfigLoaded$: Observable<boolean> = this.simulationConfigSelectorService.simulationConfigLoaded$;
 
   private subs = new Subscription();
 
   constructor(
     public dialog: MatDialog,
-    private svgTools: SvgElementToolsService,
     private store: Store<{simulationConfig: any}>,
     private simulationConfigSelectorService: SimulationConfigSelectorService
   ) {}
 
   ngOnInit() {
     this.store.dispatch(SimulationSetupPageActions.opened());
-    this.simulationConfigSelectorService.simulationConfigConnections$.subscribe((res: any) => {
-      this.configConnections = res;
-    });
   }
 
   svgLoaded() {
     this.store.dispatch(SimulationSetupPageActions.svgLoaded());
+    this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({svgElement: this.svgLayout}))
   }
 
   ngOnDestroy() {
@@ -118,7 +116,7 @@ export class SimulationSetupComponent {
     this.subs.add(ref.afterClosed().subscribe(result => {
       if (result) {
         this.updateConfig(result);
-        this.applyElementSettings(result);
+        this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({svgElement: this.svgLayout}))
       };
     }));
   }
@@ -129,30 +127,4 @@ export class SimulationSetupComponent {
     const { unit_type = '', unit_id = '', ...params } = { ...result.params };
     this.store.dispatch(SimulationDefaultConfigActions.updateConfig({unit_type: type, unit_id: id, config: params}));
   }
-
-  private applyElementSettings(result: { element: any, state: boolean, params: any; }) {
-    const matchingConnections = this.disableConnectionsByInOutIds(result.params.ID);
-    this.svgTools.findConnecstionLinesById([result.params.ID, ...matchingConnections], result.state, this.svgLayout);
-
-    const title = result.element.getElementsByTagName('title')[0]?.innerHTML;
-    const siblings = this.svgTools.findAllElementsContainingTitle(title, this.svgLayout.nativeElement);
-
-    for (let i = 0; i < siblings.snapshotLength; i++) {
-      const item = siblings.snapshotItem(i) as HTMLElement;
-      result.state ? item.classList.remove('inactive') : item.classList.add('inactive');
-    }
-  }
-
-  private disableConnectionsByInOutIds(id: string): string[] {
-    const connections = Object.keys(this.configConnections);
-    let matching_IDs: string[] = [];
-    connections.map(key => {
-      if (this.configConnections[key]['in'] === id || this.configConnections[key]['out'] === id) {
-        matching_IDs.push(this.configConnections[key]['ID']);
-      }
-    });
-
-    return [...matching_IDs];
-  }
-
 }

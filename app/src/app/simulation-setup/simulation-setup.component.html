@@ -1,6 +1,6 @@
 <!-- <h1 class="headline">{{ clickedSvgElement || 'No selected element' }}</h1> -->
 
-<div class="container">
+<div class="container" *ngIf="simulationConfigLoaded$ | async as config; else loading">
   <div #layout
        class="map-wrapper"
        [inlineSVG]="'assets/VISIO_12_12_2022.svg'"
@@ -19,3 +19,9 @@
             (click)="processConfig()">Results</button>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="container">
+    Loading
+  </div>
+</ng-template>

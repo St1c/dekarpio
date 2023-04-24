@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { SimulationDefault } from './simulation-config.reducer';
+import { ElementRef } from '@angular/core';
 
 // export const loadDefaultConfig = createAction('[API] Load default config');
 
@@ -7,8 +8,9 @@ export const SimulationDefaultConfigActions = createActionGroup({
   source: 'Simulation Config Defaults',
   events: {
     'Load config': emptyProps(),
-    'Loading config success': props<{ config: SimulationDefault, configurableShapes: string[] }>(),
+    'Loading config success': props<{ config: SimulationDefault }>(),
     'Update config': props<{ unit_type: string, unit_id: string, config: any }>(),
+    'Set configurable shapes': props<{ configurableShapes: string[] }>(),
   }
 });
 
@@ -32,6 +34,7 @@ export const SimulationSetupPageActions = createActionGroup({
     // defining an event without payload using the `emptyProps` function
     'Opened': emptyProps(),
     'SVG Loaded': emptyProps(),
+    'SVG update on config change': props<{svgElement: ElementRef}>(),
     
     // defining an event with payload using the `props` function
     // 'Pagination Changed': props<{ page: number; offset: number }>(),

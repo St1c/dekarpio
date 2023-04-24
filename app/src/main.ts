@@ -43,7 +43,7 @@ bootstrapApplication(AppComponent, {
         strictStateImmutability: false,
         strictActionImmutability: false,
         strictStateSerializability: true,
-        strictActionSerializability: true,
+        strictActionSerializability: false,
       }
     }),
     provideRouterStore(),

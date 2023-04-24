@@ -40,6 +40,18 @@ export class SvgElementToolsService {
     });
   }
 
+  findAffectedConnectionsByInOutIds(id: string, configConnections: any): string[] {
+    const connections = Object.keys(configConnections);
+    let affectedIDs: string[] = [];
+    connections.map(key => {
+      if (configConnections[key]['in'] === id || configConnections[key]['out'] === id) {
+        affectedIDs.push(configConnections[key]['ID']);
+      }
+    });
+
+    return [...affectedIDs];
+  }
+
   private getElementsFromShapeNames(names: string[], context: any): (Node | null)[] {
     return names.map(name => {
       return this.findElementByName(name, context);

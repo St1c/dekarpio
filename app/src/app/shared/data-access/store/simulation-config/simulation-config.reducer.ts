@@ -17,7 +17,7 @@ export interface SimulationDefault {
   dem: {},
 }
 export interface SimulationConfigState {
-  value: SimulationDefault;
+  value: {[key: string]: any};
   loading: boolean;
   loaded: boolean;
 }
@@ -31,30 +31,12 @@ export interface SimulationSetup {
 
 export const initialSimulationConfigState: SimulationSetup = {
   defaultConfig: {
-    value: {
-      eso: {},
-      par: {},
-      eco: {},
-      con: {},
-      col: {},
-      ecu: {},
-      esu: {},
-      dem: {},
-    },
+    value: {},
     loading: false,
     loaded: false,
   },
   config: {
-    value: {
-      eso: {},
-      par: {},
-      eco: {},
-      con: {},
-      col: {},
-      ecu: {},
-      esu: {},
-      dem: {},
-    },
+    value: {},
     loading: false,
     loaded: false,
   },
@@ -89,14 +71,20 @@ export const simulationConfigReducer = createReducer(
     }
   )),
 
-  on(SimulationDefaultConfigActions.loadingConfigSuccess, (state, { config, configurableShapes }) => (
+  on(SimulationDefaultConfigActions.loadingConfigSuccess, (state, { config }) => (
     {
       ...state,
       defaultConfig: {
         value: { ...config },
         loading: false,
         loaded: true,
-      },
+      }
+    }
+  )),
+
+  on(SimulationDefaultConfigActions.setConfigurableShapes, (state, { configurableShapes }) => (
+    {
+      ...state,
       configurableShapes: [...configurableShapes],
     }
   )),

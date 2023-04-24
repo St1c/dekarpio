@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ElementRef, Injectable } from '@angular/core';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { map, catchError, switchMap, filter, withLatestFrom } from 'rxjs/operators';
+import { map, catchError, switchMap, filter, withLatestFrom, delay } from 'rxjs/operators';
 import * as routerActions from '@ngrx/router-store';
 
 import { ConfigProvider } from 'src/app/core/config.provider';
@@ -15,42 +15,37 @@ import { Router } from '@angular/router';
 @Injectable()
 export class SimulationSetupEffects {
 
-  // loadDefaultConfig$ = createEffect(() => this.actions$.pipe(
-  //   ofType(routerActions.routerNavigatedAction),
-  //   filter(routeChangeAction => routeChangeAction.payload.routerState.url === '/simulation-setup'),
-  //   switchMap(() => this.configProvider.getConfigFromAssets()),
-  //   map( (defaultConfig: Object) => SimulationDefaultConfigActions.loadingConfigSuccess({ config: defaultConfig })),
-  //   catchError(() => EMPTY)
-  // ));
-
-
-  // loadAPIConfig$ = createEffect(() => this.actions$.pipe(
-  //   ofType(routerActions.routerNavigatedAction),
-  //   filter(routeChangeAction => routeChangeAction.payload.routerState.url === '/simulation-setup'),
-  //   switchMap( () => this.simulationService.getSimulation()),
-  //   map( (config: Simulation) => {
-  //     let configToUse = config?.settings ? JSON.parse(config.settings) : {};
-  //     return SimulationSetupAPIActions.loadingConfigSuccess({ config: configToUse }) 
-  //   }),
-  //   catchError(() => EMPTY)
-  // ));
-
   loadDefaultConfig$ = createEffect(() => this.actions$.pipe(
-    ofType(SimulationSetupPageActions.svgLoaded),
+    // ofType(SimulationSetupPageActions.svgLoaded),
+    ofType(routerActions.routerNavigatedAction),
+    filter(routeChangeAction => routeChangeAction.payload.routerState.url === '/simulation-setup'),
     switchMap(() => this.configProvider.getConfigFromAssets()),
     map((defaultConfig: SimulationDefault) => {
-      const configurableShapes = this.svgTools.getConfigurableShapeNames(defaultConfig);
-      return SimulationDefaultConfigActions.loadingConfigSuccess({ config: defaultConfig, configurableShapes });
+      return SimulationDefaultConfigActions.loadingConfigSuccess({ config: defaultConfig });
     }),
     catchError(() => EMPTY)
   ));
 
   loadAPIConfig$ = createEffect(() => this.actions$.pipe(
-    ofType(SimulationSetupPageActions.svgLoaded),
+    // ofType(SimulationSetupPageActions.svgLoaded),
+    ofType(routerActions.routerNavigatedAction),
+    filter(routeChangeAction => routeChangeAction.payload.routerState.url === '/simulation-setup'),
     switchMap(() => this.simulationService.getSimulation()),
     map((config: Simulation) => {
       let configToUse = config?.settings ? JSON.parse(config.settings) : {};
       return SimulationSetupAPIActions.loadingConfigSuccess({ config: configToUse });
+    }),
+    catchError(() => EMPTY)
+  ));
+
+  setConfigurableShapesAfterSvgLoad$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      SimulationSetupPageActions.svgLoaded
+    ),
+    withLatestFrom(this.simulationConfigSelectorService.simulationDefaultConfigValue$),
+    map(([notUsedAction, defaultConfig]) => {
+      const configurableShapes = this.svgTools.getConfigurableShapeNames(defaultConfig);
+      return SimulationDefaultConfigActions.setConfigurableShapes({ configurableShapes });
     }),
     catchError(() => EMPTY)
   ));
@@ -72,18 +67,33 @@ export class SimulationSetupEffects {
 
   validateConfigSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(SimulationSetupAPIActions.validatingConfigSuccess),
-    switchMap(() => this.router.navigate(['/simulation-results'] ))
+    switchMap(() => this.router.navigate(['/simulation-results']))
   ), { dispatch: false });
 
-  // this.subs.add(
-  //   this.simulationService.createSimulation(JSON.stringify(this.config))
-  //     .pipe(
-  //       switchMap((res: any) => this.simulationService.validateSimulation()
-  //       ))
-  //     .subscribe((res: any) => {
-  //       this.router.navigate(['/simulation-results']);
-  //     })
-  // );
+  updateSVGonConfigChange$ = createEffect(() => this.actions$.pipe(
+    ofType(SimulationSetupPageActions.svgUpdateOnConfigChange),
+    // delay(100),
+    concatLatestFrom(() => [
+      this.simulationConfigSelectorService.configurableShapeNames$,
+      this.simulationConfigSelectorService.simulationDefaultConfigValue$,
+      this.simulationConfigSelectorService.simulationConfigConnections$
+    ]),
+    map(([action, configurableShapes, config, configConnections]) => {
+      const svgElement = action.svgElement;
+      const configurableElements = this.svgTools.getConfigurableElements(svgElement, configurableShapes);
+
+      // @TODO: loop through configurableElements and update the svg based on config
+      configurableElements?.map((el: Node | null) => {
+        let title = '';
+        el?.childNodes.forEach((node: any) => node.nodeName === 'title' ? title = node.innerHTML : null );
+        if (title.length > 0) {
+          let [unit_type, unit_id, ...rest] = title.split('_');
+          this.applyElementSettingsToSVG(title, config[unit_type][unit_id], configConnections, svgElement);
+        }
+      });
+    }),
+    catchError(() => EMPTY)
+  ), { dispatch: false });
 
   constructor(
     private actions$: Actions,
@@ -93,4 +103,19 @@ export class SimulationSetupEffects {
     private router: Router,
     private svgTools: SvgElementToolsService
   ) { }
+
+
+  private applyElementSettingsToSVG(title: string, params: any, configConnections: any, svgLayout: ElementRef) {
+    const state = params.param[0]?.integrate || false;
+    const affectedConnections = this.svgTools.findAffectedConnectionsByInOutIds(title, configConnections);
+    this.svgTools.findConnecstionLinesById([title, ...affectedConnections], state, svgLayout);
+
+    const siblings = this.svgTools.findAllElementsContainingTitle(title, svgLayout.nativeElement);
+
+    for (let i = 0; i < siblings.snapshotLength; i++) {
+      const item = siblings.snapshotItem(i) as HTMLElement;
+      state ? item.classList.remove('inactive') : item.classList.add('inactive');
+    }
+  }
+
 }
