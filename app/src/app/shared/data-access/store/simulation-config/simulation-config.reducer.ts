@@ -1,5 +1,9 @@
-import { createReducer, on } from '@ngrx/store';
-import { SimulationDefaultConfigActions, SimulationSetupAPIActions, SimulationSetupPageActions } from './simulation-config.actions';
+import {createReducer, on} from '@ngrx/store';
+import {
+  SimulationDefaultConfigActions,
+  SimulationSetupAPIActions,
+  SimulationSetupPageActions
+} from './simulation-config.actions';
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 
 export interface AppState {
@@ -22,14 +26,15 @@ export interface SimulationDefault {
   esu: {},
   dem: {},
 }
+
 export interface SimulationConfigState {
-  value: {[key: string]: any};
+  value: { [key: string]: any };
   loading: boolean;
   loaded: boolean;
 }
 
 export interface SimulationSetup {
-  activeConfig: {[key: string]: any};
+  activeConfig: { [key: string]: any };
   defaultConfig: SimulationConfigState;
   config: SimulationConfigState;
   configurableShapes: string[];
@@ -66,7 +71,7 @@ export const initialConfigIdsState: State = configEntitydapter.getInitialState({
 
 export const configEntityReducer = createReducer(
   initialConfigIdsState,
-  on(SimulationSetupAPIActions.loadingConfigIdsSuccess, (state, {configs }) => {
+  on(SimulationSetupAPIActions.loadingConfigIdsSuccess, (state, {configs}) => {
     return configEntitydapter.setAll(configs, state);
   }),
 );
@@ -98,38 +103,34 @@ export const simulationConfigReducer = createReducer(
     }
   )),
 
-  on(SimulationDefaultConfigActions.loadingConfigSuccess, (state, { config }) => (
+  on(SimulationDefaultConfigActions.loadingConfigSuccess, (state, {config}) => (
     {
       ...state,
       defaultConfig: {
-        value: { ...config },
+        value: {...config},
         loading: false,
         loaded: true,
       }
     }
   )),
 
-  on(SimulationDefaultConfigActions.setConfigurableShapes, (state, { configurableShapes }) => (
+  on(SimulationDefaultConfigActions.setConfigurableShapes, (state, {configurableShapes}) => (
     {
       ...state,
       configurableShapes: [...configurableShapes],
     }
   )),
 
-  on(SimulationDefaultConfigActions.updateConfig, (state, { unit_type, unit_id, config }) => ({
+  on(SimulationDefaultConfigActions.updateConfig, (state, {unit_type, unit_id, config}) => ({
     ...state,
-    defaultConfig: {
-      value: {
-        ...state.defaultConfig.value,
-        [unit_type]: {
-          ...state.defaultConfig.value[unit_type as keyof SimulationDefault],
-          [unit_id]: {
-            ...config
-          }
+    activeConfig: {
+      ...state.activeConfig,
+      [unit_type]: {
+        ...state.activeConfig[unit_type as keyof SimulationDefault],
+        [unit_id]: {
+          ...config
         }
-      },
-      loading: false,
-      loaded: true,
+      }
     }
   })),
 
@@ -147,14 +148,14 @@ export const simulationConfigReducer = createReducer(
     {
       ...state,
       config: {
-        value: { ...action.config },
+        value: {...action.config},
         loading: false,
         loaded: true,
       },
     }
   )),
 
-  on(SimulationSetupAPIActions.updateConfig, (state) => ({ ...state })),
+  on(SimulationSetupAPIActions.updateConfig, (state) => ({...state})),
 
   on(SimulationSetupPageActions.svgLoaded, (state) => (
     {
@@ -164,7 +165,7 @@ export const simulationConfigReducer = createReducer(
   )),
 
 
-  on(SimulationSetupPageActions.setActiveConfig, (state, { id }) => {
+  on(SimulationSetupPageActions.setActiveConfig, (state, {id}) => {
     if (id === 'latest') {
       return {
         ...state,
