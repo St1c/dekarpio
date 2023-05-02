@@ -152,7 +152,7 @@ export class SimulationSetupComponent {
 
   private updateConfig(result: { element: any, state: boolean, params: any; }) {
     const params_id = result.params.ID;
-    let [type, id, ...rest] = params_id.split('_');
+    let [type, id] = params_id.split('_');
     const {unit_type = '', unit_id = '', ...params} = {...result.params};
     this.store.dispatch(SimulationDefaultConfigActions.updateConfig({unit_type: type, unit_id: id, config: params}));
   }

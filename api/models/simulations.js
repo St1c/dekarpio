@@ -1,7 +1,7 @@
 const db = require('./index');
 const mysql = require('mysql');
 
-// Readble attributes contains password (for bcrypt internal JWT checking), 
+// Readble attributes contains password (for bcrypt internal JWT checking),
 // all data sent to user must be pruned before sending
 const readable = ['id', 'user_id', 'settings', 'results'];
 const writable = ['id', 'user_id', 'settings', 'results'];
@@ -10,7 +10,8 @@ var simulations = Object.assign(Object.create(db), {
     create,
     update,
     getAllUserSimulations,
-    getLatestUserSimulation
+    getLastXUserSimulations,
+    getLatestUserSimulation,
 });
 simulations.init('simulations', readable, writable);
 module.exports = simulations;
@@ -38,6 +39,12 @@ async function update(obj) {
 async function getAllUserSimulations(userId) {
     return this.query(mysql.format(
         'SELECT ?? FROM ?? WHERE `user_id` = ?', [this.readableAttributes, this.tableName, userId]
+    ));
+}
+
+async function getLastXUserSimulations(userId, limit = 10) {
+    return this.query(mysql.format(
+        'SELECT `id`, `user_id`, `settings`, `created_at` FROM ?? WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ?', [this.tableName, userId, limit]
     ));
 }
 

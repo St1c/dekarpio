@@ -2,6 +2,7 @@ const db = require('../models');
 const simulations = require('../models/simulations');
 
 module.exports.getAllUserSimulations = getAllUserSimulations;
+module.exports.getLastXUserSimulations = getLastXUserSimulations;
 module.exports.getLatestUserSimulation = getLatestUserSimulation;
 module.exports.updateSimulationWithResult = updateSimulationWithResult;
 
@@ -12,12 +13,26 @@ module.exports.updateSimulationWithResult = updateSimulationWithResult;
  * @param {Object} next Next handler
  */
 async function getAllUserSimulations(ctx, next) {
-    
+
     const userId = +ctx.params.userId;
     if (!userId) ctx.throw(400, 'Missing user ID');
 
     const activeConnection = await db.connect();
-    const res = await simulations.getAllUserSimulations(ctx.params.userId);
+    const res = await simulations.getAllUserSimulations(userId);
+    await activeConnection.release();
+
+    ctx.body = {
+        data: res
+    }
+}
+
+async function getLastXUserSimulations(ctx, next) {
+    const userId = +ctx.params.userId;
+    const limit = +ctx.params.limit;
+    if (!userId) ctx.throw(400, 'Missing user ID');
+
+    const activeConnection = await db.connect();
+    const res = await simulations.getLastXUserSimulations(userId, limit);
     await activeConnection.release();
 
     ctx.body = {
