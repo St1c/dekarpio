@@ -23,6 +23,11 @@ const getSimulationDefaultConfig = createSelector(
     (state: AppState) => state.simulationSetup.defaultConfig
 );
 
+const getSimulationActiveConfig = createSelector(
+  getAppState,
+  (state: AppState) => state.simulationSetup.activeConfig
+);
+
 const getConfigurableShapeNames = createSelector(
     getAppState,
     (state: AppState) => state.simulationSetup.configurableShapes
@@ -49,7 +54,7 @@ const getSimulationDefaultConfigValue = createSelector(
 );
 
 const getSimulationConfigConnections = createSelector(
-    getSimulationDefaultConfigValue, 
+    getSimulationDefaultConfigValue,
     (state: any) => state.con
 );
 
@@ -81,6 +86,7 @@ export class SimulationConfigSelectorService {
     simulationDefaultConfigLoading$: Observable<boolean> = this.store.select(getSimulationDefaultConfigLoading);
     simulationDefaultConfigLoaded$: Observable<boolean> = this.store.select(getSimulationDefaultConfigLoaded);
 
+    simulationActiveConfig$: Observable< {[key: string]: any}> = this.store.select(getSimulationActiveConfig);
 
     simulationConfigConnections$: Observable<any> = this.store.select(getSimulationConfigConnections);
     configurableShapeNames$: Observable<string[]> = this.store.select(getConfigurableShapeNames);

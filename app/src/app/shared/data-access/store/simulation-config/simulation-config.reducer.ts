@@ -1,9 +1,16 @@
 import { createReducer, on } from '@ngrx/store';
 import { Simulation } from 'src/app/core/simulations/simulations.service';
 import { SimulationDefaultConfigActions, SimulationSetupAPIActions, SimulationSetupPageActions } from './simulation-config.actions';
+import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 
 export interface AppState {
   simulationSetup: SimulationSetup;
+}
+
+export interface ConfigEntity {
+  id: number;
+  user_id: number;
+  settings: string;
 }
 
 export interface SimulationDefault {
@@ -23,6 +30,7 @@ export interface SimulationConfigState {
 }
 
 export interface SimulationSetup {
+  activeConfig: {[key: string]: any};
   defaultConfig: SimulationConfigState;
   config: SimulationConfigState;
   configurableShapes: string[];
@@ -30,6 +38,7 @@ export interface SimulationSetup {
 }
 
 export const initialSimulationConfigState: SimulationSetup = {
+  activeConfig: {},
   defaultConfig: {
     value: {},
     loading: false,
@@ -43,6 +52,25 @@ export const initialSimulationConfigState: SimulationSetup = {
   configurableShapes: [''],
   svgLoaded: false,
 };
+
+export interface State extends EntityState<ConfigEntity> {
+  // additional entities state properties
+  selectedConfigId: number | 0;
+}
+
+export const configEntitydapter: EntityAdapter<ConfigEntity> = createEntityAdapter<ConfigEntity>();
+
+export const initialConfigIdsState: State = configEntitydapter.getInitialState({
+  // additional entity state properties
+  selectedConfigId: 0,
+});
+
+export const configEntityReducer = createReducer(
+  initialConfigIdsState,
+  on(SimulationSetupAPIActions.loadingConfigIdsSuccess, (state, {configs }) => {
+    return configEntitydapter.setAll(configs, state);
+  }),
+);
 
 export const simulationConfigReducer = createReducer(
   initialSimulationConfigState,
@@ -136,4 +164,22 @@ export const simulationConfigReducer = createReducer(
     }
   )),
 
+
+  on(SimulationSetupPageActions.setActiveConfig, (state, { id }) => {
+    if (id === 'latest') {
+      return {
+        ...state,
+        activeConfig: {
+          ...state.config.value,
+        },
+      };
+    } else {
+      return {
+        ...state,
+        activeConfig: {
+          ...state.defaultConfig.value,
+        },
+      };
+    }
+  })
 );

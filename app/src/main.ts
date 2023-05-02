@@ -15,7 +15,11 @@ import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/app-routing.module';
 import { CoreModule } from './app/core/core.module';
-import { simulationConfigReducer, SimulationSetupEffects } from './app/shared/data-access/store/simulation-config';
+import {
+  configEntityReducer,
+  simulationConfigReducer,
+  SimulationSetupEffects
+} from './app/shared/data-access/store/simulation-config';
 
 if (environment.production) {
   enableProdMode();
@@ -37,6 +41,7 @@ bootstrapApplication(AppComponent, {
     provideStore({
       router: routerReducer,
       simulationSetup: simulationConfigReducer,
+      configEntities: configEntityReducer
       // auth: authReducer,
     }, {
       runtimeChecks: {

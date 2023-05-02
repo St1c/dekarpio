@@ -46,7 +46,7 @@ export class SimulationContextMenuDialogComponent implements OnDestroy {
     const unit_type = data.unit_meta?.unit_type;
     const unit_id = data.unit_meta?.unit_id;
 
-    this.subs.add(this.simulationConfigSelectorService.simulationDefaultConfigValue$
+    this.subs.add(this.simulationConfigSelectorService.simulationActiveConfig$
       .subscribe((defaultConfig: any) => {
         this.config = { unit_type, unit_id, ...defaultConfig[unit_type][unit_id] };
 
@@ -68,7 +68,7 @@ export class SimulationContextMenuDialogComponent implements OnDestroy {
     const res = {
       element: this.element,
       params: {
-        ...this.config, 
+        ...this.config,
         param: [{
           ...this.config.param[0],
           integrate: toBoolean(this.params.value)

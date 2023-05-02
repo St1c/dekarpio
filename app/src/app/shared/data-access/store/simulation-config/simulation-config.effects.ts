@@ -1,16 +1,20 @@
-import { ElementRef, Injectable } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
-import { map, catchError, switchMap, filter, withLatestFrom, delay } from 'rxjs/operators';
+import {ElementRef, Injectable} from '@angular/core';
+import {Actions, concatLatestFrom, createEffect, ofType} from '@ngrx/effects';
+import {EMPTY} from 'rxjs';
+import {catchError, delay, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import * as routerActions from '@ngrx/router-store';
 
-import { ConfigProvider } from 'src/app/core/config.provider';
-import { Simulation, SimulationsService } from 'src/app/core/simulations/simulations.service';
-import { SimulationDefaultConfigActions, SimulationSetupAPIActions, SimulationSetupPageActions } from './simulation-config.actions';
-import { SvgElementToolsService } from 'src/app/shared/utils/svg-element-tools.service';
-import { SimulationDefault } from './simulation-config.reducer';
-import { SimulationConfigSelectorService } from './simulation-config.selectors';
-import { Router } from '@angular/router';
+import {ConfigProvider} from 'src/app/core/config.provider';
+import {Simulation, SimulationsService} from 'src/app/core/simulations/simulations.service';
+import {
+  SimulationDefaultConfigActions,
+  SimulationSetupAPIActions,
+  SimulationSetupPageActions
+} from './simulation-config.actions';
+import {SvgElementToolsService} from 'src/app/shared/utils/svg-element-tools.service';
+import {ConfigEntity, SimulationDefault} from './simulation-config.reducer';
+import {SimulationConfigSelectorService} from './simulation-config.selectors';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class SimulationSetupEffects {
@@ -21,7 +25,7 @@ export class SimulationSetupEffects {
     filter(routeChangeAction => routeChangeAction.payload.routerState.url === '/simulation-setup'),
     switchMap(() => this.configProvider.getConfigFromAssets()),
     map((defaultConfig: SimulationDefault) => {
-      return SimulationDefaultConfigActions.loadingConfigSuccess({ config: defaultConfig });
+      return SimulationDefaultConfigActions.loadingConfigSuccess({config: defaultConfig});
     }),
     catchError(() => EMPTY)
   ));
@@ -33,26 +37,41 @@ export class SimulationSetupEffects {
     switchMap(() => this.simulationService.getSimulation()),
     map((config: Simulation) => {
       let configToUse = config?.settings ? JSON.parse(config.settings) : {};
-      return SimulationSetupAPIActions.loadingConfigSuccess({ config: configToUse });
+      return SimulationSetupAPIActions.loadingConfigSuccess({config: configToUse});
+    }),
+    catchError(() => EMPTY)
+  ));
+
+  loadAPIConfigSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(SimulationSetupAPIActions.loadingConfigSuccess),
+    map(() => SimulationSetupPageActions.setActiveConfig({id: 'latest'})),
+    catchError(() => EMPTY)
+  ));
+
+  loadConfigIDs$ = createEffect(() => this.actions$.pipe(
+    // ofType(SimulationSetupPageActions.svgLoaded),
+    ofType(routerActions.routerNavigatedAction),
+    filter(routeChangeAction => routeChangeAction.payload.routerState.url === '/simulation-setup'),
+    switchMap(() => this.simulationService.getXSimulations(10)),
+    map((configs: ConfigEntity[]) => {
+      return SimulationSetupAPIActions.loadingConfigIdsSuccess({configs});
     }),
     catchError(() => EMPTY)
   ));
 
   setConfigurableShapesAfterSvgLoad$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      SimulationSetupPageActions.svgLoaded
-    ),
+    ofType(SimulationSetupPageActions.svgLoaded),
     withLatestFrom(this.simulationConfigSelectorService.simulationDefaultConfigValue$),
     map(([notUsedAction, defaultConfig]) => {
       const configurableShapes = this.svgTools.getConfigurableShapeNames(defaultConfig);
-      return SimulationDefaultConfigActions.setConfigurableShapes({ configurableShapes });
+      return SimulationDefaultConfigActions.setConfigurableShapes({configurableShapes});
     }),
     catchError(() => EMPTY)
   ));
 
   createConfig$ = createEffect(() => this.actions$.pipe(
     ofType(SimulationSetupAPIActions.createConfig),
-    withLatestFrom(this.simulationConfigSelectorService.simulationConfigValue$),
+    withLatestFrom(this.simulationConfigSelectorService.simulationActiveConfig$),
     switchMap(([action, config]) => this.simulationService.createSimulation(JSON.stringify(config))),
     map((simulation: Simulation) => SimulationSetupAPIActions.creatingConfigSuccess()),
     catchError(() => EMPTY)
@@ -68,14 +87,14 @@ export class SimulationSetupEffects {
   validateConfigSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(SimulationSetupAPIActions.validatingConfigSuccess),
     switchMap(() => this.router.navigate(['/simulation-results']))
-  ), { dispatch: false });
+  ), {dispatch: false});
 
   updateSVGonConfigChange$ = createEffect(() => this.actions$.pipe(
     ofType(SimulationSetupPageActions.svgUpdateOnConfigChange),
-    // delay(100),
+    delay(100),
     concatLatestFrom(() => [
       this.simulationConfigSelectorService.configurableShapeNames$,
-      this.simulationConfigSelectorService.simulationDefaultConfigValue$,
+      this.simulationConfigSelectorService.simulationActiveConfig$,
       this.simulationConfigSelectorService.simulationConfigConnections$
     ]),
     map(([action, configurableShapes, config, configConnections]) => {
@@ -85,7 +104,7 @@ export class SimulationSetupEffects {
       // @TODO: loop through configurableElements and update the svg based on config
       configurableElements?.map((el: Node | null) => {
         let title = '';
-        el?.childNodes.forEach((node: any) => node.nodeName === 'title' ? title = node.innerHTML : null );
+        el?.childNodes.forEach((node: any) => node.nodeName === 'title' ? title = node.innerHTML : null);
         if (title.length > 0) {
           let [unit_type, unit_id, ...rest] = title.split('_');
           this.applyElementSettingsToSVG(title, config[unit_type][unit_id], configConnections, svgElement);
@@ -93,7 +112,7 @@ export class SimulationSetupEffects {
       });
     }),
     catchError(() => EMPTY)
-  ), { dispatch: false });
+  ), {dispatch: false});
 
   constructor(
     private actions$: Actions,
@@ -102,7 +121,8 @@ export class SimulationSetupEffects {
     private simulationConfigSelectorService: SimulationConfigSelectorService,
     private router: Router,
     private svgTools: SvgElementToolsService
-  ) { }
+  ) {
+  }
 
 
   private applyElementSettingsToSVG(title: string, params: any, configConnections: any, svgLayout: ElementRef) {
