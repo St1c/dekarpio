@@ -32,7 +32,6 @@ import {
 } from '../shared/ui/svg-elements-right-click-listener/svg-elements-right-click-listener.directive';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
-import {filter} from "rxjs/operators";
 import {MatIconModule} from "@angular/material/icon";
 
 export interface DialogData {

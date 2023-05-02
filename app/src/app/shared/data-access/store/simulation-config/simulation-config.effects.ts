@@ -62,7 +62,7 @@ export class SimulationSetupEffects {
   setConfigurableShapesAfterSvgLoad$ = createEffect(() => this.actions$.pipe(
     ofType(SimulationSetupPageActions.svgLoaded),
     withLatestFrom(this.simulationConfigSelectorService.simulationDefaultConfigValue$),
-    map(([notUsedAction, defaultConfig]) => {
+    map(([, defaultConfig]) => {
       const configurableShapes = this.svgTools.getConfigurableShapeNames(defaultConfig);
       return SimulationDefaultConfigActions.setConfigurableShapes({configurableShapes});
     }),
@@ -72,8 +72,8 @@ export class SimulationSetupEffects {
   createConfig$ = createEffect(() => this.actions$.pipe(
     ofType(SimulationSetupAPIActions.createConfig),
     withLatestFrom(this.simulationConfigSelectorService.simulationActiveConfig$),
-    switchMap(([action, config]) => this.simulationService.createSimulation(JSON.stringify(config))),
-    map((simulation: Simulation) => SimulationSetupAPIActions.creatingConfigSuccess()),
+    switchMap(([, config]) => this.simulationService.createSimulation(JSON.stringify(config))),
+    map(() => SimulationSetupAPIActions.creatingConfigSuccess()),
     catchError(() => EMPTY)
   ));
 
@@ -106,7 +106,7 @@ export class SimulationSetupEffects {
         let title = '';
         el?.childNodes.forEach((node: any) => node.nodeName === 'title' ? title = node.innerHTML : null);
         if (title.length > 0) {
-          let [unit_type, unit_id, ...rest] = title.split('_');
+          let [unit_type, unit_id] = title.split('_');
           this.applyElementSettingsToSVG(title, config[unit_type][unit_id], configConnections, svgElement);
         }
       });

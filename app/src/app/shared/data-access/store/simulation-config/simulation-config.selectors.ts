@@ -3,8 +3,7 @@ import { createSelector,  Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 
-import { AppState, SimulationConfigState, SimulationDefault, SimulationSetup } from './simulation-config.reducer';
-import { Simulation } from 'src/app/core/simulations/simulations.service';
+import { AppState, SimulationConfigState, SimulationSetup } from './simulation-config.reducer';
 
 const getAppState = (state: AppState) => state;
 

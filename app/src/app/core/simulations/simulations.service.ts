@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { AuthService } from '../auth/auth.service';
-import { SimulationDefault } from 'src/app/shared/data-access/store/simulation-config';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map, tap} from 'rxjs/operators';
+import {environment} from 'src/environments/environment';
+import {AuthService} from '../auth/auth.service';
+import {ConfigEntity} from 'src/app/shared/data-access/store/simulation-config';
 
 export interface Simulation {
   id?: number;
@@ -24,7 +24,8 @@ export class SimulationsService {
   constructor(
     private http: HttpClient,
     private auth: AuthService,
-  ) {}
+  ) {
+  }
 
   createSimulation(settings: string): Observable<any> {
     console.log('settings', settings)
@@ -36,11 +37,20 @@ export class SimulationsService {
   getSimulation(): Observable<Simulation> {
     const userId = this.auth.getAuthPayload().id;
     return this.http.get(`${this.apiUrl}/simulation-results/${userId}`).pipe(
+      tap((res: any) => console.log('get simulation', res)),
       map((res: any) => res.data[0]),
     );
   }
 
-  validateSimulation(): Observable<any> {  
+  getXSimulations(limit: number): Observable<ConfigEntity[]> {
+    const userId = this.auth.getAuthPayload().id;
+    return this.http.get(`${this.apiUrl}/simulation-results/last/${userId}/${limit}`).pipe(
+      tap((res: any) => console.log('get last X', res)),
+      map((res: any) => res.data),
+    );
+  }
+
+  validateSimulation(): Observable<any> {
     const userId = this.auth.getAuthPayload().id;
     return this.http.post(`${this.flaskUrl}/validate`, {
       user_id: userId,

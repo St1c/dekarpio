@@ -1,5 +1,4 @@
 import { createReducer, on } from '@ngrx/store';
-import { Simulation } from 'src/app/core/simulations/simulations.service';
 import { SimulationDefaultConfigActions, SimulationSetupAPIActions, SimulationSetupPageActions } from './simulation-config.actions';
 import {createEntityAdapter, EntityAdapter, EntityState} from "@ngrx/entity";
 

@@ -8,8 +8,8 @@
     <mat-form-field appearance="fill">
       <mat-label>Select configuration</mat-label>
       <mat-select [formControl]="selectedConfig">
-        <mat-option value="default">Default</mat-option>
-        <mat-option value="latest">Latest</mat-option>
+        <mat-option [value]="'default'">Default</mat-option>
+        <mat-option [value]="'latest'">Latest</mat-option>
       </mat-select>
     </mat-form-field>
     <div>
