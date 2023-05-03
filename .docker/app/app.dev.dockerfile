@@ -7,4 +7,4 @@ WORKDIR  /home/node/app
 COPY --chown=node:node ./app/package.json ./app/package-lock.json ./
 RUN npm cache clean --force
 RUN npm ci force
-COPY --chown=node:node ./app .docke
+COPY --chown=node:node ./app .
