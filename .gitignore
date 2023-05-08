@@ -65,5 +65,6 @@ Thumbs.db
 dash-server/long_res.txt/full_results.txt
 dash-server/long_res.txt/timeseries/**/*
 dash-server/cache/cache.db
+dash-server/cache
+dash-server/__pycache__
 .gitignore
-dash-server/cache/*
