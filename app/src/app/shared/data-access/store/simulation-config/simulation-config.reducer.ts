@@ -134,6 +134,40 @@ export const simulationConfigReducer = createReducer(
     }
   })),
 
+  on(SimulationDefaultConfigActions.enableConfigurableShape, (state, {unit_type, unit_id}) => ({
+    ...state,
+    activeConfig: {
+      ...state.activeConfig,
+      [unit_type]: {
+        ...state.activeConfig[unit_type as keyof SimulationDefault],
+        [unit_id]: {
+          ...state.activeConfig[unit_type as keyof SimulationDefault][unit_id],
+          param: [{
+            ...state.activeConfig[unit_type as keyof SimulationDefault][unit_id].param[0],
+            integrate: true
+          }],
+        }
+      }
+    }
+  })),
+
+  on(SimulationDefaultConfigActions.disableConfigurableShape, (state, {unit_type, unit_id}) => ({
+    ...state,
+    activeConfig: {
+      ...state.activeConfig,
+      [unit_type]: {
+        ...state.activeConfig[unit_type as keyof SimulationDefault],
+        [unit_id]: {
+          ...state.activeConfig[unit_type as keyof SimulationDefault][unit_id],
+          param: [{
+            ...state.activeConfig[unit_type as keyof SimulationDefault][unit_id].param[0],
+            integrate: false
+          }],
+        }
+      }
+    }
+  })),
+
   on(SimulationSetupAPIActions.loadConfig, (state) => (
     {
       ...state,

@@ -11,6 +11,8 @@ export const SimulationDefaultConfigActions = createActionGroup({
     'Loading config success': props<{ config: SimulationDefault }>(),
     'Update config': props<{ unit_type: string, unit_id: string, config: any }>(),
     'Set configurable shapes': props<{ configurableShapes: string[] }>(),
+    'Enable configurable shape': props<{ unit_type: string, unit_id: string }>(),
+    'Disable configurable shape': props<{ unit_type: string, unit_id: string }>(),
   }
 });
 

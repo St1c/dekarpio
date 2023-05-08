@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
     MatButtonModule,
     MatSlideToggleModule,
     ReactiveFormsModule
-]
+  ]
 })
 export class SimulationContextMenuDialogComponent implements OnDestroy {
   title = '';
@@ -65,18 +65,12 @@ export class SimulationContextMenuDialogComponent implements OnDestroy {
   }
 
   closeDialog() {
-    const res = {
-      element: this.element,
-      params: {
-        ...this.config,
-        param: [{
-          ...this.config.param[0],
-          integrate: toBoolean(this.params.value)
-        }]
-      },
-      state: this.params.value
-    };
-
-    this.dialogRef.close(res);
+    this.dialogRef.close({
+      ...this.config,
+      param: [{
+        ...this.config.param[0],
+        integrate: toBoolean(this.params.value)
+      }]
+    });
   }
 }

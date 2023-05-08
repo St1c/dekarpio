@@ -65,9 +65,8 @@ export class SimulationSetupDialogComponent implements OnDestroy {
 
   closeDialog() {
     this.dialogRef.close({
-      element: this.element,
-      params: { ...this.config, param: [{ ...this.params.value }] },
-      state: this.params.value.integrate
+      ...this.config, 
+      param: [{ ...this.params.value }],
     });
   }
 }

@@ -1,6 +1,7 @@
 <!-- <h1 class="headline">{{ clickedSvgElement || 'No selected element' }}</h1> -->
 
-<div class="container" *ngIf="simulationConfigLoaded$ | async as config; else loading">
+<div class="container"
+     *ngIf="simulationConfigLoaded$ | async as config; else loading">
   <div class="controls-container">
     <span>
       Select configuration:
@@ -13,14 +14,18 @@
       </mat-select>
     </mat-form-field>
     <div>
-      <button mat-fab extended color="primary" type="button">
+      <button mat-fab
+              extended
+              color="primary"
+              type="button">
         <mat-icon>save</mat-icon>
         Save config
       </button>
-<!--      <button mat-raised-button color="secondary">-->
-<!--        Reset-->
-<!--      </button>-->
-      <button mat-fab extended
+      <!--      <button mat-raised-button color="secondary">-->
+      <!--        Reset-->
+      <!--      </button>-->
+      <button mat-fab
+              extended
               type="button"
               [color]="'accent'"
               (click)="processConfig()">
@@ -40,6 +45,20 @@
        appSvgElementsHoverListener
        [configurableShapes]="configurableShapes$ | async"></div>
 </div>
+
+<!-- an hidden div is created to set the position of appearance of the menu-->
+<div style="visibility: hidden; position: fixed;"
+     [style.left]="menuTopLeftPosition.x"
+     [style.top]="menuTopLeftPosition.y"
+     [matMenuTriggerFor]="rightMenu"></div>
+
+<!-- standard material menu --> 
+<mat-menu #rightMenu="matMenu"> 
+  <ng-template matMenuContent let-unit_type="unit_type" let-unit_id="unit_id"> 
+    <button mat-menu-item (click)="enable(unit_type, unit_id)">Enable</button> 
+    <button mat-menu-item (click)="disable(unit_type, unit_id)">Disable</button> 
+  </ng-template> 
+</mat-menu> 
 
 <ng-template #loading>
   <div class="container">
