@@ -40,10 +40,10 @@ def ecuRule(jsondata):
     print("ECU Rule")
     resultDict = {}
     for ecu in jsondata['ecu']:
-    
+
     # Get list of all inputs
         inputs = jsondata['ecu'][ecu]['inp'].keys()
-    
+
     # Check if all input max_shares are >= 0, if not error
         for inp in inputs:
             if (jsondata['ecu'][ecu]['inp'][inp]['max_share'] < 0):
@@ -57,12 +57,12 @@ def collectorRule(jsondata):
     # Check if connectors going away to collector, if not: no inputs
 
     for col in jsondata['col']:
-        
+
         # Get list of all inputs
         inputs = jsondata['col'][col]['inp'].keys()
         # Get list of all ouputs
         outputs = jsondata['col'][col]['out'].keys()
-        
+
         # Check if there are any connectors active coming in collector
         sum_inputs_active = True
         for inp in inputs:
@@ -73,7 +73,7 @@ def collectorRule(jsondata):
             print(f'For {col}: '
                 'all Connectors coming to this collector are inactive '
                 f'so there can not be any connectors going away from {col}')
-            
+
         # Check if there are any connectors active going away from collector
         sum_outputs_active = True
         for out in outputs:
@@ -84,16 +84,16 @@ def collectorRule(jsondata):
             print(f'For {col}: '
                 'all Connectors going away from this collector are inactive '
                 f'so there can not be any connectors coming to {col}')
-            
+
 def demandsRule(jsondata):
     # Check if demand is 0, if yes inputX.active = false
     # it is not possible that there is no demand but things are still delivered
 
     for dem in jsondata['dem']:
-        
+
         # get list of all inputs
         inputs = jsondata['dem'][dem]['inp'].keys()
-        
+
         if (jsondata['dem'][dem]['param'][0]['p_gas_max']) == 0 :
             print(f'There is no gas needed for {dem}')
             jsondata['dem'][dem]['inp']['input1']['active'] = "False"
@@ -112,7 +112,7 @@ def demandsRule(jsondata):
 
         if (jsondata['dem'][dem]['param'][0]['p_ele_max']) == 0 :
             print(f'There is no electricity needed for {dem}')
-            jsondata['dem'][dem]['inp']['input5']['active'] = "False" 
+            jsondata['dem'][dem]['inp']['input5']['active'] = "False"
 
 # @app.route('/dash/simulate/<id>', methods=['GET'])
 # def startSimulation(id):
@@ -149,7 +149,7 @@ def demandsRule(jsondata):
 # @socketio.on('disconnect', namespace='/test')
 # def test_disconnect():
 #     print('Client disconnected')
-    
+
 if __name__=='__main__':
     # app.run_server(host="0.0.0.0", port=3003, debug=True)
     socketio.run(app, host="0.0.0.0", port=3003, debug=True)
