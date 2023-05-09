@@ -45,13 +45,13 @@ async function updateSimulation(ctx, next) {
 
     const activeConnection = await db.connect();
 
-    const user = await users.find({
+    const simulation = await simulations.find({
         id: ctx.params.id
     });
 
-    if (user.length == 0) {
+    if (simulation.length == 0) {
         await activeConnection.release();
-        ctx.throw(404, 'User not found!');
+        ctx.throw(404, 'Simulation not found!');
     }
 
     await simulations.update({
@@ -63,7 +63,7 @@ async function updateSimulation(ctx, next) {
 
     ctx.status = 201;
     ctx.body = {
-        data: 'User updated'
+        data: 'Simulation updated'
     };
 }
 
@@ -78,13 +78,13 @@ async function deleteSimulation(ctx, next) {
 
     const activeConnection = await db.connect();
 
-    const user = await users.find({
+    const simulation = await simulations.find({
         id: ctx.params.id
     });
 
-    if (user.length == 0) {
+    if (simulation.length == 0) {
         await activeConnection.release();
-        ctx.throw(404, 'User not found!');
+        ctx.throw(404, 'Simulation not found!');
     }
 
     await simulations.delete(ctx.params.id);
@@ -93,6 +93,6 @@ async function deleteSimulation(ctx, next) {
 
     ctx.status = 201;
     ctx.body = {
-        data: 'User deleted'
+        data: 'Simulation deleted'
     };
 }
