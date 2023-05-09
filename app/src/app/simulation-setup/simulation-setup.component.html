@@ -55,8 +55,14 @@
 <!-- standard material menu --> 
 <mat-menu #rightMenu="matMenu"> 
   <ng-template matMenuContent let-unit_type="unit_type" let-unit_id="unit_id"> 
-    <button mat-menu-item (click)="enable(unit_type, unit_id)">Enable</button> 
-    <button mat-menu-item (click)="disable(unit_type, unit_id)">Disable</button> 
+    <button mat-menu-item (click)="enable(unit_type, unit_id)">
+      <mat-icon>link</mat-icon>
+      <span>Enable</span>
+    </button> 
+    <button mat-menu-item (click)="disable(unit_type, unit_id)">
+      <mat-icon>link_off</mat-icon>
+      <span>Disable</span>
+    </button> 
   </ng-template> 
 </mat-menu> 
 
