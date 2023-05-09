@@ -70,7 +70,6 @@ export class SimulationSetupComponent {
   @ViewChild('layout', { static: false }) svgLayout!: ElementRef;
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger!: MatMenuTrigger;
 
-
   clickedSvgElement: string = '';
   configurableShapes$: Observable<string[]> = this.simulationConfigSelectorService.configurableShapeNames$;
   simulationConfigLoaded$: Observable<boolean> = this.simulationConfigSelectorService.simulationConfigLoaded$;
@@ -90,7 +89,6 @@ export class SimulationSetupComponent {
         if (value === null) return;
         this.store.dispatch(SimulationSetupPageActions.setActiveConfig({ id: value }));
         this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
-        console.log(value);
       });
   }
 
@@ -160,7 +158,6 @@ export class SimulationSetupComponent {
 
     this.subs.add(ref.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
         this.updateConfig(result);
         this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
       }
