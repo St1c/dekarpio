@@ -1,14 +1,15 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
-import {environment} from 'src/environments/environment';
-import {AuthService} from '../auth/auth.service';
-import {ConfigEntity} from 'src/app/shared/data-access/store/simulation-config';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
+import { ConfigEntity } from 'src/app/shared/types/config-entity';
 
 export interface Simulation {
   id?: number;
   user_id?: number;
+  name?: string;
   settings?: string;
   results?: string;
 }
@@ -24,13 +25,14 @@ export class SimulationsService {
   constructor(
     private http: HttpClient,
     private auth: AuthService,
-  ) {
-  }
+  ) { }
 
-  createSimulation(settings: string): Observable<any> {
-    console.log('settings', settings)
+  createSimulation(config: ConfigEntity): Observable<any> {
+    console.log('create simulation', config);
+
     return this.http.post<Simulation>(`${this.apiUrl}/simulation-setup`, {
-      settings,
+      name: config.name,
+      settings: JSON.stringify(config.settings),
     });
   }
 
@@ -42,11 +44,19 @@ export class SimulationsService {
     );
   }
 
-  getXSimulations(limit: number): Observable<ConfigEntity[]> {
+  getSimulations(limit: number): Observable<ConfigEntity[]> {
     const userId = this.auth.getAuthPayload().id;
     return this.http.get(`${this.apiUrl}/simulation-results/last/${userId}/${limit}`).pipe(
       tap((res: any) => console.log('get last X', res)),
       map((res: any) => res.data),
+      map((simulations: Simulation[]) => simulations.map((simulation: Simulation) => {
+        return {
+          id: simulation.id || 0,
+          user_id: simulation.user_id || 0,
+          name: simulation.name || '',
+          settings: JSON.parse(simulation.settings || '{}'),
+        };
+      }))
     );
   }
 

@@ -6,7 +6,6 @@ module.exports.createSimulation = createSimulation;
 module.exports.updateSimulation = updateSimulation;
 module.exports.deleteSimulation = deleteSimulation;
 
-
 /**
  * Create new user
  *
@@ -24,6 +23,7 @@ async function createSimulation(ctx, next) {
 
     await simulations.create({
         user_id: user.id,
+        name: ctx.request.body.name || 'No name set',
         settings: ctx.request.body.settings
     });
     await activeConnection.release();

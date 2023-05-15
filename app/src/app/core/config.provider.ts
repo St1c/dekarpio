@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { SimulationDefault } from '../shared/data-access/store/simulation-config';
+
+import { SimulationJson } from '../shared/types/simulation-json';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,7 @@ export class ConfigProvider {
     );
   }
 
-  getConfigFromAssets(): Observable<SimulationDefault> {
-    return this.http.get<SimulationDefault>('/assets/tool_dekarpio_nov.json');
+  getConfigFromAssets(): Observable<SimulationJson> {
+    return this.http.get<SimulationJson>('/assets/tool_dekarpio_nov.json');
   }
 }

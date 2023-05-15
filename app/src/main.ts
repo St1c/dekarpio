@@ -15,11 +15,13 @@ import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/app-routing.module';
 import { CoreModule } from './app/core/core.module';
+
 import {
-  configEntityReducer,
   simulationConfigReducer,
   SimulationSetupEffects
 } from './app/shared/data-access/store/simulation-config';
+import { configEntityReducer } from './app/shared/data-access/store/simulation-config/config-entity.reducer';
+import { ConfigEntityEffects } from './app/shared/data-access/store/simulation-config/config-entity.effects';
 
 if (environment.production) {
   enableProdMode();
@@ -52,8 +54,13 @@ bootstrapApplication(AppComponent, {
       }
     }),
     provideRouterStore(),
-    provideEffects(SimulationSetupEffects),
-    provideStoreDevtools(),
+    provideEffects(
+      ConfigEntityEffects,
+      SimulationSetupEffects
+    ),
+    provideStoreDevtools({
+      trace: true,
+    }),
   ]
 })
   .catch(err => console.error(err));

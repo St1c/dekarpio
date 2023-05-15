@@ -1,38 +1,42 @@
-<!-- <h1 class="headline">{{ clickedSvgElement || 'No selected element' }}</h1> -->
-
 <div class="container"
      *ngIf="simulationConfigLoaded$ | async as config; else loading">
   <div class="controls-container">
-    <span>
-      Select configuration:
-    </span>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill"
+                    *ngIf="configsAvaliable$ | async as entities;">
       <mat-label>Select configuration</mat-label>
       <mat-select [formControl]="selectedConfig">
-        <mat-option [value]="'default'">Default</mat-option>
-        <mat-option [value]="'latest'">Latest</mat-option>
+        <mat-option *ngFor="let entity of entities"
+                    [value]="entity.id">{{entity.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div>
-      <button mat-fab
-              extended
-              color="primary"
-              type="button">
-        <mat-icon>save</mat-icon>
-        Save config
-      </button>
-      <!--      <button mat-raised-button color="secondary">-->
-      <!--        Reset-->
-      <!--      </button>-->
-      <button mat-fab
-              extended
-              type="button"
-              [color]="'accent'"
-              (click)="processConfig()">
-        <mat-icon>play_arrow</mat-icon>
-        Show simulation
-      </button>
-    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Config Name</mat-label>
+      <input matInput
+             [formControl]="selectedConfigName">
+    </mat-form-field>
+    <button mat-fab
+            extended
+            color="primary"
+            type="button"
+            (click)="createConfig()"
+            >
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+  </div>
+  <div class="controls-container">
+
+    <!--      <button mat-raised-button color="secondary">-->
+    <!--        Reset-->
+    <!--      </button>-->
+    <button mat-fab
+            extended
+            type="button"
+            [color]="'accent'"
+            (click)="processConfig()">
+      <mat-icon>play_arrow</mat-icon>
+      Show simulation
+    </button>
   </div>
   <div #layout
        class="map-wrapper"
@@ -52,19 +56,23 @@
      [style.top]="menuTopLeftPosition.y"
      [matMenuTriggerFor]="rightMenu"></div>
 
-<!-- standard material menu --> 
-<mat-menu #rightMenu="matMenu"> 
-  <ng-template matMenuContent let-unit_type="unit_type" let-unit_id="unit_id"> 
-    <button mat-menu-item (click)="enable(unit_type, unit_id)">
+<!-- standard material menu -->
+<mat-menu #rightMenu="matMenu">
+  <ng-template matMenuContent
+               let-unit_type="unit_type"
+               let-unit_id="unit_id">
+    <button mat-menu-item
+            (click)="enable(unit_type, unit_id)">
       <mat-icon>link</mat-icon>
       <span>Enable</span>
-    </button> 
-    <button mat-menu-item (click)="disable(unit_type, unit_id)">
+    </button>
+    <button mat-menu-item
+            (click)="disable(unit_type, unit_id)">
       <mat-icon>link_off</mat-icon>
       <span>Disable</span>
-    </button> 
-  </ng-template> 
-</mat-menu> 
+    </button>
+  </ng-template>
+</mat-menu>
 
 <ng-template #loading>
   <div class="container">

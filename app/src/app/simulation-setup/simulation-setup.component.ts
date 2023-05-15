@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 
+import { LetModule } from '@ngrx/component';
+
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { InlineSVGModule } from 'ng-inline-svg';
@@ -16,7 +18,6 @@ import {
 } from '../shared/ui/svg-elements-hover-listener/svg-elements-hover-listener.directive';
 import {
   SimulationDefaultConfigActions,
-  SimulationSetupAPIActions,
   SimulationSetupPageActions
 } from '../shared/data-access/store/simulation-config';
 import {
@@ -34,6 +35,9 @@ import {
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatIconModule } from "@angular/material/icon";
+import { ConfigEntitySelectorService } from '../shared/data-access/store/simulation-config/config-entity.selectors';
+import { MatInputModule } from '@angular/material/input';
+import { ConfigEntityActions } from '../shared/data-access/store/simulation-config/config-entity.actions';
 
 export interface DialogData {
   title: any;
@@ -57,8 +61,11 @@ export interface DialogData {
     MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatMenuModule,
     MatSelectModule,
+
+    LetModule,
 
     SvgElementsHoverListenerDirective,
     SvgElementsClickListenerDirective,
@@ -72,9 +79,12 @@ export class SimulationSetupComponent {
 
   clickedSvgElement: string = '';
   configurableShapes$: Observable<string[]> = this.simulationConfigSelectorService.configurableShapeNames$;
-  simulationConfigLoaded$: Observable<boolean> = this.simulationConfigSelectorService.simulationConfigLoaded$;
+  simulationConfigLoaded$: Observable<boolean> = this.simulationConfigSelectorService.simulationDefaultConfigLoaded$;
 
-  selectedConfig: FormControl<string | null> = new FormControl<string>('latest');
+  selectedConfig: FormControl<number | null> = new FormControl<number>(0);
+  selectedConfigName: FormControl<string | null> = new FormControl<string>('');
+  selectedConfigEntity$ = this.configEntitySelectorService.selectCurrentConfig$;
+  configsAvaliable$ = this.configEntitySelectorService.allConfigs$
   menuTopLeftPosition = { x: '0', y: '0' };
 
   private subs = new Subscription();
@@ -82,13 +92,21 @@ export class SimulationSetupComponent {
   constructor(
     public dialog: MatDialog,
     private store: Store<{ simulationConfig: any; }>,
-    private simulationConfigSelectorService: SimulationConfigSelectorService
+    private simulationConfigSelectorService: SimulationConfigSelectorService,
+    private configEntitySelectorService: ConfigEntitySelectorService
   ) {
     this.selectedConfig.valueChanges
-      .subscribe((value: string | null) => {
+      .subscribe((value: number | null) => {
         if (value === null) return;
         this.store.dispatch(SimulationSetupPageActions.setActiveConfig({ id: value }));
         this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
+      });
+
+      this.selectedConfigEntity$.subscribe((configEntity) => {
+        if (configEntity) {
+          this.selectedConfigName.setValue(configEntity.name);
+          this.selectedConfig.setValue(configEntity.id, { emitEvent: false });
+        }
       });
   }
 
@@ -105,8 +123,13 @@ export class SimulationSetupComponent {
     this.subs.unsubscribe();
   }
 
+  createConfig() {
+    // @TODO: Add ability do create or edit config (decission based on SelectedConfig ID )
+    this.store.dispatch(ConfigEntityActions.createConfig({name: this.selectedConfigName.value}));
+  }
+
   processConfig() {
-    this.store.dispatch(SimulationSetupAPIActions.createConfig());
+    // this.store.dispatch(ConfigEntityActions.createConfig({name: this.selectedConfigName.value}));
   }
 
   svgClicked(event: any, contextMenu = false) {
@@ -177,7 +200,6 @@ export class SimulationSetupComponent {
    * @param item Our data contained in the row of the table 
    */
   private onRightClick(event: MouseEvent, unit_type: string, unit_id: string) {
-
     // we record the mouse position in our object 
     this.menuTopLeftPosition.x = event.clientX + 'px';
     this.menuTopLeftPosition.y = event.clientY + 'px';
@@ -188,6 +210,5 @@ export class SimulationSetupComponent {
 
     // we open the menu 
     this.matMenuTrigger.openMenu();
-
   }
 }

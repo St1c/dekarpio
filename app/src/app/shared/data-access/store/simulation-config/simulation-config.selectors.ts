@@ -1,96 +1,51 @@
 import { Injectable } from '@angular/core';
-import { createSelector,  Store } from '@ngrx/store';
+import { createFeatureSelector, createSelector,  Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 
-import { AppState, SimulationConfigState, SimulationSetup } from './simulation-config.reducer';
+import { SimulationConfigState, SimulationSetupState } from './simulation-config.reducer';
 
-const getAppState = (state: AppState) => state;
+export const selectSimulationSetup = createFeatureSelector<SimulationSetupState>("simulationSetup");
 
-const getSimulationSetup = createSelector(
-    getAppState,
-    (state: AppState) => state.simulationSetup
-);
-
-const getSimulationConfig = createSelector(
-    getAppState,
-    (state: AppState) => state.simulationSetup.config
-);
-
-const getSimulationDefaultConfig = createSelector(
-    getAppState,
-    (state: AppState) => state.simulationSetup.defaultConfig
-);
-
-const getSimulationActiveConfig = createSelector(
-  getAppState,
-  (state: AppState) => state.simulationSetup.activeConfig
+const selectSimulationDefaultConfig = createSelector(
+    selectSimulationSetup,
+    simulationSetup => simulationSetup.defaultConfig
 );
 
 const getConfigurableShapeNames = createSelector(
-    getAppState,
-    (state: AppState) => state.simulationSetup.configurableShapes
+    selectSimulationSetup,
+    simulationSetup => simulationSetup.configurableShapes
 );
 
-const getSimulationConfigValue = createSelector(
-    getSimulationConfig,
+const selectSimulationDefaultConfigValue = createSelector(
+    selectSimulationDefaultConfig,
     (state: SimulationConfigState) => state.value
 );
 
-const getSimulationConfigLoading = createSelector(
-    getSimulationConfig,
-    (state: SimulationConfigState) => state.loading
+const selectSimulationConfigSVGLoaded = createSelector(
+    selectSimulationSetup,
+    (state: SimulationSetupState) => state.svgLoaded
 );
 
-const getSimulationConfigLoaded = createSelector(
-    getSimulationConfig,
-    (state: SimulationConfigState) => state.loaded
-);
-
-const getSimulationDefaultConfigValue = createSelector(
-    getSimulationDefaultConfig,
-    (state: SimulationConfigState) => state.value
-);
-
-const getSimulationConfigConnections = createSelector(
-    getSimulationDefaultConfigValue,
+const selectSimulationConfigConnections = createSelector(
+    selectSimulationDefaultConfigValue,
     (state: any) => state.con
 );
 
-const getSimulationDefaultConfigLoading = createSelector(
-    getSimulationDefaultConfig,
-    (state: SimulationConfigState) => state.loading
-);
-
-const getSimulationDefaultConfigLoaded = createSelector(
-    getSimulationDefaultConfig,
+const selectSimulationDefaultConfigLoaded = createSelector(
+    selectSimulationDefaultConfig,
     (state: SimulationConfigState) => state.loaded
-);
-
-const getSimulationConfigSVGLoaded = createSelector(
-    getSimulationSetup,
-    (state: SimulationSetup) => state.svgLoaded
 );
 
 @Injectable({providedIn: 'root'})
 export class SimulationConfigSelectorService {
 
-    simulationConfig$: Observable<SimulationConfigState> = this.store.select(getSimulationConfig);
-    simulationConfigValue$: Observable<any> = this.store.select(getSimulationConfigValue);
-    simulationConfigLoading$: Observable<boolean> = this.store.select(getSimulationConfigLoading);
-    simulationConfigLoaded$: Observable<boolean> = this.store.select(getSimulationConfigLoaded);
-
-    simulationDefaultConfig$: Observable<SimulationConfigState> = this.store.select(getSimulationDefaultConfig);
-    simulationDefaultConfigValue$: Observable<any> = this.store.select(getSimulationDefaultConfigValue);
-    simulationDefaultConfigLoading$: Observable<boolean> = this.store.select(getSimulationDefaultConfigLoading);
-    simulationDefaultConfigLoaded$: Observable<boolean> = this.store.select(getSimulationDefaultConfigLoaded);
-
-    simulationActiveConfig$: Observable< {[key: string]: any}> = this.store.select(getSimulationActiveConfig);
-
-    simulationConfigConnections$: Observable<any> = this.store.select(getSimulationConfigConnections);
+    simulationDefaultConfigValue$: Observable<any> = this.store.select(selectSimulationDefaultConfigValue);
+    simulationDefaultConfigLoaded$: Observable<boolean> = this.store.select(selectSimulationDefaultConfigLoaded);
+    simulationConfigConnections$: Observable<any> = this.store.select(selectSimulationConfigConnections);
     configurableShapeNames$: Observable<string[]> = this.store.select(getConfigurableShapeNames);
 
-    simulationConfigSVGLoaded$: Observable<boolean> = this.store.select(getSimulationConfigSVGLoaded);
+    simulationConfigSVGLoaded$: Observable<boolean> = this.store.select(selectSimulationConfigSVGLoaded);
 
-    constructor(private store: Store<AppState>) { }
+    constructor(private store: Store<SimulationSetupState>) { }
 }

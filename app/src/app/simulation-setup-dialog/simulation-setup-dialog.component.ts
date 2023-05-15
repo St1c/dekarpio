@@ -7,8 +7,8 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 // import { ConfigFormControlComponent } from '../shared/config-form-control/config-form-control.component';
 import { ConfigFormComponent } from '../shared/ui/config-form/config-form.component';
 import { DialogData } from '../simulation-setup/simulation-setup.component';
-import { SimulationConfigSelectorService } from '../shared/data-access/store/simulation-config/simulation-config.selectors';
 import { Subscription } from 'rxjs';
+import { ConfigEntitySelectorService } from '../shared/data-access/store/simulation-config/config-entity.selectors';
 
 @Component({
   selector: 'simulation-setup-dialog',
@@ -35,7 +35,7 @@ export class SimulationSetupDialogComponent implements OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<SimulationSetupDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private simulationConfigSelectorService: SimulationConfigSelectorService
+    private configEntitySelectorService: ConfigEntitySelectorService
   ) {
     this.title = data.title?.innerHTML || '';
     this.desc = data.desc?.innerHTML || '';
@@ -43,7 +43,7 @@ export class SimulationSetupDialogComponent implements OnDestroy {
     const unit_type = data.unit_meta?.unit_type;
     const unit_id = data.unit_meta?.unit_id;
 
-    this.subs.add(this.simulationConfigSelectorService.simulationActiveConfig$
+    this.subs.add(this.configEntitySelectorService.simulationActiveConfigSettings$
       .subscribe((defaultConfig: any) => {
         this.config = { unit_type, unit_id, ...defaultConfig[unit_type][unit_id] };
 
