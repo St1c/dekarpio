@@ -78,14 +78,17 @@ export class SimulationSetupComponent {
   @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger!: MatMenuTrigger;
 
   clickedSvgElement: string = '';
+  menuTopLeftPosition = { x: '0', y: '0' };
+  
+  configsAvaliable$ = this.configEntitySelectorService.allConfigs$
   configurableShapes$: Observable<string[]> = this.simulationConfigSelectorService.configurableShapeNames$;
   simulationConfigLoaded$: Observable<boolean> = this.simulationConfigSelectorService.simulationDefaultConfigLoaded$;
+  selectedConfigEntity$ = this.configEntitySelectorService.simulationActiveConfig$;
 
   selectedConfig: FormControl<number | null> = new FormControl<number>(0);
   selectedConfigName: FormControl<string | null> = new FormControl<string>('');
-  selectedConfigEntity$ = this.configEntitySelectorService.selectCurrentConfig$;
-  configsAvaliable$ = this.configEntitySelectorService.allConfigs$
-  menuTopLeftPosition = { x: '0', y: '0' };
+
+  configId = 0;
 
   private subs = new Subscription();
 
@@ -104,6 +107,7 @@ export class SimulationSetupComponent {
 
       this.selectedConfigEntity$.subscribe((configEntity) => {
         if (configEntity) {
+          this.configId = configEntity.id;
           this.selectedConfigName.setValue(configEntity.name);
           this.selectedConfig.setValue(configEntity.id, { emitEvent: false });
         }
@@ -124,12 +128,16 @@ export class SimulationSetupComponent {
   }
 
   createConfig() {
-    // @TODO: Add ability do create or edit config (decission based on SelectedConfig ID )
     this.store.dispatch(ConfigEntityActions.createConfig({name: this.selectedConfigName.value}));
   }
 
+  editConfig() {
+    this.store.dispatch(ConfigEntityActions.updateConfig({name: this.selectedConfigName.value}));
+  }
+
   processConfig() {
-    // this.store.dispatch(ConfigEntityActions.createConfig({name: this.selectedConfigName.value}));
+    const currentNameFieldValue = this.selectedConfigName.value || '';
+    this.store.dispatch(SimulationSetupPageActions.goToSimulationResults({currentNameFieldValue}));
   }
 
   svgClicked(event: any, contextMenu = false) {

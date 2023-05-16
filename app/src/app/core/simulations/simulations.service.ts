@@ -12,6 +12,7 @@ export interface Simulation {
   name?: string;
   settings?: string;
   results?: string;
+  created_at?: string;
 }
 
 @Injectable({
@@ -27,11 +28,16 @@ export class SimulationsService {
     private auth: AuthService,
   ) { }
 
-  createSimulation(config: ConfigEntity): Observable<any> {
-    console.log('create simulation', config);
-
+  createSimulation(name: string | null, config: ConfigEntity): Observable<any> {
     return this.http.post<Simulation>(`${this.apiUrl}/simulation-setup`, {
-      name: config.name,
+      name: name || 'Missing name',
+      settings: JSON.stringify(config.settings),
+    });
+  }
+
+  updateSimulation(name: string | null, config: ConfigEntity): Observable<any> {
+    return this.http.put<Simulation>(`${this.apiUrl}/simulation-setup/${config.id}`, {
+      name: name || 'Missing name',
       settings: JSON.stringify(config.settings),
     });
   }
@@ -55,6 +61,7 @@ export class SimulationsService {
           user_id: simulation.user_id || 0,
           name: simulation.name || '',
           settings: JSON.parse(simulation.settings || '{}'),
+          created_at: simulation.created_at || '',
         };
       }))
     );

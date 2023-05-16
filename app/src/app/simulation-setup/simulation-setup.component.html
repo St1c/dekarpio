@@ -6,7 +6,14 @@
       <mat-label>Select configuration</mat-label>
       <mat-select [formControl]="selectedConfig">
         <mat-option *ngFor="let entity of entities"
-                    [value]="entity.id">{{entity.name}}</mat-option>
+                    [value]="entity.id">
+                    <ng-container *ngIf="entity.name.length > 0; else date">
+                      {{entity.name}}
+                    </ng-container>
+                    <ng-template #date>
+                      {{ entity.created_at | date:'d/M/yy, h:mm a' }}
+                    </ng-template>
+        </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
@@ -15,20 +22,25 @@
              [formControl]="selectedConfigName">
     </mat-form-field>
     <button mat-fab
+    *ngIf="configId == 0"
             extended
             color="primary"
             type="button"
-            (click)="createConfig()"
-            >
+            (click)="createConfig()">
       <mat-icon>save</mat-icon>
       Save
     </button>
+    <button mat-fab
+    *ngIf="configId != 0"
+            extended
+            color="primary"
+            type="button"
+            (click)="editConfig()">
+      <mat-icon>save</mat-icon>
+      Update
+    </button>
   </div>
   <div class="controls-container">
-
-    <!--      <button mat-raised-button color="secondary">-->
-    <!--        Reset-->
-    <!--      </button>-->
     <button mat-fab
             extended
             type="button"

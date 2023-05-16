@@ -33,6 +33,7 @@ export const configEntityReducer = createReducer(
       user_id: 0,
       name: 'Default',
       settings: config,
+      created_at: ''
     };
     return adapter.setOne(simEntity, state);
   }),

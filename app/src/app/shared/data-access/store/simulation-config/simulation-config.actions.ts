@@ -18,7 +18,7 @@ export const SimulationDefaultConfigActions = createActionGroup({
 });
 
 export const SimulationSetupPageActions = createActionGroup({
-  source: 'Simulation Setup',
+  source: 'Simulation Setup Page',
   events: {
     // defining an event without payload using the `emptyProps` function
     'Opened': emptyProps(),
@@ -26,6 +26,7 @@ export const SimulationSetupPageActions = createActionGroup({
     'Set active config Done': emptyProps(),
     'SVG Loaded': emptyProps(),
     'SVG update on config change': props<{svgElement: ElementRef}>(),
+    'Go to simulation results': props<{currentNameFieldValue: string}>(),
 
     // defining an event with payload using the `props` function
     // 'Pagination Changed': props<{ page: number; offset: number }>(),

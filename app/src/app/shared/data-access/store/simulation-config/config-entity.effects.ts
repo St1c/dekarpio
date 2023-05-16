@@ -9,6 +9,7 @@ import { SimulationSetupPageActions } from './simulation-config.actions';
 import { ConfigEntity } from 'src/app/shared/types/config-entity';
 import { ConfigEntitySelectorService } from './config-entity.selectors';
 import { ConfigEntityActions } from './config-entity.actions';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ConfigEntityEffects {
@@ -42,27 +43,49 @@ export class ConfigEntityEffects {
   createConfig$ = createEffect(() => this.actions$.pipe(
     ofType(ConfigEntityActions.createConfig),
     withLatestFrom(this.configEntitySelectorService.simulationActiveConfig$),
-    switchMap(([{ name }, config]) => this.simulationService.createSimulation(config as ConfigEntity)),
+    switchMap(([{ name }, config]) => this.simulationService.createSimulation(name, config as ConfigEntity)),
     map(() => ConfigEntityActions.creatingConfigSuccess()),
     catchError(() => EMPTY)
   ));
 
-  // validateConfig$ = createEffect(() => this.actions$.pipe(
-  //   ofType(ConfigEntityActions.creatingConfigSuccess),
-  //   switchMap(() => this.simulationService.validateSimulation()),
-  //   map(() => ConfigEntityActions.validatingConfigSuccess()),
-  //   catchError(() => EMPTY)
-  // ));
+  updateConfig$ = createEffect(() => this.actions$.pipe(
+    ofType(ConfigEntityActions.updateConfig),
+    withLatestFrom(this.configEntitySelectorService.simulationActiveConfig$),
+    switchMap(([{ name }, config]) => this.simulationService.updateSimulation(name, config as ConfigEntity)),
+    map(() => ConfigEntityActions.creatingConfigSuccess()),
+    catchError(() => EMPTY)
+  ));
 
-  // validateConfigSuccess$ = createEffect(() => this.actions$.pipe(
-  //   ofType(ConfigEntityActions.validatingConfigSuccess),
-  //   switchMap(() => this.router.navigate(['/simulation-results']))
-  // ), {dispatch: false});
+  processConfigBeforeRedirectToResults$ = createEffect(() => this.actions$.pipe(
+    ofType(SimulationSetupPageActions.goToSimulationResults),
+    withLatestFrom(this.configEntitySelectorService.simulationActiveConfig$),
+    switchMap(([{ currentNameFieldValue }, config]) => {
+      if (config.id === 0) {
+        return this.simulationService.createSimulation(currentNameFieldValue, config as ConfigEntity);
+      }
+      return this.simulationService.updateSimulation(currentNameFieldValue, config as ConfigEntity);
+    }),
+    map(() => ConfigEntityActions.processingConfigSuccess()),
+    catchError(() => EMPTY)
+  ));
+    
+  validateConfig$ = createEffect(() => this.actions$.pipe(
+    ofType(ConfigEntityActions.processingConfigSuccess),
+    switchMap(() => this.simulationService.validateSimulation()),
+    map(() => ConfigEntityActions.validatingConfigSuccess()),
+    catchError(() => EMPTY)
+  ));
+
+  validateConfigSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(ConfigEntityActions.validatingConfigSuccess),
+    switchMap(() => this.router.navigate(['/simulation-results']))
+  ), {dispatch: false});
 
   constructor(
     private actions$: Actions,
     private simulationService: SimulationsService,
     private configEntitySelectorService: ConfigEntitySelectorService,
+    private router: Router
   ) { }
 
 }
