@@ -51,17 +51,40 @@ def read_timelines(path):
 
 def return_results_dict(system, filepath=None):
     resultsdict = {}
+    #resultsdict.update({'total': {}}) TAC; em fos, em bio, co2preis, co2zert (bio und fos).depr and interest rate) TODO
+
     resultsdict.update({'objectives': {}})
     for ok, ov in system.obj.items():
         resultsdict['objectives'].update({ok: pyo.value(ov)})
-    resultsdict.update({'units': {}})
+
+    em_fossil = 0
+    em_biogen = 0
     for uk, uv in system.unit.items():
+        if 'co2_total_fossil' in uv.obj.keys():
+            em_fossil += pyo.value(uv.obj['co2_total_fossil'])
+        if 'co2_total_bio' in uv.obj.keys():
+            em_biogen += pyo.value(uv.obj['co2_total_bio'])
+    resultsdict['objectives'].update({'em_fos': em_fossil})
+    resultsdict['objectives'].update({'em_bio': em_biogen})
+    #print(resultsdict['objectives'])
+
+    print(system.unit.items())
+    resultsdict.update({'units': {}})
+    for uk, uv in system.unit.items():      #units contains eso, ecu, esu, dem and couplers(!)
+
+
+
         resultsdict['units'].update({uk: {}})
-        resultsdict['units'][uk].update({#'param': uv.param,
-                                        'obj': {},
+        resultsdict['units'][uk].update({'obj': {},
                                         'var': {'seq': {},
-                                                'scalar': {}}
+                                                'scalar': {}},
+                                        'param':{}
                                         })
+        if 'integration' in uv.param:
+            print('yes')
+            resultsdict['units'][uk].update({'integ': uv.param['integration']})
+            resultsdict['units'][uk].update({'exist': uv.param['existing']})
+
         for ok, ov in uv.obj.items():
             resultsdict['units'][uk]['obj'].update({ok: pyo.value(ov)})
         if 'seq' in uv.var.keys():
@@ -99,6 +122,8 @@ def return_results_dict(system, filepath=None):
             for vk, vv in uv.var['scalar'].items():
                 resultsdict['units'][uk]['var']['scalar'].update({vk: vv.value})
 
+    #print(resultsdict['units'])
+
     resultsdict.update({'nodes': {}})
     for nk, nv in system.node.items():
         resultsdict['nodes'].update({nk: {}})
@@ -130,7 +155,11 @@ def return_results_dict(system, filepath=None):
 
     resultsdict.update({'params': {}})
     for pk in system.param.keys():
-        if pk in ['interest_rate', 'depreciation_period', 'cost_co2_fossil', 'cost_co2_biogen', 'cost_gas_grid', 'cost_power_grid']:
+        if pk in ['interest_rate', 'depreciation_period',
+                  'cost_co2_fossil', 'cost_co2_biogen',
+                  'free_certificate_fossil', 'decarb_target_fossil',
+                  'free_certificate_bio', 'decarb_target_bio',
+                  'cost_gas_grid', 'cost_power_grid']:
             resultsdict['params'].update({pk: system.param[pk]})
 
     if filepath == None:
@@ -169,9 +198,7 @@ def print_active_nodes(system):
     active_nodes = []
     active_nodes_max_vals = []
     for node_name, node in system.node.items():
-        if any(
-            any(var.get_values()>0) for var in node.param[side] for side in ['lhs', 'rhs']
-        ):
+        if any(any(var.get_values()>0) for var in node.param[side] for side in ['lhs', 'rhs']):
             active_nodes.append(node_name)
             active_nodes_max_vals.append(max())
 
@@ -210,18 +237,24 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
         print(u_w_dict)
 
     if eco_dict['eco1']['param'][0]['decarbonization_fossil'] == 'option1':
-        decarb_rate1 = 100
+        decarb_rate1 = 1e6
+        decarb_target1 = 'unlimited'
     elif eco_dict['eco1']['param'][0]['decarbonization_fossil'] == 'option2':
         decarb_rate1 = 1
+        decarb_target1 = 'free certificates'
     elif eco_dict['eco1']['param'][0]['decarbonization_fossil'] == 'option3':
         decarb_rate1 = 0
+        decarb_target1 = 'complete decarbonization'
 
     if eco_dict['eco1']['param'][0]['decarbonization_bio'] == 'option1':
-        decarb_rate2 = 100
+        decarb_rate2 = 1e6
+        decarb_target2 = 'unlimited'
     elif eco_dict['eco1']['param'][0]['decarbonization_bio'] == 'option2':
         decarb_rate2 = 1
+        decarb_target2 = 'free certificates'
     elif eco_dict['eco1']['param'][0]['decarbonization_bio'] == 'option3':
         decarb_rate2 = 0
+        decarb_target2 = 'complete decarbonization'
 
     print(decarb_rate1)
     print(decarb_rate2)
@@ -243,9 +276,11 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
         'cost_gas_grid': eco_dict['eco1']['param'][0]['cost_gas_grid'],
         'cost_power_grid': eco_dict['eco1']['param'][0]['cost_power_grid'],
         'free_certificate_fossil': eco_dict['eco1']['param'][0]['free_certificate_fossil'],
+        'decarb_target_fossil': decarb_target1,
         'decarb_rate_fossil': decarb_rate1,
         'free_certificate_bio': eco_dict['eco1']['param'][0]['free_certificate_bio'],
         'decarb_rate_bio': decarb_rate2,
+        'decarb_target_bio': decarb_target2,
         'opt': {'timelimit': 600,
                 'optimality_gap': 0.00},
         'expansion_costs': 5e4      # todo: €/MW ???
@@ -269,9 +304,13 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
 
             steam_parameters.update({steam_level_name: steam_level_dict})
 
+        #print(steam_parameters)
     sysParam.update(dict(steam_parameters=steam_parameters))
-
+    # print('steam_param')
+    # print(sysParam['steam_parameters']['low pressure steam']['temperature'])
     return sysParam
+
+
 
 
 def initialize_model(sysParam):
@@ -307,6 +346,9 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         def parse_eso_type(name_string, eso_object, temp_param, tl, tl_map):
             eso_param = eso_object['param'][0]
 
+            # if eso_param['lim_technical'] < eso_param['lim_actual']:
+            #     eso_param['lim_technical'] = eso_param['lim_actual']
+
             if name_string == 'Photovoltaic':
                 temp_param.update({
                     ## entries from .json hash
@@ -341,7 +383,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     'cost_max_ex':             eso_param['inv_power'],           # done: inv_var in .json, €/MW Zubau --> sophie adapted to inv_power - erledigt
                     'cost_fix_ex':             eso_param['inv_fix'],             # done: inv_fix in .json hinzufügen (Sophie?); Fixkosten wenn zugebaut wird - erledigt
                     'cap_s':                   (0, eso_param['lim_technical']),   #
-                    'cap_existing':            eso_param['lim_actual']            #
+                    'cap_existing':            eso_param['lim_actual'],            #
                 })
 
                 if (eso_object['ID'] == 'eso_eso15_ppapv' or eso_object['ID'] == 'eso_eso12_elp'):
@@ -411,15 +453,25 @@ def add_units_and_nodes(system, structure, tl, tl_map):
             classname = get_eso_classname(esoobj)
 
             esoparam = esoobj['param'][0]
+            if esoparam['integrate'] == True:
+                integ = 'Considered as integrated'
+                exist = esoparam['lim_actual']
+            else:
+                integ = 'Considered as not integrated'
+                exist = 0
 
             tempParam = {
                 'classname': classname,  # energy sources are energy supplies
                 'seq': {},  # filled in the loop below
+                'integration':             integ,
+                'existing':                exist,
 
                 ## entries from .json hash
                 # --- :                    esoobj['name']                 # is not relevant
                 'energy_type':             esoobj['type'],                # probably not relevant
                 'name':                    esoobj['ID'],
+                #'integration':             esoobj['integrate'],
+                #'existance':               esoobj['exist'],
 
                 # --- :                    esoparam['integrate']          # used in check_eso_integration function
                 # --- :                    esoparam['grid']               # is not relevant
@@ -448,8 +500,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
 
             mapkey = tl_map[esoobj['ID']]
-            print(esoobj['ID'])
-            print(mapkey)
+           # print(esoobj['ID'])
+           # print(mapkey)
             # todo: in timelines esostring, esoobj['name'] or esoobj['ID']?
             # todo: tl mit key "timeline_map[esoobj['ID']]" abspeichern/einlesen anstatt Umweg über timeline_map
 
@@ -471,15 +523,17 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
             sys.add_unit(tempParam)
 
-            if 'grid_type' in sys.unit[esoobj['ID']].param:
-                print(sys.unit[esoobj['ID']].param['grid_type'])
+            # if 'grid_type' in sys.unit[esoobj['ID']].param:
+            #    print(sys.unit[esoobj['ID']].param['grid_type'])
 
         tempParam = {
             'classname': 'Supply',
             'name': 'eso_supply_gaseous',
             'cap_s': (0, 150),                      # second entry is technical upper bound for power consumption
             'cost_max_load': sys.param['cost_gas_grid'],                    # Grid Shares, for power-related grid costs (running costs = OPEX) EUR/MW per year   #todo
-            'seq': {}
+            'seq': {},
+            'integration':             'Considered as integrated',
+            'existing':                150
         }
         for period_no, period_dict in enumerate(tl):
             period_str = str(period_no)
@@ -488,14 +542,16 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 period_str: spec_costs
             })
         sys.add_unit(tempParam)
-        print(sys.unit['eso_supply_gaseous'].param['cost_max_load'])
+        # print(sys.unit['eso_supply_gaseous'].param['cost_max_load'])
 
         tempParam = {
             'classname': 'Supply',
             'name': 'eso_supply_electric',
             'cap_s': (0, 150),                      # second entry is technical upper bound for power consumption
             'cost_max_load': sys.param['cost_power_grid'],                    # Grid Shares, for power-related grid costs (running costs = OPEX) EUR/MW per year   #todo
-            'seq': {}
+            'seq': {},
+            'integration':             'Considered as integrated',
+            'existing':                150
         }
         for period_no, period_dict in enumerate(tl):
             period_str = str(period_no)
@@ -504,20 +560,20 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 period_str: spec_costs
             })
         sys.add_unit(tempParam)
-        print(sys.unit['eso_supply_electric'].param['cost_max_load'])
+        # print(sys.unit['eso_supply_electric'].param['cost_max_load'])
 
         co2_bio = 0
         for u in sys.unit:
             if 'co2_total_bio' in sys.unit[u].obj.keys():
                 co2_bio += sys.unit[u].obj['co2_total_bio'].expr
-        expr_co2_bio = (co2_bio <= sys.param['free_certificate_bio']*sys.param['decarb_rate_bio'])
+        expr_co2_bio = (co2_bio <= sys.param['decarb_rate_bio'] + sys.param['free_certificate_bio'] * sys.param['decarb_rate_bio'])
         sys.model.con_limit_bio_emissions = pyo.Constraint(expr=expr_co2_bio)
 
         co2_fossil = 0
         for u in sys.unit:
             if 'co2_total_fossil' in sys.unit[u].obj.keys():
                 co2_fossil += sys.unit[u].obj['co2_total_fossil'].expr
-        expr_co2_fossil = (co2_fossil <= sys.param['free_certificate_fossil']*sys.param['decarb_rate_fossil'])
+        expr_co2_fossil = (co2_fossil <= sys.param['decarb_rate_fossil'] + sys.param['free_certificate_fossil']*sys.param['decarb_rate_fossil'])
         sys.model.con_limit_fos_emissions = pyo.Constraint(expr=expr_co2_fossil)
 
 
@@ -563,6 +619,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     'lim_q': (ecu_param['minload'] / 100, 1),  #
                     'lim_f': ((ecu_param['minload'] / 100) / (ecu_param['minload_efficiency'] / 100),
                               1 / (ecu_param['fullload_efficiency'] / 100)),
+                    'ramp_q': (ecuparam['ramp'],
+                         ecuparam['ramp']),  #
 
                     ## other entries needed for unit definition
                     'T_in': 50,  # minimum uptime/downtime in hours, induces commitment binary variable
@@ -693,30 +751,9 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     temp_param.update({
                         'bim':            ecu_param['max_share_in_biomethane'],
                     })
-
-                if 'max_share_out_mis' in ecu_param.keys():
-                    temp_param.update({
-                        'mis':            ecu_param['max_share_out_mis'],
-                    })
-
-                if 'max_share_out_his' in ecu_param.keys():
-                    temp_param.update({
-                        'his':            ecu_param['max_share_out_his'],
-                    })
-
                 if 'max_share_out_lis' in ecu_param.keys():
                     temp_param.update({
                         'lis':            ecu_param['max_share_out_lis'],
-                    })
-
-                if 'max_share_out_los' in ecu_param.keys():
-                    temp_param.update({
-                        'los':            ecu_param['max_share_out_los'],
-                    })
-
-                if 'max_share_out_wwa' in ecu_param.keys():
-                    temp_param.update({
-                        'wwa':            ecu_param['max_share_out_wwa'],
                     })
 
 
@@ -801,25 +838,39 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
 
             elif name_string == 'HeatPump':
+                T_out = 95
+                p_out = 2*1e5
+                if 'max_share_out_los' in ecu_param.keys() and ecu_param['max_share_out_los'] == 1:
+                    T_out = sys.param['steam_parameters']['low pressure steam']['temperature']
+                    p_out = sys.param['steam_parameters']['low pressure steam']['pressure']
+                elif 'max_share_out_mis' in ecu_param.keys() and ecu_param['max_share_out_mis'] == 1:
+                    T_out = sys.param['steam_parameters']['middle pressure steam']['temperature']
+                    p_out = sys.param['steam_parameters']['middle pressure steam']['pressure']
+                elif 'max_share_out_his' in ecu_param.keys() and ecu_param['max_share_out_his'] == 1:
+                    T_out = sys.param['steam_parameters']['high pressure steam']['temperature']
+                    p_out = sys.param['steam_parameters']['high pressure steam']['pressure']
+                print('T_out')
+                print(T_out)
+
                 temp_param.update({
                     ## entries from .json hash
                     'cap_q_sink': (ecu_param['min_capacity'],  # note: min_capacity does nothing in DOOM
                                    ecu_param['max_capacity']),  #
-                    # --- :                    ecuparam['minload']            # todo add_op_lim?
+                    # --- :
                     'eta_comp': (ecu_param['minload_efficiency']/100,  # class definition needs two values & makes
                                  ecu_param['fullload_efficiency']/100),  # two COPs. Why?--> for min and full load operation - sophie added minload here
-                    # --- :                    ecuparam['minload_efficiency'] # class needs to adapted to accept this, sophie added minload above - done
 
                     ## other entries needed for unit definition
-                    'lim_q_sink': (0, 1),   #todo
-                    'T_sink_in': (80,),  #todo
-                    'T_sink_out': 120,  # mtodo
+                    'lim_q_sink': (ecu_param['minload']/100, 1),
+                    'ramp_q_sink': (1, 1),
+                    'T_sink_in': (90,),
+                    'T_sink_out': T_out,  # todo
                     'T_source_in': (50,), #todo
                     'T_source_out': 30, #todo
-                    'delta_T_sink': (5, 5),  # one value for each side of the heat exchanger
-                    'delta_T_source': (5, 5),  # one value for each side of the heat exchanger
-                    'pressure_sink': 200000,  # minimum uptime/downtime in hours, induces commitment binary variable # todo
-                    'pressure_source': 200000,  # minimum uptime/downtime in hours, induces commitment binary variable #todo
+                    'delta_T_sink': (3, 3),  # one value for each side of the heat exchanger
+                    'delta_T_source': (3, 3),  # one value for each side of the heat exchanger
+                    'pressure_sink': p_out,  # minimum uptime/downtime in hours, induces commitment binary variable # todo
+                    'pressure_source': 100000,  # minimum uptime/downtime in hours, induces commitment binary variable
                     'medium_sink': 'Water',  # minimum uptime/downtime in hours, induces commitment binary variable
                     'medium_source': 'Water',  # minimum uptime/downtime in hours, induces commitment binary variable
                 })
@@ -834,20 +885,17 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                         'his':            ecu_param['max_share_out_his'],
                     })
 
-                if 'max_share_out_lis' in ecu_param.keys():
-                    temp_param.update({
-                        'lis':            ecu_param['max_share_out_lis'],
-                    })
-
                 if 'max_share_out_los' in ecu_param.keys():
                     temp_param.update({
                         'los':            ecu_param['max_share_out_los'],
                     })
 
-                if 'max_share_out_wwa' in ecu_param.keys():
+                else:
                     temp_param.update({
-                        'wwa':            ecu_param['max_share_out_wwa'],
+                        'wwa':            1,
                     })
+
+                print(temp_param)
 
 
         # ==================================================================================================================
@@ -858,9 +906,21 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
             ecuparam = ecuobj['param'][0]
 
+            if ecuparam['integrate'] == True:
+                integ = 'Considered as integrated'
+            else:
+                integ = 'Considered as not integrated'
+
+            if ecuparam['exist'] == True:
+                existence = 'Considered as existing'
+            else:
+                existence = 'Considered as not existing'
+
             tempParam = {
                 'classname': classname,  #
                 'name': ecuobj['ID'],  # todo: ecustring, ecuobj['name'] or ecuobj['ID']?
+                'integration':      integ,
+                'existing':         existence,
 
                 ## entries from .json hash
                 # --- :         ecuobj['name']              # is not relevant
@@ -870,8 +930,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
                 #'exists':       ecuparam['exist'],          # if it exists, inv costs are set to zero
                 # --- :         ecuparam['integrate']       # is used by check_ecu_integration function
-                'ramp': (ecuparam['ramp'],
-                         ecuparam['ramp']),  #
+
                 'min_utdt_ts': (ecuparam['min_on'],
                                 ecuparam['min_off']),  #
                 'max_susd': (1, 1),  #
@@ -884,9 +943,9 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
             if ecuparam['exist'] == True:
                 tempParam.update({
-                    'exists':       'True', #ecuparam['exist'],
+                    'exists':       True, #ecuparam['exist'],
                 })
-                print([ecuobj['ID'], "considered true"])
+               # print([ecuobj['ID'], "considered true"])
             # else:
             #     tempParam.update({})
 
@@ -922,7 +981,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
             # heat and output in MW
             wasteheat = dict({'hua': heat, 'owh': heat})
             temp = dict({'hua': temp_out, 'owh': temp_out})
-            print(wasteheat)
+            #('wasteheat')
+            #print(wasteheat)
             return wasteheat[medium]
 
         # def calc_waste_heat_q(medium, mass_flow, temp, pressure):
@@ -946,14 +1006,25 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 input_type = get_input_type(input_element)
                 input_max_p_string = 'p_' + input_type + '_max'
                 input_max_p = processobj['param'][0][input_max_p_string]
+
+                proparam = processobj['param'][0]
+
+                if proparam['integrate'] == True:
+                    integ = 'Considered as integrated'
+                else:
+                    integ = 'Considered as not integrated'
+                existence = 'Considered as existing'
+
                 tempParam = {
                     'classname': 'Demand',
                     'name': input_name,
+                    'integration':      integ,
+                    'existing':         existence,
                     'seq': {},
                     # note: inputs are saved one level lower than in other units (for example ecu)
                     'inp': processobj['inp'][demandstr]
                 }
-                print(input_name)
+                #print(input_name)
 
                 max_p = check_process_integration(input_max_p)
 
@@ -989,16 +1060,30 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     processobj['param'][0]['temp_in_' + output_type],
                     processobj['param'][0]['temp_out_' + output_type],
                 )
+
+                proparam = processobj['param'][0]
+
+                if proparam['integrate'] == True:
+                    integ = 'Considered as integrated'
+                else:
+                    integ = 'Considered as not integrated'
+                existence = 'Considered as existing'
+
                 tempParam = {
                     'classname': 'Demand',
                     'name': output_name,
                     'seq': {},
+                    'integration':      integ,
+                    'existing':         existence,
                     # note: inputs are saved one level lower than in other units (for example ecu)
                     # note: is input saving necessary?
                     'out': processobj['out'][pseudodemandstr]
                 }
+                #print(output_name)
 
                 max_p = check_process_integration(output_max_p)
+                #print('max_p')
+                #print(max_p)
                 mapkey = tl_map[output_name]
 
                 for period_no, period_dict in enumerate(tl):
@@ -1104,9 +1189,23 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         for esustring, esuobj in storage_dict.items():
             classname = get_esu_classname(esuobj)
 
+            esuparam = esuobj['param'][0]
+
+            if esuparam['integrate'] == True:
+                integ = 'Considered as integrated'
+            else:
+                integ = 'Considered as not integrated'
+
+            if esuparam['exist'] == True:
+                existence = 'Considered as existing'
+            else:
+                existence = 'Considered as not existing'
+
             tempParam = {
                 'classname': classname,  #
                 'name': esuobj['ID'],  # todo: ecustring, ecuobj['name'] or ecuobj['ID']?
+                'integration':      integ,
+                'existing':         existence,
 
                 ## entries from .json hash
                 # --- :                    esuobj['name']                 # is not relevant
@@ -1233,14 +1332,14 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 if esoparam['grid_type'] == 'option1':
                     node_name = 'GridGas'
                     nodes[node_name]['rhs'].append([eso_name, eso_out_port])
-                    print('grid_gas')
-                    print(eso_name)
+                   # print('grid_gas')
+                   # print(eso_name)
 
                 elif esoparam['grid_type'] == 'option2':
                     node_name = 'GridElectric'
                     nodes[node_name]['rhs'].append([eso_name, eso_out_port])
-                    print('grid_el')
-                    print(eso_name)
+                   # print('grid_el')
+                   # print(eso_name)
 
 
 
@@ -1265,6 +1364,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     'rhs': [[ecu_name, port_name]],
                     'type': '=='
                 }})
+               # print(node_name)
 
         # 1 out node for each conversion unit - distributes to other conversion units (steam),
         # collectors (steam, power), and demands
@@ -1323,6 +1423,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                                   'ID'] + '_' + pseudodemandstr # note: this has to shadow the method in add_demands()
                 node_name = output_name + '_in_node'            # note: "in node" to keep naming system intact
                 output_in_port = 'd'
+                #print(node_name)
                 nodes.update({node_name: {
                     'lhs': [],
                     'rhs': [[output_name, output_in_port]],
@@ -1468,14 +1569,16 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 # source's out node to right side
                 if 'col' in right:
                     comp, nr, levelnr = right.split('_')
-                    if levelnr == 'mis1' or level == 'mis2':
+                    if levelnr == 'mis1' or levelnr == 'mis2':
                         level='mis'
-                    if levelnr == 'his1' or level == 'his2':
+                    if levelnr == 'his1' or levelnr == 'his2':
                         level='his'
-                    if levelnr == 'los1' or level == 'los2':
+                    if levelnr == 'los1' or levelnr == 'los2':
                         level='los'
                     if levelnr == 'lis1':
                         level='lis'
+                    if levelnr == 'ele1' or levelnr == 'ele2':
+                        level='ele'
 
                     # coupler goes from the conversion unit's out node to the collector, e.g. steam or electricity
                     collector_type = get_collector_type(right)
@@ -1495,13 +1598,19 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     out_port_name = 'out_' + col_node_name
                     nodes[col_node_name]['lhs'].append([coupler_name, out_port_name])
 
-                    ecu_out_ports=get_ecu_out_ports(left)
+                    ecu_out_ports = get_ecu_out_ports(left)
 
-                    def con_rule(m, s, t):
-                        return sys.unit[coupler_name].var['seq']['in'][s, t, ecu_out_node_name] == sys.unit[left].param[level] * sys.unit[left].var['seq'][ecu_out_ports['heat']][s, t]
-                    namestr = 'con_limit_heat-' + level + '-out-' + right + '_' + left
-                    #print(namestr)
-                    sys.model.add_component(namestr, pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule))
+                    if collector_type == 'heat':
+                        def con_rule(m, s, t):
+                            return sys.unit[coupler_name].var['seq']['in'][s, t, ecu_out_node_name] == sys.unit[left].param[level] * sys.unit[left].var['seq'][ecu_out_ports['heat']][s, t]
+                        namestr = 'con_limit_heat-' + level + '-out-' + left + '_to_' + right
+                        # print('START NEW UNIT')
+                        # print(left)
+                        # print(level)
+                        # print(sys.unit[left].param[level])
+                        # print(ecu_out_node_name)
+                        # print(coupler_name)
+                        sys.model.add_component(namestr, pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule))
 
 
                 elif 'ecu' in right:
@@ -1605,12 +1714,17 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 elif 'ecu' in right:
                     collector_type = get_collector_type(left)
 
+
                     # note: boiler class needs to be adapted to accept electricity/power input
                     if 'boi' in right or 'sbo' in right:
                         collector_type = 'fuel'
 
+                   # print(collector_type)
+
                     col_node_name = left + '_node'
+                   # print(col_node_name)
                     ecu_in_node_name = right + '_' + collector_type + '_in_node'
+                   # print(ecu_in_node_name)
                     coupler_name = 'coupler_' + col_node_name + '_to_' + ecu_in_node_name
                     sys.add_unit({
                         'classname': 'Coupler',
@@ -1632,7 +1746,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                         def con_rule(m, s, t):
                             return sys.unit[coupler_name].var['seq']['out'][s, t, ecu_in_node_name] <= sys.unit[right].param[carrier] * sys.unit[right].var['seq']['f'][s, t]
                         namestr = 'con_limit_fuel_input-' + left + '-in-' + right
-                        print(namestr)
+                        #print(namestr)
                         sys.model.add_component(namestr, pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule))
 
 
@@ -1774,6 +1888,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                         if typ in outobj['element']:  # this is the right port for the
                             out_name = struct['dem'][dem][
                                            'ID'] + '_' + outstr
+                            # print('out_name')
+                            # print(out_name)
                     # note: although it is a pseudo demand, called output, the node is named "in node"
                     if not out_name:
                         raise KeyError('Type {} not found in process output.'.format(typ))
@@ -1789,9 +1905,11 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     # find pseudo demand's in node and add coupler's incoming port to left hand side
                     # other way around compared the way it usually works
                     in_port_name = 'in_' + dem_in_node_name
+                   # print(dem_in_node_name)
                     nodes[dem_in_node_name]['lhs'].append([coupler_name, in_port_name])
                     # find demand node and add coupler's outgoing port to left hand side
                     out_port_name = 'out_' + col_node_name
+                # print(out_port_name)
                     nodes[col_node_name]['lhs'].append([coupler_name, out_port_name])
 
                 else:
@@ -1832,8 +1950,8 @@ def add_units_and_nodes(system, structure, tl, tl_map):
     system, couplers = add_nodes(system, structure)
     toc = time.time()
 
-    print('Couplerdict:')
-    print(couplers.keys())
+    # print('Couplerdict:')
+    # print(couplers.keys())
 
     out_str = "Added units and nodes in {:.2f} seconds.".format(toc-tic)
 
