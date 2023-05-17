@@ -13,8 +13,8 @@
           "co2_fossil": 0.2,
           "lim_actual": 50,
           "lim_technical": 50,
-          "inv_fix": 1000000,
-          "inv_power": 100000,
+          "inv_fix": 5000000,
+          "inv_power": 0,
           "description": "natural gas"
         }
       ]
@@ -30,8 +30,8 @@
           "co2_biogen": 0.32610,
           "lim_actual": 20,
           "lim_technical": 20,
-		  "inv_fix": 100000,
-          "inv_power": 100000,
+		      "inv_fix": 0,
+          "inv_power": 0,
           "description": "biogas"
         }
       ]
@@ -50,8 +50,8 @@
           "co2_fossil": 0.18,
           "lim_actual": 50,
           "lim_technical": 50,
-          "inv_fix": 1000000,
-          "inv_power": 100000,
+          "inv_fix": 5000000,
+          "inv_power": 0,
           "description": "electricity grid"
         }
       ]
@@ -116,7 +116,7 @@
       "param": [
         {
           "integrate": true,
-          "energy": 20,
+          "energy": 0,
           "co2_biogen": 0.329,
           "lim_actual": 5,
           "lim_technical": 5,
@@ -133,7 +133,7 @@
       "param": [
         {
           "integrate": false,
-          "energy": 10,
+          "energy": 15,
           "co2_fossil": 0.338,
           "lim_actual": 0,
           "lim_technical": 0,
@@ -3580,7 +3580,6 @@
           "opex_start": 0,
           "max_share_out_mis": 1,
           "max_share_out_los": 0,
-          "max_share_out_wwa": 0,
           "max_share_out_his": 0
         }
       ]

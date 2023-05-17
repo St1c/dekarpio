@@ -3241,13 +3241,13 @@ class Supply(Unit):
             system.model.component(namestr).deactivate()
             self.obj['co2_biogen'] = system.model.component(namestr)
 
-            obj_mass =sum(
+            obj_mass = sum(
                 self.var['seq']['m_co2_biogen'][s, t] * system.param['sc'][s][0] for s in system.model.set_sc
                 for t in system.model.set_t) / system.param['dur_sc'] * 8760
             namestr = 'obj_mass_' + self.name + '_co2_biogen'
             system.model.add_component(namestr, pyo.Objective(expr=obj_mass))
             system.model.component(namestr).deactivate()
-            self.obj['mass_co2_biogen'] = system.model.component(namestr)
+            self.obj['mass_biogen'] = system.model.component(namestr)
 
         if 'co2_fossil' in self.param.keys():
             obj = sum(
@@ -3264,7 +3264,7 @@ class Supply(Unit):
             namestr = 'obj_mass_' + self.name + '_co2_fossil'
             system.model.add_component(namestr, pyo.Objective(expr=obj_mass))
             system.model.component(namestr).deactivate()
-            self.obj['mass_co2_fossil'] = system.model.component(namestr)
+            self.obj['mass_fossil'] = system.model.component(namestr)
 
         # add costs for peak load (annual costs)
 
@@ -3291,21 +3291,21 @@ class Supply(Unit):
         system.model.component(namestr).deactivate()
         self.obj['total'] = system.model.component(namestr)
 
-        obj = 0
+        obj_co2 = 0
         if 'co2_biogen' in self.param:
-            obj += self.obj['mass_co2_biogen'].expr
+            obj_co2 += self.obj['mass_biogen'].expr
 
-        namestr = 'obj_' + self.name + '_co2_total_bio'
-        system.model.add_component(namestr, pyo.Objective(expr=obj))
+        namestr = 'obj_co2' + self.name + '_co2_total_bio'
+        system.model.add_component(namestr, pyo.Objective(expr=obj_co2))
         system.model.component(namestr).deactivate()
         self.obj['co2_total_bio'] = system.model.component(namestr)
 
-        obj = 0
+        obj_co2 = 0
         if 'co2_fossil' in self.param:
-            obj += self.obj['mass_co2_fossil'].expr
+            obj_co2 += self.obj['mass_fossil'].expr
 
-        namestr = 'obj_' + self.name + '_co2_total_fossil'
-        system.model.add_component(namestr, pyo.Objective(expr=obj))
+        namestr = 'obj_co2' + self.name + '_co2_total_fossil'
+        system.model.add_component(namestr, pyo.Objective(expr=obj_co2))
         system.model.component(namestr).deactivate()
         self.obj['co2_total_fossil'] = system.model.component(namestr)
 
