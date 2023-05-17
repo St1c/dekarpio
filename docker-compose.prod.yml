@@ -23,6 +23,8 @@ services:
       - "MYSQL_ROOT_PASSWORD=root"
     networks:
       - dekarpio_prod
+    ports:
+      - 33061:3306
 
   api:
     build:
