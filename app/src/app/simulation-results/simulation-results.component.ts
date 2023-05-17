@@ -5,6 +5,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from 'ng2-ui-auth';
 
 import { environment } from 'src/environments/environment';
+import { ConfigEntitySelectorService } from '../shared/data-access/store/simulation-config/config-entity.selectors';
 
 @Component({
     selector: 'app-simulation-results',
@@ -22,12 +23,21 @@ export class SimulationResultsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
+    private configEntitySelectors: ConfigEntitySelectorService,
   ) {
     const userId = this.auth.getPayload().id;
-
+    
     this.dashUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `${this.dashBaseUrl}/${userId}?jwt=${this.auth.getToken()}`
+      `${this.dashBaseUrl}/${userId}?jwt=${this.auth.getToken()}&configId=0`
     );
+
+    this.configEntitySelectors.simulationActiveConfig$.subscribe((config) => {
+      if (config) {
+        this.dashUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+          `${this.dashBaseUrl}/${userId}?jwt=${this.auth.getToken()}&configId=${config.id}`
+        );
+      }
+    });
   }
 
   ngOnInit(): void {

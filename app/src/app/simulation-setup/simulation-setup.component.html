@@ -40,16 +40,20 @@
       Update
     </button>
   </div>
-  <div class="controls-container">
-    <button mat-fab
-            extended
-            type="button"
-            [color]="'accent'"
-            (click)="processConfig()">
-      <mat-icon>play_arrow</mat-icon>
-      Show simulation
-    </button>
-  </div>
+  <ng-container *ngrxLet="selectConfigValidity$ as configValid">
+    <div class="text-center" *ngIf="!configValid">Save configuration before proceeding</div>
+    <div class="controls-container">
+      <button mat-fab
+              extended
+              type="button"
+              [disabled]="!configValid"
+              [color]="'accent'"
+              [routerLink]="['/simulation-results']">
+        <mat-icon>play_arrow</mat-icon>
+        Show simulation
+      </button>
+    </div>
+  </ng-container>
   <div #layout
        class="map-wrapper"
        [inlineSVG]="'assets/VISIO_12_12_2022.svg'"

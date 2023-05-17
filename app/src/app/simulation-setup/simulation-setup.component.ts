@@ -38,6 +38,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { ConfigEntitySelectorService } from '../shared/data-access/store/simulation-config/config-entity.selectors';
 import { MatInputModule } from '@angular/material/input';
 import { ConfigEntityActions } from '../shared/data-access/store/simulation-config/config-entity.actions';
+import { RouterLink } from '@angular/router';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 export interface DialogData {
   title: any;
@@ -56,6 +58,7 @@ export interface DialogData {
     CommonModule,
     InlineSVGModule,
     ReactiveFormsModule,
+    RouterLink,
 
     MatButtonModule,
     MatDialogModule,
@@ -84,6 +87,7 @@ export class SimulationSetupComponent {
   configurableShapes$: Observable<string[]> = this.simulationConfigSelectorService.configurableShapeNames$;
   simulationConfigLoaded$: Observable<boolean> = this.simulationConfigSelectorService.simulationDefaultConfigLoaded$;
   selectedConfigEntity$ = this.configEntitySelectorService.simulationActiveConfig$;
+  selectConfigValidity$ = this.configEntitySelectorService.selectConfigValidity$;
 
   selectedConfig: FormControl<number | null> = new FormControl<number>(0);
   selectedConfigName: FormControl<string | null> = new FormControl<string>('');
@@ -118,13 +122,13 @@ export class SimulationSetupComponent {
     this.store.dispatch(SimulationSetupPageActions.opened());
   }
 
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
   svgLoaded() {
     this.store.dispatch(SimulationSetupPageActions.svgLoaded());
     this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
-  }
-
-  ngOnDestroy() {
-    this.subs.unsubscribe();
   }
 
   createConfig() {
@@ -169,11 +173,13 @@ export class SimulationSetupComponent {
   }
 
   enable(unit_type:string, unit_id: string) {
+    this.store.dispatch(ConfigEntityActions.configTouched());
     this.store.dispatch(SimulationDefaultConfigActions.enableConfigurableShape({ unit_type, unit_id}));
     this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
   }
 
   disable(unit_type:string, unit_id: string) {
+    this.store.dispatch(ConfigEntityActions.configTouched());
     this.store.dispatch(SimulationDefaultConfigActions.disableConfigurableShape({ unit_type, unit_id}));
     this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
   }
@@ -199,6 +205,7 @@ export class SimulationSetupComponent {
     const params_id = result.ID;
     let [type, id] = params_id.split('_');
     const { unit_type = '', unit_id = '', ...params } = { ...result };
+    this.store.dispatch(ConfigEntityActions.configTouched());
     this.store.dispatch(SimulationDefaultConfigActions.updateConfig({ unit_type: type, unit_id: id, config: params }));
   }
 

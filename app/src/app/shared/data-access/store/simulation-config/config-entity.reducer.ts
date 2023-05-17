@@ -11,6 +11,7 @@ export interface ConfigEntityState extends EntityState<ConfigEntity> {
   // additional entities state properties
   selectedConfigId: number;
   activeConfig: { [key: string]: any; };
+  configValid: boolean;
 }
 
 export const adapter: EntityAdapter<ConfigEntity> = createEntityAdapter<ConfigEntity>({
@@ -21,8 +22,8 @@ export const initialConfigIdsState: ConfigEntityState = adapter.getInitialState(
   // additional entity state properties
   selectedConfigId: 1,
   activeConfig: {},
+  configValid: true,
 });
-
 
 export const configEntityReducer = createReducer(
   initialConfigIdsState,
@@ -40,6 +41,20 @@ export const configEntityReducer = createReducer(
 
   on(ConfigEntityActions.loadingConfigsSuccess, (state, { configs }) => {
     return adapter.setMany(configs, state);
+  }),
+
+  on(ConfigEntityActions.configTouched, (state) => {
+    return {
+      ...state,
+      configValid: false
+    }
+  }),
+
+  on(ConfigEntityActions.validatingConfigSuccess, (state) => {
+    return {
+      ...state,
+      configValid: true
+    }
   }),
 
   on(SimulationSetupPageActions.setActiveConfig, (state, { id }) => {

@@ -67,10 +67,11 @@ export class SimulationsService {
     );
   }
 
-  validateSimulation(): Observable<any> {
+  validateSimulation(configId: string): Observable<any> {
     const userId = this.auth.getAuthPayload().id;
     return this.http.post(`${this.flaskUrl}/validate`, {
       user_id: userId,
+      config_id: configId
     });
   }
 }

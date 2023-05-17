@@ -27,6 +27,11 @@ const selectSelectedConfigId = createSelector(
     selectedConfigId
 );
 
+const selectConfigValidity = createSelector(
+    selectConfigsState,
+    simulationSetup => simulationSetup.configValid
+);
+
 const selectCurrentConfig = createSelector(
     selectConfigEntitites,
     selectSelectedConfigId,
@@ -53,6 +58,8 @@ export class ConfigEntitySelectorService {
     selectCurrentConfig$ = this.store.select(selectCurrentConfig);
     simulationActiveConfig$: Observable<{[key: string]: any}> = this.store.select(selectSimulationActiveConfig);
     simulationActiveConfigSettings$: Observable< {[key: string]: any}> = this.store.select(selectSimulationActiveConfigSettings);
+
+    selectConfigValidity$ = this.store.select(selectConfigValidity);
 
     constructor(private store: Store<fromConfigEntity.ConfigEntityState>) { }
 }

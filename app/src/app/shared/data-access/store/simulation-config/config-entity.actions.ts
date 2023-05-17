@@ -7,6 +7,7 @@ export const ConfigEntityActions = createActionGroup({
       'Load configs': emptyProps(),
       'Loading configs success': props<{ configs: ConfigEntity[], id: number }>(),
       'Loading configs success but empty': emptyProps(),
+      'Config touched': emptyProps(),
       'Create config': props<{ name: string | null}>(),
       'Creating config success': emptyProps(),
       'Update config': props<{ name: string | null }>(),
@@ -14,5 +15,6 @@ export const ConfigEntityActions = createActionGroup({
       'Processing config success': emptyProps(),
       'Validate config': emptyProps(),
       'Validating config success': emptyProps(),
+      'Validating config failed': props<{errors: any}>(),
     }
   });
