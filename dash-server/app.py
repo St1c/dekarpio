@@ -14,6 +14,7 @@ from plotly.subplots import make_subplots
 import numpy as np
 import plotly.colors as pclr
 import requests
+from urllib.parse import parse_qs
 
 ## Diskcache
 import diskcache
@@ -214,9 +215,11 @@ def getDataFromURL(pathname, href):
     Get the UserID from the href and use it to retreive the settings in the Database by calling the API
     Simulation Settings are stored in a dcc.Store Component --> triggers the next Callback automatically
     '''
-    temp1 = href.split("?jwt=")[0]
-    temp2 = temp1.split("/")[-1]
-    response = requests.get("http://api:3001/api/simulation-results/"+temp2)
+    path = href.split("?jwt=")[0]
+    user_id = path.split("/")[-1]
+    query_params = parse_qs(href.split("?")[1])
+    config_id = query_params.get("configId", [""])[0]
+    response = requests.get("http://api:3001/api/simulation-results/simulation/"+user_id+"/"+config_id)
     temp = response.json()
     dataDict = temp["data"][0]
     return dataDict["settings"]

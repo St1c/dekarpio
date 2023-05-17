@@ -17,7 +17,7 @@ def validateJson():
     Get User ID from json File submitted in the request
     Get Simulation Setup from the API and test the Rules
     '''
-    response = requests.get("http://api:3001/api/simulation-results/"+str(request.json['user_id']))
+    response = requests.get("http://api:3001/api/simulation-results/simulation/"+str(request.json['user_id'])+"/"+str(request.json['config_id']))
 
     temp = response.json()
     dataDict = temp["data"][0]["settings"]
