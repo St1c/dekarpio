@@ -10,8 +10,9 @@ var simulations = Object.assign(Object.create(db), {
     create,
     update,
     getAllUserSimulations,
-    getLastXUserSimulations,
+    getLastUserSimulations,
     getLatestUserSimulation,
+    getUserSimulationById
 });
 simulations.init('simulations', readable, writable);
 module.exports = simulations;
@@ -42,7 +43,7 @@ async function getAllUserSimulations(userId) {
     ));
 }
 
-async function getLastXUserSimulations(userId, limit = 10) {
+async function getLastUserSimulations(userId, limit = 10) {
     return this.query(mysql.format(
         'SELECT `id`, `user_id`, `name`, `settings`, `created_at` FROM ?? WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ?', [this.tableName, userId, limit]
     ));
@@ -51,5 +52,12 @@ async function getLastXUserSimulations(userId, limit = 10) {
 async function getLatestUserSimulation(userId) {
     return this.query(mysql.format(
         'SELECT ?? FROM ?? WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT 1', [this.readableAttributes, this.tableName, userId]
+    ));
+}
+
+
+async function getUserSimulationById(userId, simulationId) {
+    return this.query(mysql.format(
+        'SELECT ?? FROM ?? WHERE `user_id` = ? AND `id` = ? ORDER BY `created_at` DESC LIMIT 1', [this.readableAttributes, this.tableName, userId, simulationId]
     ));
 }

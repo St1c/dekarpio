@@ -5,7 +5,8 @@ const router = new Router();
 
 router
     .get('/:userId', simulationResultsController.getLatestUserSimulation)
-    .get('/last/:userId/:limit', simulationResultsController.getLastXUserSimulations)
+    .get('/simulation/:userId/:simulationId', simulationResultsController.getUserSimulationById)
+    .get('/last/:userId/:limit', simulationResultsController.getLastUserSimulations)
     .get('/all/:userId', simulationResultsController.getAllUserSimulations)
     .put('/:simulationId', simulationResultsController.updateSimulationWithResult);
 module.exports = router;
