@@ -12,9 +12,10 @@ export const ConfigEntityActions = createActionGroup({
       'Creating config success': emptyProps(),
       'Update config': props<{ name: string | null }>(),
       'Updating config success': emptyProps(),
-      'Processing config success': emptyProps(),
+      'Processing config success':props<{ configs: ConfigEntity[], id: number }>(),
       'Validate config': emptyProps(),
       'Validating config success': emptyProps(),
       'Validating config failed': props<{errors: any}>(),
+      'Set active config after API call': props<{ id: number }>(),
     }
   });

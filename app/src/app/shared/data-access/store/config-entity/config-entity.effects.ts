@@ -55,28 +55,33 @@ export class ConfigEntityEffects {
     map(() => ConfigEntityActions.updatingConfigSuccess()),
     catchError(() => EMPTY)
   ));
-    
-  validateConfig$ = createEffect(() => this.actions$.pipe(
+  
+  refreshAPIConfigsAfterCreateOrUpdate$ = createEffect(() => this.actions$.pipe(
     ofType(
       ConfigEntityActions.creatingConfigSuccess,
       ConfigEntityActions.updatingConfigSuccess,
+    ),
+    switchMap(() => this.simulationService.getSimulations(10)),
+    map((configs: ConfigEntity[]) => {
+      return ConfigEntityActions.processingConfigSuccess({ configs, id: configs[0].id });
+    }),
+    catchError(() => EMPTY)
+  ));
+
+  processAPIConfigsSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(ConfigEntityActions.processingConfigSuccess),
+    map(({ id }) => ConfigEntityActions.setActiveConfigAfterApiCall({ id })),
+    catchError(() => EMPTY)
+  ));
+
+  validateConfig$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      ConfigEntityActions.setActiveConfigAfterApiCall
     ),
     withLatestFrom(this.configEntitySelectorService.simulationActiveConfig$),
     switchMap(([,activeConfig]) => this.simulationService.validateSimulation(activeConfig.id)),
     map(() => ConfigEntityActions.validatingConfigSuccess()),
     catchError((errors) => of(ConfigEntityActions.validatingConfigFailed({ errors })))
-  ));
-
-  refreshAPIConfigsAfterCreateOrUpdate$ = createEffect(() => this.actions$.pipe(
-    ofType(ConfigEntityActions.validatingConfigSuccess),
-    switchMap(() => this.simulationService.getSimulations(10)),
-    map((configs: ConfigEntity[]) => {
-      if (configs.length == 0) {
-        return ConfigEntityActions.loadingConfigsSuccessButEmpty();
-      }
-      return ConfigEntityActions.loadingConfigsSuccess({ configs, id: configs[0].id });
-    }),
-    catchError(() => EMPTY)
   ));
 
   // validateConfigSuccess$ = createEffect(() => this.actions$.pipe(

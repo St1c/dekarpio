@@ -111,7 +111,8 @@ export class SimulationSetupComponent {
     this.selectedConfigEntity$.subscribe((configEntity) => {
       if (configEntity) {
         this.configId = configEntity.id;
-        this.selectedConfigName.setValue(configEntity.name);
+        if (this.configId == 0) this.selectedConfigName.setValue('');
+        if (this.configId != 0) this.selectedConfigName.setValue(configEntity.name);
         this.selectedConfig.setValue(configEntity.id, { emitEvent: false });
       }
     });

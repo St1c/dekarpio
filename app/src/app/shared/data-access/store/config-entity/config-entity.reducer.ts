@@ -39,7 +39,10 @@ export const configEntityReducer = createReducer(
     return adapter.setOne(simEntity, state);
   }),
 
-  on(ConfigEntityActions.loadingConfigsSuccess, (state, { configs }) => {
+  on(
+    ConfigEntityActions.loadingConfigsSuccess,
+    ConfigEntityActions.processingConfigSuccess,
+    (state, { configs }) => {
     return adapter.setMany(configs, state);
   }),
 
@@ -57,7 +60,10 @@ export const configEntityReducer = createReducer(
     }
   }),
 
-  on(SimulationSetupPageActions.setActiveConfig, (state, { id }) => {
+  on(
+    SimulationSetupPageActions.setActiveConfig, 
+    ConfigEntityActions.setActiveConfigAfterApiCall,
+    (state, { id }) => {
     console.log('setActiveConfig', id);
     return {
       ...state,
