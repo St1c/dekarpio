@@ -76,23 +76,28 @@ async function updateSimulation(ctx, next) {
 async function deleteSimulation(ctx, next) {
     if (!ctx.state.user) ctx.throw(403, 'Unknown user');
 
+    const simulationID = ctx.params.id;
+
     const activeConnection = await db.connect();
 
     const simulation = await simulations.find({
-        id: ctx.params.id
+        id: simulationID
     });
 
     if (simulation.length == 0) {
         await activeConnection.release();
-        ctx.throw(404, 'Simulation not found!');
+        ctx.throw(404, 'Simulation id not found!');
     }
 
-    await simulations.delete(ctx.params.id);
+    await simulations.delete(simulationID);
 
     await activeConnection.release();
 
     ctx.status = 201;
     ctx.body = {
-        data: 'Simulation deleted'
+        data: {
+            id: simulationID,
+            msg: 'Simulation deleted'
+        }
     };
 }

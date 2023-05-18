@@ -12,7 +12,8 @@ var simulations = Object.assign(Object.create(db), {
     getAllUserSimulations,
     getLastUserSimulations,
     getLatestUserSimulation,
-    getUserSimulationById
+    getUserSimulationById,
+    getAllUserSimulationsPaginated
 });
 simulations.init('simulations', readable, writable);
 module.exports = simulations;
@@ -37,15 +38,25 @@ async function update(obj) {
     ));
 }
 
+
 async function getAllUserSimulations(userId) {
     return this.query(mysql.format(
-        'SELECT ?? FROM ?? WHERE `user_id` = ?', [this.readableAttributes, this.tableName, userId]
+        'SELECT simulations.id, user_id, name, settings, simulations.created_at, updated_at, ?? FROM ?? JOIN ?? ON ?? = ?? WHERE `user_id` = ? ORDER BY `updated_at` DESC',
+        ['users.email', this.tableName, 'users', `${this.tableName}.user_id`, 'users.id', userId]
+    ));
+}
+
+async function getAllUserSimulationsPaginated(userId, limit, offset) {
+    return this.query(mysql.format(
+        'SELECT ?? FROM ?? WHERE `user_id` = ? ORDER BY `updated_at` DESC LIMIT ? OFFSET ?',
+        [this.readableAttributes, this.tableName, userId, limit, offset]
     ));
 }
 
 async function getLastUserSimulations(userId, limit = 10) {
     return this.query(mysql.format(
-        'SELECT `id`, `user_id`, `name`, `settings`, `created_at` FROM ?? WHERE `user_id` = ? ORDER BY `created_at` DESC LIMIT ?', [this.tableName, userId, limit]
+        'SELECT simulations.id, user_id, name, settings, simulations.created_at, updated_at, ?? FROM ?? JOIN ?? ON ?? = ?? WHERE `user_id` = ? ORDER BY `updated_at` DESC LIMIT ?',
+        ['users.email', this.tableName, 'users', `${this.tableName}.user_id`, 'users.id', userId, limit]
     ));
 }
 

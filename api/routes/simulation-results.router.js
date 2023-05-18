@@ -8,5 +8,6 @@ router
     .get('/simulation/:userId/:simulationId', simulationResultsController.getUserSimulationById)
     .get('/last/:userId/:limit', simulationResultsController.getLastUserSimulations)
     .get('/all/:userId', simulationResultsController.getAllUserSimulations)
+    .get('/all/:userId/paginated', simulationResultsController.getAllUserSimulationsPaginated) // new route
     .put('/:simulationId', simulationResultsController.updateSimulationWithResult);
 module.exports = router;
