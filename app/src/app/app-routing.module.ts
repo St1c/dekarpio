@@ -5,6 +5,7 @@ import { AuthService } from './core/auth/auth.service';
 import { LoginComponent } from './login/login.component';
 import { SimulationResultsComponent } from './simulation-results/simulation-results.component';
 import { SimulationSetupComponent } from './simulation-setup/simulation-setup.component';
+import { ConfigsManagementComponent } from './configs-management/configs-management.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
     component: SimulationResultsComponent,
     canActivate: [AuthService]
   },
+  {
+    path: 'configs-management',
+    component: ConfigsManagementComponent,
+    canActivate: [AuthService]
+  }
 ];
 
 @NgModule({

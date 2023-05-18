@@ -12,7 +12,7 @@ import {
 import { SvgElementToolsService } from 'src/app/shared/utils/svg-element-tools.service';
 import { SimulationConfigSelectorService } from './simulation-config.selectors';
 import { SimulationJson } from 'src/app/shared/types/simulation-json';
-import { ConfigEntitySelectorService } from './config-entity.selectors';
+import { ConfigEntitySelectorService } from '../config-entity/config-entity.selectors';
 
 @Injectable()
 export class SimulationSetupEffects {

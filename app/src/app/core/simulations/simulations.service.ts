@@ -1,18 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment';
+
 import { AuthService } from '../auth/auth.service';
 import { ConfigEntity } from 'src/app/shared/types/config-entity';
 
 export interface Simulation {
   id?: number;
   user_id?: number;
+  email?: string;
   name?: string;
   settings?: string;
   results?: string;
   created_at?: string;
+  updated_at?: string;
 }
 
 @Injectable({
@@ -53,17 +58,16 @@ export class SimulationsService {
   getSimulations(limit: number): Observable<ConfigEntity[]> {
     const userId = this.auth.getAuthPayload().id;
     return this.http.get(`${this.apiUrl}/simulation-results/last/${userId}/${limit}`).pipe(
-      tap((res: any) => console.log('get last X', res)),
       map((res: any) => res.data),
-      map((simulations: Simulation[]) => simulations.map((simulation: Simulation) => {
-        return {
-          id: simulation.id || 0,
-          user_id: simulation.user_id || 0,
-          name: simulation.name || '',
-          settings: JSON.parse(simulation.settings || '{}'),
-          created_at: simulation.created_at || '',
-        };
-      }))
+      map((simulations: Simulation[]) => simulations.map((simulation: Simulation) => this.mapSimulation(simulation)))
+    );
+  }
+
+  getAllSimulations(): Observable<ConfigEntity[]> {
+    const userId = this.auth.getAuthPayload().id;
+    return this.http.get(`${this.apiUrl}/simulation-results/all/${userId}`).pipe(
+      map((res: any) => res.data),
+      map((simulations: Simulation[]) => simulations.map((simulation: Simulation) => this.mapSimulation(simulation)))
     );
   }
 
@@ -73,5 +77,24 @@ export class SimulationsService {
       user_id: userId,
       config_id: configId
     });
+  }
+
+  deleteSimulation(configId: number): Observable<number> {
+    return this.http.delete(`${this.apiUrl}/simulation-setup/${configId}`).pipe(
+      map((res: any) => res.data),
+      map((data: {id: number, msg: string}) => +data.id),
+    );
+  }
+
+  private mapSimulation(simulation: Simulation): ConfigEntity {
+    return {
+      id: simulation.id || 0,
+      user_id: simulation.user_id || 0,
+      email: simulation.email || '',
+      name: simulation.name || '',
+      created_at: simulation.created_at || '',
+      updated_at: simulation.updated_at || '',
+      settings: JSON.parse(simulation.settings || '{}'),
+    };
   }
 }

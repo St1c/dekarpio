@@ -1,18 +1,18 @@
 <div class="container"
      *ngIf="simulationConfigLoaded$ | async as config; else loading">
-  <div class="controls-container">
+  <div class="configs-selection-container">
     <mat-form-field appearance="fill"
                     *ngIf="configsAvaliable$ | async as entities;">
       <mat-label>Select configuration</mat-label>
       <mat-select [formControl]="selectedConfig">
         <mat-option *ngFor="let entity of entities"
                     [value]="entity.id">
-                    <ng-container *ngIf="entity.name.length > 0; else date">
-                      {{entity.name}}
-                    </ng-container>
-                    <ng-template #date>
-                      {{ entity.created_at | date:'d/M/yy, h:mm a' }}
-                    </ng-template>
+          <ng-container *ngIf="entity.name.length > 0; else date">
+            {{entity.name}}
+          </ng-container>
+          <ng-template #date>
+            {{ entity.created_at | date:'d/M/yy, h:mm a' }}
+          </ng-template>
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -22,7 +22,7 @@
              [formControl]="selectedConfigName">
     </mat-form-field>
     <button mat-fab
-    *ngIf="configId == 0"
+            *ngIf="configId == 0"
             extended
             color="primary"
             type="button"
@@ -31,7 +31,7 @@
       Save
     </button>
     <button mat-fab
-    *ngIf="configId != 0"
+            *ngIf="configId != 0"
             extended
             color="primary"
             type="button"
@@ -39,9 +39,18 @@
       <mat-icon>save</mat-icon>
       Update
     </button>
+    <button mat-fab
+            extended
+            color="warn"
+            type="button"
+            [routerLink]="['/configs-management']">
+      <mat-icon>list</mat-icon>
+      View all
+    </button>
   </div>
   <ng-container *ngrxLet="selectConfigValidity$ as configValid">
-    <div class="text-center" *ngIf="!configValid">Save configuration before proceeding</div>
+    <div class="text-center"
+         *ngIf="!configValid">Save configuration before proceeding</div>
     <div class="controls-container">
       <button mat-fab
               extended

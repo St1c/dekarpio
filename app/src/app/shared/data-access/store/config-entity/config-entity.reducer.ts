@@ -2,10 +2,10 @@
 import { EntityAdapter, EntityState, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 
-import { SimulationDefaultConfigActions, SimulationSetupPageActions } from './simulation-config.actions';
 import { ConfigEntity } from 'src/app/shared/types/config-entity';
 import { SimulationJson } from 'src/app/shared/types/simulation-json';
 import { ConfigEntityActions } from './config-entity.actions';
+import { SimulationDefaultConfigActions, SimulationSetupPageActions } from '../simulation-config';
 
 export interface ConfigEntityState extends EntityState<ConfigEntity> {
   // additional entities state properties

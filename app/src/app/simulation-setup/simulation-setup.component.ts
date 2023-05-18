@@ -35,11 +35,10 @@ import {
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatIconModule } from "@angular/material/icon";
-import { ConfigEntitySelectorService } from '../shared/data-access/store/simulation-config/config-entity.selectors';
 import { MatInputModule } from '@angular/material/input';
-import { ConfigEntityActions } from '../shared/data-access/store/simulation-config/config-entity.actions';
+import { ConfigEntityActions } from '../shared/data-access/store/config-entity/config-entity.actions';
 import { RouterLink } from '@angular/router';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { ConfigEntitySelectorService } from '../shared/data-access/store/config-entity/config-entity.selectors';
 
 export interface DialogData {
   title: any;
@@ -82,8 +81,8 @@ export class SimulationSetupComponent {
 
   clickedSvgElement: string = '';
   menuTopLeftPosition = { x: '0', y: '0' };
-  
-  configsAvaliable$ = this.configEntitySelectorService.allConfigs$
+
+  configsAvaliable$ = this.configEntitySelectorService.allConfigs$;
   configurableShapes$: Observable<string[]> = this.simulationConfigSelectorService.configurableShapeNames$;
   simulationConfigLoaded$: Observable<boolean> = this.simulationConfigSelectorService.simulationDefaultConfigLoaded$;
   selectedConfigEntity$ = this.configEntitySelectorService.simulationActiveConfig$;
@@ -109,13 +108,13 @@ export class SimulationSetupComponent {
         this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
       });
 
-      this.selectedConfigEntity$.subscribe((configEntity) => {
-        if (configEntity) {
-          this.configId = configEntity.id;
-          this.selectedConfigName.setValue(configEntity.name);
-          this.selectedConfig.setValue(configEntity.id, { emitEvent: false });
-        }
-      });
+    this.selectedConfigEntity$.subscribe((configEntity) => {
+      if (configEntity) {
+        this.configId = configEntity.id;
+        this.selectedConfigName.setValue(configEntity.name);
+        this.selectedConfig.setValue(configEntity.id, { emitEvent: false });
+      }
+    });
   }
 
   ngOnInit() {
@@ -132,16 +131,16 @@ export class SimulationSetupComponent {
   }
 
   createConfig() {
-    this.store.dispatch(ConfigEntityActions.createConfig({name: this.selectedConfigName.value}));
+    this.store.dispatch(ConfigEntityActions.createConfig({ name: this.selectedConfigName.value }));
   }
 
   editConfig() {
-    this.store.dispatch(ConfigEntityActions.updateConfig({name: this.selectedConfigName.value}));
+    this.store.dispatch(ConfigEntityActions.updateConfig({ name: this.selectedConfigName.value }));
   }
 
   processConfig() {
     const currentNameFieldValue = this.selectedConfigName.value || '';
-    this.store.dispatch(SimulationSetupPageActions.goToSimulationResults({currentNameFieldValue}));
+    this.store.dispatch(SimulationSetupPageActions.goToSimulationResults({ currentNameFieldValue }));
   }
 
   svgClicked(event: any, contextMenu = false) {
@@ -172,15 +171,15 @@ export class SimulationSetupComponent {
     }
   }
 
-  enable(unit_type:string, unit_id: string) {
+  enable(unit_type: string, unit_id: string) {
     this.store.dispatch(ConfigEntityActions.configTouched());
-    this.store.dispatch(SimulationDefaultConfigActions.enableConfigurableShape({ unit_type, unit_id}));
+    this.store.dispatch(SimulationDefaultConfigActions.enableConfigurableShape({ unit_type, unit_id }));
     this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
   }
 
-  disable(unit_type:string, unit_id: string) {
+  disable(unit_type: string, unit_id: string) {
     this.store.dispatch(ConfigEntityActions.configTouched());
-    this.store.dispatch(SimulationDefaultConfigActions.disableConfigurableShape({ unit_type, unit_id}));
+    this.store.dispatch(SimulationDefaultConfigActions.disableConfigurableShape({ unit_type, unit_id }));
     this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
   }
 

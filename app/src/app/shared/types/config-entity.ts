@@ -5,5 +5,7 @@ export interface ConfigEntity {
     user_id: number;
     name: string;
     settings: SimulationJson;
+    email?: string;
     created_at?: string;
+    updated_at?: string;
 }

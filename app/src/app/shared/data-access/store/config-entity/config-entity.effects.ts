@@ -5,10 +5,10 @@ import { catchError, filter, map, switchMap, withLatestFrom } from 'rxjs/operato
 import * as routerActions from '@ngrx/router-store';
 
 import { SimulationsService } from 'src/app/core/simulations/simulations.service';
-import { SimulationSetupPageActions } from './simulation-config.actions';
 import { ConfigEntity } from 'src/app/shared/types/config-entity';
 import { ConfigEntitySelectorService } from './config-entity.selectors';
 import { ConfigEntityActions } from './config-entity.actions';
+import { SimulationSetupPageActions } from '../simulation-config';
 // import { Router } from '@angular/router';
 
 @Injectable()
@@ -23,7 +23,7 @@ export class ConfigEntityEffects {
       if (configs.length == 0) {
         return ConfigEntityActions.loadingConfigsSuccessButEmpty();
       }
-      return ConfigEntityActions.loadingConfigsSuccess({ configs, id: configs[configs.length - 1].id });
+      return ConfigEntityActions.loadingConfigsSuccess({ configs, id: configs[0].id });
     }),
     catchError(() => EMPTY)
   ));
@@ -74,7 +74,7 @@ export class ConfigEntityEffects {
       if (configs.length == 0) {
         return ConfigEntityActions.loadingConfigsSuccessButEmpty();
       }
-      return ConfigEntityActions.loadingConfigsSuccess({ configs, id: configs[configs.length - 1].id });
+      return ConfigEntityActions.loadingConfigsSuccess({ configs, id: configs[0].id });
     }),
     catchError(() => EMPTY)
   ));

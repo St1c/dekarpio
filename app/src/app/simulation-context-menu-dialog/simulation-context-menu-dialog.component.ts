@@ -9,8 +9,8 @@ import { Subscription } from 'rxjs';
 
 import { ConfigFormComponent } from '../shared/ui/config-form/config-form.component';
 import { toBoolean } from '../shared/utils/type-coercion';
-import { ConfigEntitySelectorService } from '../shared/data-access/store/simulation-config/config-entity.selectors';
 import { DialogData } from '../simulation-setup/simulation-setup.component';
+import { ConfigEntitySelectorService } from '../shared/data-access/store/config-entity/config-entity.selectors';
 
 @Component({
   selector: 'simulation-context-menu-dialog',

@@ -5,7 +5,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AuthService } from 'ng2-ui-auth';
 
 import { environment } from 'src/environments/environment';
-import { ConfigEntitySelectorService } from '../shared/data-access/store/simulation-config/config-entity.selectors';
+import { ConfigEntitySelectorService } from '../shared/data-access/store/config-entity/config-entity.selectors';
 
 @Component({
     selector: 'app-simulation-results',

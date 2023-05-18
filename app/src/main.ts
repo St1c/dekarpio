@@ -16,12 +16,9 @@ import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/app-routing.module';
 import { CoreModule } from './app/core/core.module';
 
-import {
-  simulationConfigReducer,
-  SimulationSetupEffects
-} from './app/shared/data-access/store/simulation-config';
-import { configEntityReducer } from './app/shared/data-access/store/simulation-config/config-entity.reducer';
-import { ConfigEntityEffects } from './app/shared/data-access/store/simulation-config/config-entity.effects';
+import { configEntityReducer, ConfigEntityEffects } from './app/shared/data-access/store/config-entity';
+import { configsManagementReducer, ConfigsManagementEffects } from './app/shared/data-access/store/config-management';
+import { simulationConfigReducer, SimulationSetupEffects } from './app/shared/data-access/store/simulation-config';
 
 if (environment.production) {
   enableProdMode();
@@ -43,8 +40,8 @@ bootstrapApplication(AppComponent, {
     provideStore({
       router: routerReducer,
       simulationSetup: simulationConfigReducer,
-      configEntities: configEntityReducer
-      // auth: authReducer,
+      configEntities: configEntityReducer,
+      configsManagement: configsManagementReducer,
     }, {
       runtimeChecks: {
         strictStateImmutability: false,
@@ -56,7 +53,8 @@ bootstrapApplication(AppComponent, {
     provideRouterStore(),
     provideEffects(
       ConfigEntityEffects,
-      SimulationSetupEffects
+      ConfigsManagementEffects,
+      SimulationSetupEffects,
     ),
     provideStoreDevtools({
       trace: true,
