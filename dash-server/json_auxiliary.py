@@ -1289,7 +1289,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
             if sys.unit[ecu_name].param['classname'] == 'GasBoiler':
                 return dict({'heat': 'q'})
             elif sys.unit[ecu_name].param['classname'] == 'GasTurbine':
-                return dict({'fuel': 'f', 'power': 'p'})
+                return dict({'fuel': 'q', 'power': 'p'})
             elif sys.unit[ecu_name].param['classname'] == 'BackPressureSteamTurbine':
                 return dict({'heat': 'q_out', 'power': 'p'})
             elif sys.unit[ecu_name].param['classname'] == 'CondensingSteamTurbine':
