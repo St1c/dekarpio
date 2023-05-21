@@ -107,8 +107,8 @@
     "fullload_efficiency": {
       "unit": "%",
       "type": "value",
-      "description": "Efficiency for full load operation. Depending on unit: for boilers and heat pumps regarding the 2end law efficiency, for turbines regarding electric efficiency",
-      "displayname": "Efficiency for full load"
+      "description": "Efficiency. Depending on unit: for boilers and heat pumps regarding the 2end law efficiency, for turbines regarding electric efficiency",
+      "displayname": "Efficiency"
     },
     "minload_efficiency": {
       "unit": "%",
@@ -491,6 +491,12 @@
       ],
       "description": "Which level of decarbonization needs to be achieved?",
       "displayname": "Level of decarbonization (biogen)"
+    },
+    "operation_days":  {
+      "unit": "d/a",
+      "type": "value",
+      "description": "Number of full operation days in mill",
+      "displayname": "Full operation days in a mill per year"
     }
   }
 }

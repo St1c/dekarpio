@@ -425,7 +425,7 @@ class GasTurbine(Unit): #to do: in steam turbine convert
 
         def con_rule(m, s, t):
             #return self.var['seq']['q'][s, t] == 0.5 * self.var['seq']['f'][s, t]                           # comment(7_12_22 SK) new constraint added - todo calculate factor 0.5 with thermodynamic params
-            return self.var['seq']['q'][s, t] == 0.95* (self.var['seq']['f'][s, t] - self.var['seq']['p'][s, t])   # comment (7_12_22 SK): previous - adapted from thermodynamic considerations - todo add to manual
+            return self.var['seq']['q'][s, t] == 0.95 * (self.var['seq']['f'][s, t] - self.var['seq']['p'][s, t])   # comment (7_12_22 SK): previous - adapted from thermodynamic considerations - todo add to manual
         namestr = 'energy_balance'
         self.con[namestr] = pyo.Constraint(system.model.set_sc, system.model.set_t, rule=con_rule)
 

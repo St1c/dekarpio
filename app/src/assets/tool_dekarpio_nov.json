@@ -290,10 +290,12 @@
       "ID": "eso_eso17_ste",
       "param": [
         {
-          "integrate": true,
-          "energy": 80,
-          "lim_actual": 70,
-          "lim_technical": 120,
+          "integrate": false,
+          "energy": 0,
+          "co2_fossil": 0.19,
+		      "co2_biogen": 0,
+          "lim_actual": 0,
+          "lim_technical": 0,
           "inv_fix": 0,
           "inv_power": 0,
           "description": "steam extern"
@@ -503,10 +505,10 @@
           "con": "con-ecu_ecu9_boi6-col_col3_lis1"
         },
         "input11": {
-          "con": "con-ecu_ecu10_gtu1-col_col3_lis1"
+          "con": "con-ecu_ecu19_hrb1-col_col3_lis1"
         },
         "input12": {
-          "con": "con-ecu_ecu11_gtu2-col_col3_lis1"
+          "con": "con-ecu_ecu20_hrb2-col_col3_lis1"
         },
         "input13": {
           "con": "con-col_col3_lis1-ecu_ecu12_stu1"
@@ -606,6 +608,12 @@
         },
         "input23": {
           "con": "con-ecu_ecu16_shp2-col_col9_his2"
+        },
+        "input24": {
+          "con": "con-ecu_ecu19_hrb1-col_col8_his1"
+        },
+        "input25": {
+          "con": "con-ecu_ecu20_hrb2-col_col8_his1"
         }
       },
       "param": [
@@ -693,6 +701,12 @@
         },
         "input24": {
           "con": "con-eso_eso17_ste-col_col2_mis1"
+        },
+        "input25": {
+          "con": "con-ecu_ecu19_hrb1-col_col2_mis1"
+        },
+        "input26": {
+          "con": "con-ecu_ecu20_hrb2-col_col2_mis1"
         }
       },
       "param": [
@@ -774,6 +788,12 @@
         },
         "input22": {
           "con": "con-ecu_ecu18_cst2-col_col5_los2"
+        },
+        "input23": {
+          "con": "con-ecu_ecu19_hrb1-col_col7_los1"
+        },
+        "input24": {
+          "con": "con-ecu_ecu20_hrb2-col_col7_los1"
         }
       },
       "param": [
@@ -796,12 +816,13 @@
           "integrate": true,
           "depreciation_period": 10,
           "interest_rate": 5,
-          "price_co2_fossil": 25,
-          "price_co2_biogen": 0,
           "cost_gas_grid": 3000,
           "cost_power_grid": 30000,
+          "operation_days": 330,
+          "price_co2_fossil": 25,
           "free_certificate_fossil": 50000,
           "decarbonization_fossil": "option1",
+          "price_co2_biogen": 0,
           "free_certificate_bio": 50000,
           "decarbonization_bio": "option1",
           "description": "economic settings"
@@ -1260,9 +1281,9 @@
       "out": "ecu_ecu11_gtu2"
     },
     "con91": {
-      "ID": "con-ecu_ecu10_gtu1-col_col3_lis1",
+      "ID": "con-ecu_ecu10_gtu1-ecu_ecu19_hrb1",
       "inp": "ecu_ecu10_gtu1",
-      "out": "col_col3_lis1"
+      "out": "ecu_ecu19_hrb1"
     },
     "con92": {
       "ID": "con-ecu_ecu10_gtu1-col_col6_ele2",
@@ -1270,9 +1291,9 @@
       "out": "col_col6_ele2"
     },
     "con93": {
-      "ID": "con-ecu_ecu11_gtu2-col_col3_lis1",
+      "ID": "con-ecu_ecu11_gtu2-ecu_ecu20_hrb2",
       "inp": "ecu_ecu11_gtu2",
-      "out": "col_col3_lis1"
+      "out": "ecu_ecu20_hrb2"
     },
     "con94": {
       "ID": "con-ecu_ecu11_gtu2-col_col6_ele2",
@@ -1853,6 +1874,86 @@
       "ID": "con-eso_eso25_ppah-col_col1_ele1",
       "inp": "eso_eso25_ppah",
       "out": "col_col1_ele1"
+    },
+    "con210": {
+      "ID": "con-ecu_ecu19_hrb1-col_col3_lis1",
+      "inp": "ecu_ecu19_hrb1",
+      "out": "col_col3_lis1"
+    },
+    "con211": {
+      "ID": "con-ecu_ecu20_hrb2-col_col3_lis1",
+      "inp": "ecu_ecu20_hrb2",
+      "out": "col_col3_lis1"
+    },
+    "con212": {
+      "ID": "con-ecu_ecu19_hrb1-col_col8_his1",
+      "inp": "ecu_ecu19_hrb1",
+      "out": "col_col8_his1"
+    },
+    "con213": {
+      "ID": "con-ecu_ecu20_hrb2-col_col8_his1",
+      "inp": "ecu_ecu20_hrb2",
+      "out": "col_col8_his1"
+    },
+    "con214": {
+      "ID": "con-ecu_ecu19_hrb1-col_col2_mis1",
+      "inp": "ecu_ecu19_hrb1",
+      "out": "col_col2_mis1"
+    },
+    "con215": {
+      "ID": "con-ecu_ecu20_hrb2-col_col2_mis1",
+      "inp": "ecu_ecu20_hrb2",
+      "out": "col_col2_mis1"
+    },
+    "con216": {
+      "ID": "con-ecu_ecu19_hrb1-col_col7_los1",
+      "inp": "ecu_ecu19_hrb1",
+      "out": "col_col7_los1"
+    },
+    "con217": {
+      "ID": "con-ecu_ecu20_hrb2-col_col7_los1",
+      "inp": "ecu_ecu20_hrb2",
+      "out": "col_col7_los1"
+    },
+    "con218": {
+      "ID": "con-eso_eso1_nga-ecu_ecu19_hrb1",
+      "inp": "eso_eso1_nga",
+      "out": "ecu_ecu19_hrb1"
+    },
+    "con219": {
+      "ID": "con-eso_eso1_nga-ecu_ecu20_hrb2",
+      "inp": "eso_eso1_nga",
+      "out": "ecu_ecu20_hrb2"
+    },
+    "con220": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu19_hrb1",
+      "inp": "eso_eso10_hyd",
+      "out": "ecu_ecu19_hrb1"
+    },
+    "con221": {
+      "ID": "con-eso_eso10_hyd-ecu_ecu20_hrb2",
+      "inp": "eso_eso10_hyd",
+      "out": "ecu_ecu20_hrb2"
+    },
+    "con222": {
+      "ID": "con-eso_eso4_bim-ecu_ecu19_hrb1",
+      "inp": "eso_eso4_bim",
+      "out": "ecu_ecu19_hrb1"
+    },
+    "con223": {
+      "ID": "con-eso_eso4_bim-ecu_ecu20_hrb2",
+      "inp": "eso_eso4_bim",
+      "out": "ecu_ecu20_hrb2"
+    },
+    "con224": {
+      "ID": "con-col_col8_his1-col_col4_mis2",
+      "inp": "col_col8_his1",
+      "out": "col_col4_mis2"
+    },
+    "con225": {
+      "ID": "con-col_col2_mis1-col_col5_los2",
+      "inp": "col_col2_mis1",
+      "out": "col_col5_los2"
     }
   },
   "col": {
@@ -1977,6 +2078,14 @@
         "input10": {
           "con": "con-eso_eso17_ste-col_col2_mis1",
           "active": true
+        },
+        "input11": {
+          "con": "con-ecu_ecu19_hrb1-col_col2_mis1",
+          "active": true
+        },
+        "input12": {
+          "con": "con-ecu_ecu20_hrb2-col_col2_mis1",
+          "active": true
         }
       },
       "out": {
@@ -2026,11 +2135,11 @@
           "active": true
         },
         "input10": {
-          "con": "con-ecu_ecu10_gtu1-col_col3_lis1",
+          "con": "con-ecu_ecu19_hrb1-col_col3_lis1",
           "active": true
         },
         "input11": {
-          "con": "con-ecu_ecu11_gtu2-col_col3_lis1",
+          "con": "con-ecu_ecu20_hrb2-col_col3_lis1",
           "active": true
         }
       },
@@ -2092,7 +2201,7 @@
           "con": "con-ecu_ecu18_cst2-col_col4_mis2",
           "active": true
         }
-      },
+        },
       "out": {
         "output1": {
           "con": "con-col_col4_mis2-dem_dem1_pro1",
@@ -2256,7 +2365,14 @@
         "input7": {
           "con": "con-eso_eso24_pdh-col_col7_los1",
           "active": true
-        }
+        },
+        "input8": {
+          "con": "con-ecu_ecu19_hrb1-col_col7_los1",
+          "active": true
+        },
+        "input9": {
+          "con": "con-ecu_ecu20_hrb2-col_col7_los1",
+          "active": true}
       },
       "out": {
         "output1": {
@@ -2303,7 +2419,16 @@
         "input9": {
           "con": "con-ecu_ecu9_boi6-col_col8_his1",
           "active": true
+        },
+        "input10": {
+          "con": "con-ecu_ecu19_hrb1-col_col8_his1",
+          "active": true
+        },
+        "input11": {
+          "con": "con-ecu_ecu20_hrb2-col_col8_his1",
+          "active": true
         }
+
       },
       "out": {
         "output1": {
@@ -2496,7 +2621,6 @@
           "min_capacity": 10,
           "minload": 30,
           "fullload_efficiency": 95,
-          "minload_efficiency": 90,
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
@@ -2584,7 +2708,6 @@
           "min_capacity": 5,
           "minload": 30,
           "fullload_efficiency": 95,
-          "minload_efficiency": 90,
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
@@ -2672,7 +2795,6 @@
           "min_capacity": 1,
           "minload": 30,
           "fullload_efficiency": 95,
-          "minload_efficiency": 90,
           "ramp": 0.5,
           "min_on": 12,
           "min_off": 12,
@@ -2760,7 +2882,6 @@
           "min_capacity": 5,
           "minload": 10,
           "fullload_efficiency": 85,
-          "minload_efficiency": 75,
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
@@ -2776,9 +2897,9 @@
           "max_share_in_electricity": 0.2,
           "max_share_in_biofuel": 0.1,
           "max_share_in_other_gaseous": 0.1,
-          "max_share_out_mis": 1,
           "max_share_out_lis": 0,
           "max_share_out_his": 0,
+          "max_share_out_mis": 1,
           "max_share_out_los": 0
         }
       ]
@@ -2848,7 +2969,6 @@
           "min_capacity": 5,
           "minload": 10,
           "fullload_efficiency": 85,
-          "minload_efficiency": 75,
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
@@ -2864,9 +2984,9 @@
           "max_share_in_electricity": 0.2,
           "max_share_in_biofuel": 0.1,
           "max_share_in_other_gaseous": 0.1,
-          "max_share_out_mis": 1,
           "max_share_out_lis": 0,
           "max_share_out_his": 0,
+          "max_share_out_mis": 1,
           "max_share_out_los": 0
         }
       ]
@@ -2936,7 +3056,6 @@
           "min_capacity": 5,
           "minload": 10,
           "fullload_efficiency": 85,
-          "minload_efficiency": 75,
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
@@ -2952,9 +3071,9 @@
           "max_share_in_electricity": 0.2,
           "max_share_in_biofuel": 0.1,
           "max_share_in_other_gaseous": 0.1,
-          "max_share_out_mis": 1,
           "max_share_out_lis": 0,
           "max_share_out_his": 0,
+          "max_share_out_mis": 1,
           "max_share_out_los": 0
         }
       ]
@@ -3024,7 +3143,6 @@
           "min_capacity": 5,
           "minload": 10,
           "fullload_efficiency": 85,
-          "minload_efficiency": 75,
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
@@ -3040,9 +3158,9 @@
           "max_share_in_electricity": 0.2,
           "max_share_in_biofuel": 0.1,
           "max_share_in_other_gaseous": 0.1,
-          "max_share_out_mis": 1,
           "max_share_out_lis": 0,
           "max_share_out_his": 0,
+          "max_share_out_mis": 1,
           "max_share_out_los": 0
         }
       ]
@@ -3112,7 +3230,6 @@
           "min_capacity": 5,
           "minload": 10,
           "fullload_efficiency": 85,
-          "minload_efficiency": 75,
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
@@ -3128,9 +3245,9 @@
           "max_share_in_electricity": 0.2,
           "max_share_in_biofuel": 0.1,
           "max_share_in_other_gaseous": 0.1,
-          "max_share_out_mis": 1,
           "max_share_out_lis": 0,
           "max_share_out_his": 0,
+          "max_share_out_mis": 1,
           "max_share_out_los": 0
         }
       ]
@@ -3200,7 +3317,6 @@
           "min_capacity": 5,
           "minload": 10,
           "fullload_efficiency": 85,
-          "minload_efficiency": 75,
           "ramp": 1,
           "min_on": 1,
           "min_off": 1,
@@ -3216,9 +3332,9 @@
           "max_share_in_electricity": 0.2,
           "max_share_in_biofuel": 0.1,
           "max_share_in_other_gaseous": 0.1,
-          "max_share_out_mis": 1,
           "max_share_out_lis": 0,
           "max_share_out_his": 0,
+          "max_share_out_mis": 1,
           "max_share_out_los": 0
         }
       ]
@@ -3260,7 +3376,6 @@
           "min_capacity": 2.5,
           "minload": 30,
           "fullload_efficiency": 40,
-          "minload_efficiency": 30,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3312,7 +3427,6 @@
           "min_capacity": 2.5,
           "minload": 30,
           "fullload_efficiency": 40,
-          "minload_efficiency": 30,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3364,7 +3478,6 @@
           "min_capacity": 5,
           "minload": 30,
           "fullload_efficiency": 20,
-          "minload_efficiency": 18,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3415,7 +3528,6 @@
           "min_capacity": 5,
           "minload": 30,
           "fullload_efficiency": 20,
-          "minload_efficiency": 18,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3466,7 +3578,6 @@
           "min_capacity": 0.5,
           "minload": 25,
           "fullload_efficiency": 45,
-          "minload_efficiency": 45,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3514,7 +3625,6 @@
           "min_capacity": 2,
           "minload": 75,
           "fullload_efficiency": 45,
-          "minload_efficiency": 45,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3570,7 +3680,6 @@
           "min_capacity": 2,
           "minload": 75,
           "fullload_efficiency": 45,
-          "minload_efficiency": 45,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3621,7 +3730,6 @@
           "min_capacity": 5,
           "minload": 30,
           "fullload_efficiency": 45,
-          "minload_efficiency": 40,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3672,7 +3780,6 @@
           "min_capacity": 5,
           "minload": 30,
           "fullload_efficiency": 45,
-          "minload_efficiency": 40,
           "ramp": 1,
           "min_on": 3,
           "min_off": 3,
@@ -3682,6 +3789,138 @@
           "opex_start": 0,
           "max_share_out_his": 0,
           "max_share_out_mis": 1,
+          "max_share_out_los": 0
+        }
+      ]
+    },
+    "ecu19": {
+      "name": "hrb1",
+      "type": "boiler",
+      "description": "single-/multi-fuel-boiler",
+      "ID": "ecu_ecu19_hrb1",
+      "inp": {
+        "input1": {
+          "element": "eso_eso1_nga",
+          "max_share": 1
+        },
+        "input2": {
+          "element": "eso_eso4_bim",
+          "max_share": 1
+        },
+        "input3": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0
+        },
+        "input4": {
+          "element": "ecu_ecu10_gtu1",
+          "max_share": 0
+        }
+        },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 1
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0
+        },
+        "output4": {
+          "element": "col_col7_los1",
+          "max_share": 0
+        }
+      },
+      "param": [
+        {
+          "integrate": false,
+          "exist": false,
+          "max_capacity": 50,
+          "min_capacity": 0,
+          "minload": 10,
+          "fullload_efficiency": 85,
+          "ramp": 1,
+          "min_on": 1,
+          "min_off": 1,
+          "inv_fix": 50000,
+          "inv_cap": 300000,
+          "opex_fix": 0,
+          "opex_start": 0,
+          "max_share_in_natural_gas": 1,
+          "max_share_in_biomethane": 1,
+          "max_share_in_hydrogen": 1,
+          "max_share_out_lis": 1,
+          "max_share_out_his": 0,
+          "max_share_out_mis": 0,
+          "max_share_out_los": 0
+        }
+      ]
+    },
+    "ecu20": {
+      "name": "hrb2",
+      "type": "boiler",
+      "description": "single-/multi-fuel-boiler",
+      "ID": "ecu_ecu20_hrb2",
+      "inp": {
+        "input1": {
+          "element": "eso_eso1_nga",
+          "max_share": 1
+        },
+        "input2": {
+          "element": "eso_eso4_bim",
+          "max_share": 1
+        },
+        "input3": {
+          "element": "eso_eso10_hyd",
+          "max_share": 0
+        },
+        "input4": {
+          "element": "ecu_ecu11_gtu2",
+          "max_share": 0
+        }
+        },
+      "out": {
+        "output1": {
+          "element": "col_col2_mis1",
+          "max_share": 0
+        },
+        "output2": {
+          "element": "col_col3_lis1",
+          "max_share": 1
+        },
+        "output3": {
+          "element": "col_col8_his1",
+          "max_share": 0
+        },
+        "output4": {
+          "element": "col_col7_los1",
+          "max_share": 0
+        }
+      },
+      "param": [
+        {
+          "integrate": false,
+          "exist": false,
+          "max_capacity": 50,
+          "min_capacity": 0,
+          "minload": 10,
+          "fullload_efficiency": 85,
+          "ramp": 1,
+          "min_on": 1,
+          "min_off": 1,
+          "inv_fix": 50000,
+          "inv_cap": 300000,
+          "opex_fix": 0,
+          "opex_start": 0,
+          "max_share_in_natural_gas": 1,
+          "max_share_in_biomethane": 1,
+          "max_share_in_hydrogen": 1,
+          "max_share_out_lis": 1,
+          "max_share_out_his": 0,
+          "max_share_out_mis": 0,
           "max_share_out_los": 0
         }
       ]

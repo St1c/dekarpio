@@ -84,7 +84,7 @@ app.layout = html.Div([
                         ),
                     ]),
 
-                ], label="Operational Costs", tab_id="tab-1"),
+                ], label="Summary - Costs (bar charts)", tab_id="tab-1"),
 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -100,7 +100,7 @@ app.layout = html.Div([
                         ]),
                     ]),
                     
-                ], label="External Consumption", tab_id="tab-2"),
+                ], label="Details - External consumption of energy", tab_id="tab-2"),
                 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -115,7 +115,7 @@ app.layout = html.Div([
                             ],width=12),
                         ]),
                     ]),
-                ], label="Generation and Consumption (thermal and electric)", tab_id="tab-3"),
+                ], label="Details - Generation & consumption of heat & power", tab_id="tab-3"),
 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -162,7 +162,7 @@ app.layout = html.Div([
                             ],width=12),
                         ]),
                     ]),
-                ], label="Balancing heat and electricity (nodes)", tab_id="tab-4"),
+                ], label="Details - Balancing nodes for heat & power", tab_id="tab-4"),
 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -172,7 +172,7 @@ app.layout = html.Div([
                             ],width=12),
                         ]),
                     ]),
-                ], label="Overview: Supply and Demand (ATTENTION_update nec)", tab_id="tab-5"),
+                ], label="Summary - Supply and consumption", tab_id="tab-5"),
 
 
                 dbc.Tab(children=[
@@ -194,7 +194,7 @@ app.layout = html.Div([
                             dbc.Col(id="CostTable",width=12)
                         ]),
                     ]),
-                ], label="Cost Analysis 2", tab_id="tab-6"),
+                ], label="Summary - Costs (sunburst charts)", tab_id="tab-6"),
 
                 dbc.Tab(children=[
                     dbc.CardBody(children=[
@@ -205,7 +205,7 @@ app.layout = html.Div([
                         ),
                     ],
                     )
-                ], label="SUMMARY", tab_id="tab-7"),
+                ], label="Summary for csv-export", tab_id="tab-7"),
 
             ],id="card-tabs", active_tab="tab-1")
     ], style= {'display': 'none'}
@@ -295,7 +295,7 @@ def startSimulation(set_progress, data):
     set_progress((str(count), str(totalSteps)))
 
     resultsdict = ja.return_results_dict(res)
-    print(resultsdict.keys())
+    #print(resultsdict.keys())
 
 
     count+=1
@@ -357,6 +357,7 @@ def update_figure(jsonStorage, period_list):
     figSunBurstUnit = px.sunburst(sunBurstDfPos, path=['Capex/Opex', 'Unit'], values='Costs', color='Capex/Opex', color_discrete_sequence=px.colors.qualitative.Set2)
     figSunBurstUnitCosts = px.sunburst(sunBurstDfPos, path=['Unit', 'Cost Type'], values='Costs',  color='Unit', color_discrete_sequence=np.concatenate((px.colors.qualitative.Set3, px.colors.qualitative.Pastel), axis=None))
 
+    #energy_overview = drawPurchaseConsumptionPlot(jsonStorage, period_list)
 
     table = dbc.Table.from_dataframe(dfCostEso, striped=True, bordered=True, hover=True, index=True)
 
@@ -949,6 +950,8 @@ def drawPurchaseConsumptionPlot(jsondata, period_list):
            'Local production of energy', ' Purchase of energy')
 
 
+    print('general')
+    print(jsondata['general'])
 
     df_seq = pd.DataFrame()
     for unit_short, unit_long in units.items():
@@ -960,14 +963,15 @@ def drawPurchaseConsumptionPlot(jsondata, period_list):
         else:
             continue
         dict_data = {}
-        print('Period_list')
-        print(period_list)
+        #print('Period_list')
+        #print(period_list)
+
         for sequence in sequences: 
             if sequence in seq.keys():
 
-                for per in period_list:
-                    print(seq[sequence].keys())
-                    sum_values += sum(seq[sequence][per]['values']) * 0.33 * 8760 / 24 # todo - mit params aus res.param updaten
+                for i, per in enumerate(period_list):
+                    #print(seq[sequence].keys())
+                    sum_values += sum(seq[sequence][per]['values']) * jsondata['general']['weight'][str(i)] * 8760 / 24 # todo - mit params aus res.param updaten
                 dict_data[sequence] = sum_values
                 #dict_data = {sequence : sum_values}
             #df_temp = pd.DataFrame(dict_data,index=[unit_long])

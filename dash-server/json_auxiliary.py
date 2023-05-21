@@ -53,6 +53,17 @@ def return_results_dict(system, filepath=None):
     resultsdict = {}
     #resultsdict.update({'total': {}}) TAC; em fos, em bio, co2preis, co2zert (bio und fos).depr and interest rate) TODO
 
+    #TODO FR
+    sum_weight = 365                        # days per year
+    days_off = system.param['days_off']
+    year = [185, 90, 90]
+    weight_list = {}
+    for n, i in enumerate(year):
+        weight_list[n]=year[n]/sum_weight*(sum_weight-days_off)/sum_weight
+
+    resultsdict.update({'general': {}})
+    resultsdict['general'].update({'weight': weight_list})
+
     resultsdict.update({'objectives': {}})
     for ok, ov in system.obj.items():
         resultsdict['objectives'].update({ok: pyo.value(ov)})
@@ -66,9 +77,9 @@ def return_results_dict(system, filepath=None):
             em_biogen += pyo.value(uv.obj['co2_total_bio'])
     resultsdict['objectives'].update({'em_fos': em_fossil})
     resultsdict['objectives'].update({'em_bio': em_biogen})
-    #print(resultsdict['objectives'])
+    # print(resultsdict['objectives'])
 
-    print(system.unit.items())
+    # print(system.unit.items())
     resultsdict.update({'units': {}})
     for uk, uv in system.unit.items():      #units contains eso, ecu, esu, dem and couplers(!)
 
@@ -81,7 +92,7 @@ def return_results_dict(system, filepath=None):
                                         'param':{}
                                         })
         if 'integration' in uv.param:
-            print('yes')
+            # print('yes')
             resultsdict['units'][uk].update({'integ': uv.param['integration']})
             resultsdict['units'][uk].update({'exist': uv.param['existing']})
 
@@ -228,13 +239,33 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
     # ==================================================================================================================
     # FUNCTION BODY
     # ==================================================================================================================
-    sum_weight = len(label_list)        # days per year
+    # sum_weight = len(label_list)        # days per year
+    sum_weight = 365                        # days per year
+    if 'operation_days' in eco_dict['eco1']['param'][0]:
+        days_off = 365 - eco_dict['eco1']['param'][0]['operation_days']
+    else:
+        days_off = 30
 
-    u_w_dict = dict()
-    for i in period_list:
-        no_of_occurrences = label_list.count(i)
-        u_w_dict[i] = [no_of_occurrences / sum_weight, no_of_occurrences]     # [weight, nr. of occurances]
-        print(u_w_dict)
+    print(['daysoff:', days_off])
+    year = [185, 90, 90]
+    corr_year = {}
+
+    for n, i in enumerate(year):
+        corr_year[str(n)] = [year[n]/sum_weight*(sum_weight-days_off)/sum_weight, round(year[n]/sum_weight*(sum_weight-days_off))]
+
+
+    # u_w_dict = dict()
+    # for i in period_list:
+    #     no_of_occurrences = label_list.count(i)
+    #     u_w_dict[str(i)] = [no_of_occurrences / sum_weight, no_of_occurrences]     # [weight, nr. of occurances]
+
+    u_w_dict = corr_year
+
+    print('u_w_dict')
+    print(u_w_dict)
+
+
+    # for i in period_list:
 
     if eco_dict['eco1']['param'][0]['decarbonization_fossil'] == 'option1':
         decarb_rate1 = 1e6
@@ -281,6 +312,7 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
         'free_certificate_bio': eco_dict['eco1']['param'][0]['free_certificate_bio'],
         'decarb_rate_bio': decarb_rate2,
         'decarb_target_bio': decarb_target2,
+        'days_off': days_off,
         'opt': {'timelimit': 600,
                 'optimality_gap': 0.00},
         'expansion_costs': 5e4      # todo: €/MW ???
@@ -590,6 +622,13 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     if cap in temp_param.keys():
                         temp_param[cap] = (0, 0)
 
+            elif ecuobj['param'][0]['integrate'] == True:
+                if ecuobj['param'][0]['exist'] == True:
+                    for cap in ['cap_p', 'cap_q', 'cap_q_sink']:
+                        if cap in temp_param.keys():
+                            temp_param[cap] = (ecuobj['param'][0]['max_capacity'], ecuobj['param'][0]['max_capacity'])
+
+
         def get_ecu_classname(ecu_object):
             if ecu_object['description'] == "solid boiler":
                 return "GasBoiler"
@@ -617,7 +656,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     'cap_q': (ecu_param['min_capacity'],  #
                               ecu_param['max_capacity']),  #
                     'lim_q': (ecu_param['minload'] / 100, 1),  #
-                    'lim_f': ((ecu_param['minload'] / 100) / (ecu_param['minload_efficiency'] / 100),
+                    'lim_f': ((ecu_param['minload'] / 100) / (ecu_param['fullload_efficiency'] / 100),
                               1 / (ecu_param['fullload_efficiency'] / 100)),
                     'ramp_q': (ecuparam['ramp'],
                          ecuparam['ramp']),  #
@@ -730,7 +769,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     'cap_p': (ecu_param['min_capacity'],  #
                               ecu_param['max_capacity']),  #
                     'lim_p': (ecu_param['minload'] / 100, 1),  #
-                    'lim_f': ((ecu_param['minload'] / 100) / (ecu_param['minload_efficiency'] / 100),
+                    'lim_f': ((ecu_param['minload'] / 100) / (ecu_param['fullload_efficiency'] / 100),
                               1 / (ecu_param['fullload_efficiency'] / 100)),
 
                     ## other entries needed for unit definition
@@ -763,7 +802,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     'cap_p': (ecu_param['min_capacity'],  #
                               ecu_param['max_capacity']),  #
                     'lim_p': (ecu_param['minload'] / 100, 1),  #
-                    'lim_q_in': (ecu_param['minload'] / 100 / (ecu_param['minload_efficiency'] / 100),
+                    'lim_q_in': (ecu_param['minload'] / 100 / (ecu_param['fullload_efficiency'] / 100),
                                  1 / (ecu_param['fullload_efficiency'] / 100)),  #
                     ## other entries needed for unit definition
                     'eta_th': 0.9       # todo how to handle minload_efficiency, fullload_efficiency, eta???
@@ -801,7 +840,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     'cap_p': (ecu_param['min_capacity'],  #
                               ecu_param['max_capacity']),  #
                     'lim_p': (ecu_param['minload'] / 100, 1),  #
-                    'lim_q_in': (ecu_param['minload'] / 100 / (ecu_param['minload_efficiency'] / 100),
+                    'lim_q_in': (ecu_param['minload'] / 100 / (ecu_param['fullload_efficiency'] / 100),
                                  1 / (ecu_param['fullload_efficiency'] / 100)),  #
 
                     ## other entries needed for unit definition
@@ -857,7 +896,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     'cap_q_sink': (ecu_param['min_capacity'],  # note: min_capacity does nothing in DOOM
                                    ecu_param['max_capacity']),  #
                     # --- :
-                    'eta_comp': (ecu_param['minload_efficiency']/100,  # class definition needs two values & makes
+                    'eta_comp': (ecu_param['fullload_efficiency']/100,  # class definition needs two values & makes
                                  ecu_param['fullload_efficiency']/100),  # two COPs. Why?--> for min and full load operation - sophie added minload here
 
                     ## other entries needed for unit definition
@@ -943,7 +982,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
 
             if ecuparam['exist'] == True:
                 tempParam.update({
-                    'exists':       True, #ecuparam['exist'],
+                    'exists':       'True', #ecuparam['exist'],
                 })
                # print([ecuobj['ID'], "considered true"])
             # else:
@@ -1250,7 +1289,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
             if sys.unit[ecu_name].param['classname'] == 'GasBoiler':
                 return dict({'heat': 'q'})
             elif sys.unit[ecu_name].param['classname'] == 'GasTurbine':
-                return dict({'heat': 'q', 'power': 'p'})
+                return dict({'fuel': 'f', 'power': 'p'})
             elif sys.unit[ecu_name].param['classname'] == 'BackPressureSteamTurbine':
                 return dict({'heat': 'q_out', 'power': 'p'})
             elif sys.unit[ecu_name].param['classname'] == 'CondensingSteamTurbine':
@@ -1303,7 +1342,6 @@ def add_units_and_nodes(system, structure, tl, tl_map):
         nodes = {}
         # 1 out node for each energy source - distributes to conversion units, demands, collectors, storage units
 
-        #todo additional nodes for grid fees
         nodes.update({'GridElectric': {
             'lhs': [['eso_supply_electric', 's']],
             'rhs': [],
@@ -1451,6 +1489,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     # coupler goes from the energy source's out node to the conversion unit's in node
                     eso_out_node_name = left + '_out_node'
                     ecu_in_node_name = right + '_' + eso_type + '_in_node'
+                    print(['ecu:', ecu_in_node_name, eso_type])
                     coupler_name = 'coupler_' + eso_out_node_name + '_to_' + ecu_in_node_name
                     sys.add_unit({
                         'classname': 'Coupler',
@@ -1591,11 +1630,15 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                         'in': [ecu_out_node_name],
                         'out': [col_node_name]
                     })
+
                     # find conversion unit's out node and add coupler's incoming port to right hand side
                     in_port_name = 'in_' + ecu_out_node_name
                     nodes[ecu_out_node_name]['rhs'].append([coupler_name, in_port_name])
                     # find collector node and add coupler's outgoing port to left hand side
                     out_port_name = 'out_' + col_node_name
+
+                    print(['con:',con_name, right, out_port_name, col_node_name])
+
                     nodes[col_node_name]['lhs'].append([coupler_name, out_port_name])
 
                     ecu_out_ports = get_ecu_out_ports(left)
@@ -1622,6 +1665,10 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                         ecu_out_node_name = left + 'q_out_node'
                     elif 'ele' in right:  # is an electricity collector, therefore take the p port
                         ecu_out_node_name = left + 'p_out_node'
+                    elif 'hrb' in right:  # is an electricity collector, therefore take the p port
+                        ecu_in_node_name = right + '_fuel_in_node'
+                        ecu_out_node_name = left + '_fuel_out_node'
+
                     else:
                         raise KeyError('Connector {} does not match model logic. Check input file'.format(
                             con_name
@@ -1631,14 +1678,14 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                         'classname': 'Coupler',
                         'name': coupler_name,
                         'in': [ecu_out_node_name],
-                        'out': [col_node_name]
+                        'out': [ecu_in_node_name]
                     })
                     # find conversion unit's out node and add coupler's incoming port to right hand side
                     in_port_name = 'in_' + ecu_out_node_name
                     nodes[ecu_out_node_name]['rhs'].append([coupler_name, in_port_name])
                     # find conversion unit's in node and add coupler's outgoing port to left hand side
-                    out_port_name = 'out_' + col_node_name
-                    nodes[col_node_name]['lhs'].append([coupler_name, out_port_name])
+                    out_port_name = 'out_' + ecu_in_node_name
+                    nodes[ecu_in_node_name]['lhs'].append([coupler_name, out_port_name])
 
                 elif 'esu' in right:
                     # coupler goes from the conversion unit's out node to energy storage unit, e.g. hot water
