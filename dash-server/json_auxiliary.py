@@ -463,6 +463,14 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     temp_param.update({
                         'flexbound': {},
                     })
+                #
+                # if (eso_object['ID'] == 'eso_eso18_dhe'):
+                #     mapflexkey = tl_map["flex_hydro"]
+                #     # print(mapflexkey)
+                #
+                #     temp_param.update({
+                #         'flexbound': {},
+                #     }) #todo flexbound for dhe
 
                     # todo: in timelines esostring, esoobj['name'] or esoobj['ID']?
                     # todo: tl mit key "timeline_map[esoobj['ID']]" abspeichern/einlesen anstatt Umweg über timeline_map

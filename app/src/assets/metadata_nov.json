@@ -497,6 +497,12 @@
       "type": "value",
       "description": "Number of full operation days in mill",
       "displayname": "Full operation days in a mill per year"
+    },
+    "max_deviation": {
+      "unit": "EUR/MWh",
+      "type": "value",
+      "description": "Max. deviation energy cost from average (in pos. direction)",
+      "displayname": "Max. deviation energy cost from average (in pos. direction)"
     }
   }
 }
