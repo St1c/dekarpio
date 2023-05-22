@@ -1,7 +1,7 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
-import { catchError, delay, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import * as routerActions from '@ngrx/router-store';
 
 import { ConfigProvider } from 'src/app/core/config.provider';
@@ -24,13 +24,19 @@ export class SimulationSetupEffects {
     map((defaultConfig: SimulationJson) => {
       return SimulationDefaultConfigActions.loadingConfigSuccess({ config: defaultConfig });
     }),
-    catchError(() => EMPTY)
+    catchError((error) => {
+      console.log(error);
+      return EMPTY;
+    })
   ));
 
   loadDefaultConfigSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(SimulationDefaultConfigActions.loadingConfigSuccess),
     map(() => SimulationSetupPageActions.setActiveConfig({ id: 0 })),
-    catchError(() => EMPTY)
+    catchError((error) => {
+      console.log(error);
+      return EMPTY;
+    })
   ));
 
   setConfigurableShapesAfterSvgLoad$ = createEffect(() => this.actions$.pipe(
@@ -40,12 +46,14 @@ export class SimulationSetupEffects {
       const configurableShapes = this.svgTools.getConfigurableShapeNames(defaultConfig);
       return SimulationDefaultConfigActions.setConfigurableShapes({ configurableShapes });
     }),
-    catchError(() => EMPTY)
+    catchError((error) => {
+      console.log(error);
+      return EMPTY;
+    })
   ));
 
   updateSVGonConfigChange$ = createEffect(() => this.actions$.pipe(
     ofType(SimulationSetupPageActions.svgUpdateOnConfigChange),
-    delay(100),
     concatLatestFrom(() => [
       this.simulationConfigSelectorService.configurableShapeNames$,
       this.configEntitySelectorService.simulationActiveConfigSettings$,
@@ -65,7 +73,10 @@ export class SimulationSetupEffects {
         }
       });
     }),
-    catchError(() => EMPTY)
+    catchError((error) => {
+      console.log(error);
+      return EMPTY;
+    })
   ), { dispatch: false });
 
   constructor(
@@ -77,6 +88,12 @@ export class SimulationSetupEffects {
   ) { }
 
   private applyElementSettingsToSVG(title: string, params: any, configConnections: any, svgLayout: ElementRef) {
+
+    if (!params) {
+      console.log('No params for', title);
+      return;
+    }
+
     const state = params.param[0]?.integrate || false;
     const affectedConnections = this.svgTools.findAffectedConnectionsByInOutIds(title, configConnections);
     this.svgTools.findConnecstionLinesById([title, ...affectedConnections], state, svgLayout);

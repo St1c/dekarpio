@@ -9,7 +9,6 @@ import { ConfigEntity } from 'src/app/shared/types/config-entity';
 import { ConfigEntitySelectorService } from './config-entity.selectors';
 import { ConfigEntityActions } from './config-entity.actions';
 import { SimulationSetupPageActions } from '../simulation-config';
-// import { Router } from '@angular/router';
 
 @Injectable()
 export class ConfigEntityEffects {
@@ -19,7 +18,6 @@ export class ConfigEntityEffects {
     filter(routeChangeAction => routeChangeAction.payload.routerState.url === '/simulation-setup'),
     switchMap(() => this.simulationService.getSimulations(10)),
     map((configs: ConfigEntity[]) => {
-      console.log('loadAPIConfigs$', configs);
       if (configs.length == 0) {
         return ConfigEntityActions.loadingConfigsSuccessButEmpty();
       }
@@ -84,16 +82,10 @@ export class ConfigEntityEffects {
     catchError((errors) => of(ConfigEntityActions.validatingConfigFailed({ errors })))
   ));
 
-  // validateConfigSuccess$ = createEffect(() => this.actions$.pipe(
-  //   ofType(ConfigEntityActions.processingConfigSuccess),
-  //   switchMap(() => this.router.navigate(['/simulation-results']))
-  // ), {dispatch: false});
-
   constructor(
     private actions$: Actions,
     private simulationService: SimulationsService,
-    private configEntitySelectorService: ConfigEntitySelectorService,
-    // private router: Router
+    private configEntitySelectorService: ConfigEntitySelectorService
   ) { }
 
 }

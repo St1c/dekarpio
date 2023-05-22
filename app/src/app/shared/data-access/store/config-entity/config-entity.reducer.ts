@@ -64,7 +64,6 @@ export const configEntityReducer = createReducer(
     SimulationSetupPageActions.setActiveConfig, 
     ConfigEntityActions.setActiveConfigAfterApiCall,
     (state, { id }) => {
-    console.log('setActiveConfig', id);
     return {
       ...state,
       selectedConfigId: +id,
@@ -91,7 +90,6 @@ export const configEntityReducer = createReducer(
   })),
 
   on(SimulationDefaultConfigActions.enableConfigurableShape, (state, { unit_type, unit_id }) => {
-    console.log(state)
     return {
     ...state,
     activeConfig: {
