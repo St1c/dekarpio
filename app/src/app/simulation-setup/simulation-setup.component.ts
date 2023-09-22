@@ -101,21 +101,21 @@ export class SimulationSetupComponent {
     private simulationConfigSelectorService: SimulationConfigSelectorService,
     private configEntitySelectorService: ConfigEntitySelectorService
   ) {
-    this.selectedConfig.valueChanges
+    this.subs.add(this.selectedConfig.valueChanges
       .subscribe((value: number | null) => {
         if (value === null) return;
         this.store.dispatch(SimulationSetupPageActions.setActiveConfig({ id: value }));
-        this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
-      });
+      }));
 
-    this.selectedConfigEntity$.subscribe((configEntity) => {
+    this.subs.add(this.selectedConfigEntity$.subscribe((configEntity) => {
       if (configEntity) {
         this.configId = configEntity.id;
         if (this.configId == 0) this.selectedConfigName.setValue('');
         if (this.configId != 0) this.selectedConfigName.setValue(configEntity.name);
         this.selectedConfig.setValue(configEntity.id, { emitEvent: false });
+        this.store.dispatch(SimulationSetupPageActions.svgUpdateOnConfigChange({ svgElement: this.svgLayout }));
       }
-    });
+    }));
   }
 
   ngOnInit() {
