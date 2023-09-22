@@ -534,7 +534,7 @@
           "integrate": true,
           "temp": 490,
           "pressure": 70,
-          "description": "very high pressure steam"
+          "description": "very_high_pressure_steam"
         }
       ]
     },
@@ -624,7 +624,7 @@
           "integrate": true,
           "temp": 190,
           "pressure": 8,
-          "description": "high pressure steam"
+          "description": "high_pressure_steam"
         }
       ]
     },
@@ -717,7 +717,7 @@
           "integrate": true,
           "temp": 165,
           "pressure": 5.5,
-          "description": "middle pressure steam"
+          "description": "middle_pressure_steam"
         }
       ]
     },
@@ -804,7 +804,7 @@
           "integrate": true,
           "temp": 135,
           "pressure": 3.5,
-          "description": "low pressure steam"
+          "description": "low_pressure_steam"
         }
       ]
     }
@@ -1949,13 +1949,13 @@
       "out": "ecu_ecu20_hrb2"
     },
     "con224": {
-      "ID": "con-col_col8_his1-col_col4_mis2",
-      "inp": "col_col8_his1",
+      "ID": "con-col_col9_his2-col_col4_mis2",
+      "inp": "col_col9_his2",
       "out": "col_col4_mis2"
     },
     "con225": {
-      "ID": "con-col_col2_mis1-col_col5_los2",
-      "inp": "col_col2_mis1",
+      "ID": "con-col_col4_mis2-col_col5_los2",
+      "inp": "col_col4_mis2",
       "out": "col_col5_los2"
     }
   },

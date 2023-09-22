@@ -68,19 +68,22 @@ app.layout = html.Div([
                                 #     id="download",
                                 #     href="data:text/html;base64," + encoded,
                                 #     download="Capex_vs_Opex.html"),  ## SK: funktioniert nicht, bringt dash server zum absturz
-                            ],width=4),
+                            ],width=12)
+                        ]),
+                        dbc.Row(children=[
                             dbc.Col(children=[
                                 html.H4("Costs of Energy Sources:"),
                                 dcc.Graph(id ='FigCostEso'),
-                            ],width=4),
+                            ],width=12)
+                        ]),
+                        dbc.Row(children=[
                             dbc.Col(children=[
                                 html.H4("Cost of Production Units:"),
                                 dcc.Graph(id ='your-graph3')
-                            ],width=4)
+                            ],width=12)
                         ]),
                         dbc.Row(
-                            dbc.Col(id="ColDataTable", width=12
-                            )
+                            dbc.Col(id="ColDataTable", width=12)
                         ),
                     ]),
 
@@ -287,7 +290,7 @@ def startSimulation(set_progress, data):
     count+=1
     set_progress((str(count), str(totalSteps)))
 
-    ja.print_active_units(res)
+    #ja.print_active_units(res)
 
     sol_out_str, slack_out_str, res = ja.solve_pyomo_model(res)
 
@@ -350,7 +353,7 @@ def update_figure(jsonStorage, period_list):
 
     ar = drawBilanzPlots(jsonStorage, period_list)
 
-    print(dfCostEso)
+    # print(dfCostEso)
 
 
     figSunBurstType = px.sunburst(sunBurstDfPos, path=['Capex/Opex', 'Cost Type'], values='Costs', color='Capex/Opex', color_discrete_sequence=px.colors.qualitative.Dark2)
@@ -363,9 +366,9 @@ def update_figure(jsonStorage, period_list):
 
 
 
-    dashTable = dash.dash_table.DataTable(sunBurstDf.to_dict('records'), [{"name": i, "id": i} for i in sunBurstDf.columns],export_format="csv")
-    dashTable2 = dash.dash_table.DataTable(capDF.to_dict('records'), [{"name": i, "id": i} for i in capDF.columns],export_format="csv")
-    dashTable3 = dash.dash_table.DataTable(sumDF.to_dict('records'), [{"name": i, "id": i} for i in sumDF.columns],export_format="csv")
+    dashTable = dash.dash_table.DataTable(sunBurstDf.to_dict('records'), [{"name": i, "id": i} for i in sunBurstDf.columns], export_format="xlsx")
+    dashTable2 = dash.dash_table.DataTable(capDF.to_dict('records'), [{"name": i, "id": i} for i in capDF.columns], export_format="xlsx")
+    dashTable3 = dash.dash_table.DataTable(sumDF.to_dict('records'), [{"name": i, "id": i} for i in sumDF.columns], export_format="xlsx")
 
 
 
@@ -433,34 +436,91 @@ def drawCostPlotUnit(jsondata):
                     dictfordf_pos[idCostType].append(costs[key])
                     dictfordf_pos[idCosts].append(val/(1e6))
 
+    annuity = (1 + jsondata['params']['interest_rate']) ** (jsondata['params']['depreciation_period']) * (jsondata['params']['interest_rate']) /\
+              ((1 + jsondata['params']['interest_rate']) ** (jsondata['params']['depreciation_period'])-1)
+    print("annuity")
+    print(annuity)
+    inv = sum_inv/annuity
+
     dictfordf_cap= {}
 
     idSize = "Size"
+    idType = "Type"
     idValue = "Value"
     idEinheit = "Unit of Value"
     dictfordf_sum = {
         idSize: [],
+        idType: [],
         idEinheit: [],
         idValue: [],
     }
     # RESULTS todo: energiemengen gesamt, ev. energiepreise und invpreise; optional: column componenten for filtering
 
-    dictfordf_sum[idSize].append('Total Annual Cost (Costs - Savings from free certificates')
-    dictfordf_sum[idValue].append(round(jsondata['objectives']['total_real'] / (1e6), 1))
+    dictfordf_sum[idSize].append('Total Annual Cost (Total Costs - Savings from free certificates)')
+    dictfordf_sum[idType].append('Result')
+    dictfordf_sum[idValue].append(round(jsondata['objectives']['total_real'] / (1e6), 3))
     dictfordf_sum[idEinheit].append('M€/a')
+    dictfordf_sum[idSize].append('Annualized Investment')
+    dictfordf_sum[idType].append('Result')
+    dictfordf_sum[idValue].append(round(sum_inv/1e6, 3))
+    dictfordf_sum[idEinheit].append('M€/a')
+    dictfordf_sum[idSize].append('Total Investment')
+    dictfordf_sum[idType].append('Result')
+    dictfordf_sum[idValue].append(round(inv/1e6, 3))
+    dictfordf_sum[idEinheit].append('M€')
     dictfordf_sum[idSize].append('Total Fossil Emissions')
+    dictfordf_sum[idType].append('Result')
     dictfordf_sum[idValue].append(round(jsondata['objectives']['em_fos'], 1))
     dictfordf_sum[idEinheit].append('t/a')
     dictfordf_sum[idSize].append('Total Biogen Emissions')
+    dictfordf_sum[idType].append('Result')
     dictfordf_sum[idValue].append(round(jsondata['objectives']['em_bio'], 1))
     dictfordf_sum[idEinheit].append('t/a')
 
+
+
+    dictfordf_sum[idSize].append('CO2 Price fossil')
+    dictfordf_sum[idType].append('Parameter')
+    dictfordf_sum[idValue].append(jsondata['params']['cost_co2_fossil'])
+    dictfordf_sum[idEinheit].append('€/t')
+    dictfordf_sum[idSize].append('CO2 Certificates fossil')
+    dictfordf_sum[idType].append('Parameter')
+    dictfordf_sum[idValue].append(jsondata['params']['free_certificate_fossil'])
+    dictfordf_sum[idEinheit].append('t/a')
+    dictfordf_sum[idSize].append('CO2 fossil target')
+    dictfordf_sum[idType].append('Parameter')
+    dictfordf_sum[idValue].append(jsondata['params']['decarb_target_fossil'])
+    dictfordf_sum[idEinheit].append('-')
+
+    dictfordf_sum[idSize].append('CO2 Price biogen')
+    dictfordf_sum[idType].append('Parameter')
+    dictfordf_sum[idValue].append(jsondata['params']['cost_co2_biogen'])
+    dictfordf_sum[idEinheit].append('€/t')
+    dictfordf_sum[idSize].append('CO2 Certificates biogen')
+    dictfordf_sum[idType].append('Parameter')
+    dictfordf_sum[idValue].append(jsondata['params']['free_certificate_bio'])
+    dictfordf_sum[idEinheit].append('t/a')
+    dictfordf_sum[idSize].append('CO2 fossil biogen')
+    dictfordf_sum[idType].append('Parameter')
+    dictfordf_sum[idValue].append(jsondata['params']['decarb_target_bio'])
+    dictfordf_sum[idEinheit].append('-')
+
+    dictfordf_sum[idSize].append('Depreciation period')
+    dictfordf_sum[idType].append('Parameter')
+    dictfordf_sum[idValue].append(jsondata['params']['depreciation_period'])
+    dictfordf_sum[idEinheit].append('a')
+    dictfordf_sum[idSize].append('Interest rate')
+    dictfordf_sum[idType].append('Parameter')
+    dictfordf_sum[idValue].append(jsondata['params']['interest_rate'])
+    dictfordf_sum[idEinheit].append('-')
+
     for unit in units:
         if unit in jsondata['units']:
-            print(jsondata['units'][unit]['var']['scalar'].items())
+            # print(jsondata['units'][unit]['var']['scalar'].items())
             if 'cap' in jsondata['units'][unit]['var']['scalar'].keys():
                 name = 'Integration of componentent - ' + str(units[unit])
                 dictfordf_sum[idSize].append(name)
+                dictfordf_sum[idType].append('Parameter')
                 dictfordf_sum[idValue].append(str(jsondata['units'][unit]['integ']))
                 dictfordf_sum[idEinheit].append('-')
 
@@ -470,14 +530,19 @@ def drawCostPlotUnit(jsondata):
                     name = 'Initial upper bound for consumption capacity of ' + str(units[unit])
                     einheit = units_unit[unit]
                 dictfordf_sum[idSize].append(name)
+                dictfordf_sum[idType].append('Parameter')
                 dictfordf_sum[idValue].append(jsondata['units'][unit]['exist'])
                 dictfordf_sum[idEinheit].append(einheit)
 
                 name = 'Capacity of ' + str(units[unit])
+                type = 'Parameter'
+                if jsondata['units'][unit]['exist'] == 'Considered as not existing':
+                    type = 'Result'
                 if 's' in jsondata['units'][unit]['var']['seq'].keys():
                     name = 'Technical upper bound for consumption capacity of ' + str(units[unit])
                 dictfordf_sum[idSize].append(name)
                 cap = round(jsondata['units'][unit]['var']['scalar']['cap'], 1)
+                dictfordf_sum[idType].append(type)
                 dictfordf_sum[idValue].append(cap)
                 dictfordf_sum[idEinheit].append(units_unit[unit])
 
@@ -490,6 +555,7 @@ def drawCostPlotUnit(jsondata):
                             if element > cont:
                                 cont = element
                     consume = round(cont, 1)
+                    dictfordf_sum[idType].append('Result')
                     dictfordf_sum[idValue].append(consume)
                     dictfordf_sum[idEinheit].append(units_unit[unit])
 
@@ -498,34 +564,6 @@ def drawCostPlotUnit(jsondata):
             #     dictfordf_cap[idCap].append(cap)
             #     dictfordf_cap[idMW].append(units_unit[unit])
 
-
-
-    dictfordf_sum[idSize].append('Depreciation period')
-    dictfordf_sum[idValue].append(jsondata['params']['depreciation_period'])
-    dictfordf_sum[idEinheit].append('a')
-    dictfordf_sum[idSize].append('Interest rate')
-    dictfordf_sum[idValue].append(jsondata['params']['interest_rate'])
-    dictfordf_sum[idEinheit].append('-')
-
-    dictfordf_sum[idSize].append('CO2 Price fossil')
-    dictfordf_sum[idValue].append(jsondata['params']['cost_co2_fossil'])
-    dictfordf_sum[idEinheit].append('€/t')
-    dictfordf_sum[idSize].append('CO2 Certificates fossil')
-    dictfordf_sum[idValue].append(jsondata['params']['free_certificate_fossil'])
-    dictfordf_sum[idEinheit].append('t/a')
-    dictfordf_sum[idSize].append('CO2 fossil target')
-    dictfordf_sum[idValue].append(jsondata['params']['decarb_target_fossil'])
-    dictfordf_sum[idEinheit].append('-')
-
-    dictfordf_sum[idSize].append('CO2 Price biogen')
-    dictfordf_sum[idValue].append(jsondata['params']['cost_co2_biogen'])
-    dictfordf_sum[idEinheit].append('€/t')
-    dictfordf_sum[idSize].append('CO2 Certificates biogen')
-    dictfordf_sum[idValue].append(jsondata['params']['free_certificate_bio'])
-    dictfordf_sum[idEinheit].append('t/a')
-    dictfordf_sum[idSize].append('CO2 fossil biogen')
-    dictfordf_sum[idValue].append(jsondata['params']['decarb_target_bio'])
-    dictfordf_sum[idEinheit].append('-')
 
 
 
@@ -564,6 +602,9 @@ def drawCostPlotUnit(jsondata):
     
     #co2 costs : co2_fossil or co2_biogen
     sum_co2 = 0
+    sum_co2 += 0 - \
+               jsondata['params']['cost_co2_fossil']*jsondata['params']['free_certificate_fossil'] - \
+               jsondata['params']['cost_co2_biogen']*jsondata['params']['free_certificate_bio']
     for unit in units:
         if unit in jsondata['units']:
 
@@ -601,9 +642,9 @@ def drawCostPlotUnit(jsondata):
 
 
     df_opex = pd.DataFrame({ 'Start costs': sum_start/(1e6),
-                'CO2 costs': sum_co2/(1e6),
+                'CO<sub>2</sub> costs <br>(free cert. considered)': sum_co2/(1e6),
                 'Unit operation costs': sum_fix/(1e6),
-                'Fuel costs (purchase - sales)': sum_fuel/(1e6)},
+                'Fuel costs <br>(purchase - sales)': sum_fuel/(1e6)},
                 index= ['Opex']
                 ) 
     df_capex = pd.DataFrame({'Investment costs': sum_inv/(1e6)},
@@ -612,22 +653,14 @@ def drawCostPlotUnit(jsondata):
     df_costs = pd.concat([df_opex, df_capex])
     color = len(df_costs.keys())
 
-    print("dataframe sunburst")
-
-    print(len(dictfordf[idUnit]))
-    print(len(dictfordf[idCostType]))
-    print(len(dictfordf[idCAPOP]))
-    print(len(dictfordf[idCosts]))
-
     sunburstdf_pos = round(pd.DataFrame(dictfordf_pos), 3)
     sunburstdf = round(pd.DataFrame(dictfordf), 3)
-    print(sunburstdf)
 
-    capdf = round(pd.DataFrame(dictfordf_cap), 2)
-    print(capdf)
+    capdf = round(pd.DataFrame(dictfordf_cap), 3)
 
-    sumdf = round(pd.DataFrame(dictfordf_sum),2)
-    print(sumdf)
+    sumdf = round(pd.DataFrame(dictfordf_sum), 3)
+
+    dfs_costs = [df_opex.loc['Opex'].sum(), df_capex.loc['Capex'].sum()]
 
     fig = px.bar(df_costs,
                 #title = 'Total costs',
@@ -636,8 +669,16 @@ def drawCostPlotUnit(jsondata):
                 barmode ='relative',
                 orientation ='h',
                 color = 'variable',
-                color_discrete_sequence = pclr.qualitative.Set2[0:color]
+                color_discrete_sequence = pclr.qualitative.Set2[0:color],
+                text_auto='.2f'
                 )
+
+    fig.update_traces(textfont_size=10, textangle=45, textposition='inside', cliponaxis=False)
+    fig.update_layout(uniformtext_minsize=10, uniformtext_mode='hide')
+    fig.add_trace(go.Scatter(
+        y=['Opex', 'Capex'], x=dfs_costs, text=dfs_costs, mode='text',
+        texttemplate=' <b>SUM</b><br> <b>%{text:.2f}</b><br> <b>MEUR/a</b> ', textposition='top right', textfont=dict(size=12,), showlegend=False))
+
     return fig, df_costs, sunburstdf, capdf, sunburstdf_pos, sumdf
 
 def drawCostPlotEso(jsondata):
@@ -651,8 +692,8 @@ def drawCostPlotEso(jsondata):
                         "Cost Type": cost_long
                     },
                     index=[unit_long],
-            
-                )   
+
+                )
                 for unit_short, unit_long in units.items()
                 if unit_short             in jsondata['units'] #1
                 if unit_short.split('_')[0 ] == 'eso'
@@ -663,16 +704,21 @@ def drawCostPlotEso(jsondata):
             ])
     
     df.index.set_names("Sources", inplace=True)
-
+    dfs = df.groupby('Sources').sum()
 
     return (
         px.bar(
             df,
             color='Cost Type',
-            color_discrete_sequence = pclr.qualitative.Set2
+            color_discrete_sequence = pclr.qualitative.Set2,
+            text_auto='.2f'
         )
-        .update_layout(margin=dict(t=25, b=0, l=0, r=0))
-        .for_each_xaxis(lambda x: x.update(title=('Energy sources')))
+        .update_traces(textfont_size=10, textangle=0, textposition='inside',cliponaxis=False)
+        .update_layout(uniformtext_minsize=6, uniformtext_mode='hide', margin=dict(t=25, b=0, l=0, r=0))
+        .add_trace(go.Scatter(
+            x=dfs.index, y=dfs['Costs in Mio. Eur'],  text=dfs['Costs in Mio. Eur'], mode='text',
+            texttemplate=' <b>%{text:.2f}</b>', textposition='top center', textfont=dict(size=10,), showlegend=False))
+        .for_each_xaxis(lambda x: x.update(title=('<b>Energy sources</b><br>')))
         .for_each_yaxis(lambda x: x.update(title=('Costs in MEUR/a')))
     ), df
 
@@ -680,32 +726,41 @@ def drawCostPlotEcuEsu(jsondata):
     '''
     Draw Cost Plots of Ecu Esu working
     '''
-    return (
-        px.bar(
-            pd.concat([
+    df = pd.concat([
                 pd.DataFrame(
-                    dict(
-                        values= jsondata['units'][unit_short]['obj'][cost_short]/(1e6),
-                        Costs = cost_long
-                        
-                    ),
+                    {
+                        "Costs in Mio. Eur": jsondata['units'][unit_short]['obj'][cost_short]/(1e6),
+                        "Cost Type": cost_long
+                    },
                     index= [unit_long],
-            
-                )   
+
+                )
                 for unit_short, unit_long in units.items()
-                if unit_short.split('_')[0]=='ecu' or unit_short.split('_')[0]== 'esu' 
+                if unit_short.split('_')[0]=='ecu' or unit_short.split('_')[0]== 'esu'
                 if unit_short             in jsondata['units'] #1
                 for cost_short, cost_long in costs.items()
                 for obj                   in jsondata['units'][unit_short]['obj']
                 if cost_short             in obj
                 #1 raus wenn alle units mit json übergeben werden aktuell nur 4 units
-               
-            ]),
-            color='Costs',
-            color_discrete_sequence = pclr.qualitative.Set2
+
+            ])
+    df.index.set_names("Units", inplace=True)
+
+    dfs = df.groupby('Units').sum()
+
+    return (
+        px.bar(
+            df,
+            color='Cost Type',
+            color_discrete_sequence = pclr.qualitative.Set2,
+            text_auto='.2f'
         )
-        .update_layout(margin=dict(t=25, b=0, l=0, r=0))
-        .for_each_xaxis(lambda x: x.update(title=('Energy conversion units and storages')))
+        .update_traces(textfont_size=10, textangle=0, textposition='inside',cliponaxis=False)
+        .update_layout(uniformtext_minsize=6, uniformtext_mode='hide', margin=dict(t=25, b=0, l=0, r=0))
+        .add_trace(go.Scatter(
+            x=dfs.index, y=dfs['Costs in Mio. Eur'],  text=dfs['Costs in Mio. Eur'], mode='text',
+            texttemplate=' <b>%{text:.2f}</b>', textposition='top center', textfont=dict(size=10,), showlegend=False))
+        .for_each_xaxis(lambda x: x.update(title=('<b>Energy conversion units and storages</b><br>')))
         .for_each_yaxis(lambda x: x.update(title=('Costs in MEUR/a')))
     )
 
@@ -921,10 +976,10 @@ def drawPurchaseConsumptionPlot(jsondata, period_list):
                      'External waste', 'Purchased district heat', 'Steam extern']
 
     #List of all consumptions (selber anpassen)
-    consumption1_list = ['Process 1 Gas', 'Process 1 Power', 'Process 1 Steam_hp', 'Process 1 Steam_mp', 'Process 1 Steam_lp']
-    consumption2_list = ['Process 2 Gas', 'Process 2 Power', 'Process 2 Steam_hp', 'Process 2 Steam_mp', 'Process 2 Steam_lp']
-    consumption3_list = ['Process 3 Gas', 'Process 3 Power', 'Process 3 Steam_hp', 'Process 3 Steam_mp', 'Process 3 Steam_lp']
-    consumption4_list = ['Process 4 Gas', 'Process 4 Power', 'Process 4 Steam_hp', 'Process 4 Steam_mp', 'Process 4 Steam_lp']
+    consumption1_list = ['Process 1 Gas', 'Process 1 Power', 'Process 1 Steam High Pr', 'Process 1 Steam Middle Pr', 'Process 1 Steam Low Pr']
+    consumption2_list = ['Process 2 Gas', 'Process 2 Power', 'Process 2 Steam High Pr', 'Process 2 Steam Middle Pr', 'Process 2 Steam Low Pr']
+    consumption3_list = ['Process 3 Gas', 'Process 3 Power', 'Process 3 Steam High Pr', 'Process 3 Steam Middle Pr', 'Process 3 Steam Low Pr']
+    consumption4_list = ['Process 4 Gas', 'Process 4 Power', 'Process 4 Steam High Pr', 'Process 4 Steam Middle Pr', 'Process 4 Steam Low Pr']
 
 
     #List of all sales (selber anpassen)
@@ -959,7 +1014,7 @@ def drawPurchaseConsumptionPlot(jsondata, period_list):
 
         if unit_short in jsondata["units"]:
             seq = jsondata['units'][unit_short]['var']['seq']
-            print(unit_short)
+            # print(unit_short)
         else:
             continue
         dict_data = {}
@@ -1065,7 +1120,7 @@ def drawPurchaseConsumptionPlot(jsondata, period_list):
                     ))
                 
         for n, production in enumerate(production_list):
-            if production == i :
+            if production == i:
                 # Get sequence where there is a value in df
                 val = [seq for seq in sequences if not np.isnan(df_seq[seq][i])][0]
                 fig.add_trace(go.Bar(

@@ -320,11 +320,14 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
 
 
     steam_parameters = {}
+
     for steam_key, steam_dict in param_dict.items():
 
         if check_integrate_steam_level():
             ## entries from .json hash
-            steam_level_name = steam_dict['param'][0]['description']
+
+            steam_level_name = steam_dict['name']
+            print(steam_level_name)
             steam_level_dict = ({
                 # --- :             steam_dict['name']                      # is not relevant
                 # --- :             steam_dict['type']                      # is not relevant
@@ -336,7 +339,6 @@ def read_parameters(param_dict, eco_dict, period_list, label_list, no_timesteps)
 
             steam_parameters.update({steam_level_name: steam_level_dict})
 
-        #print(steam_parameters)
     sysParam.update(dict(steam_parameters=steam_parameters))
     # print('steam_param')
     # print(sysParam['steam_parameters']['low pressure steam']['temperature'])
@@ -888,16 +890,16 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                 T_out = 95
                 p_out = 2*1e5
                 if 'max_share_out_los' in ecu_param.keys() and ecu_param['max_share_out_los'] == 1:
-                    T_out = sys.param['steam_parameters']['low pressure steam']['temperature']
-                    p_out = sys.param['steam_parameters']['low pressure steam']['pressure']
+                    T_out = sys.param['steam_parameters']['los']['temperature']
+                    p_out = sys.param['steam_parameters']['los']['pressure']
                 elif 'max_share_out_mis' in ecu_param.keys() and ecu_param['max_share_out_mis'] == 1:
-                    T_out = sys.param['steam_parameters']['middle pressure steam']['temperature']
-                    p_out = sys.param['steam_parameters']['middle pressure steam']['pressure']
+                    T_out = sys.param['steam_parameters']['mis']['temperature']
+                    p_out = sys.param['steam_parameters']['mis']['pressure']
                 elif 'max_share_out_his' in ecu_param.keys() and ecu_param['max_share_out_his'] == 1:
-                    T_out = sys.param['steam_parameters']['high pressure steam']['temperature']
-                    p_out = sys.param['steam_parameters']['high pressure steam']['pressure']
-                print('T_out')
-                print(T_out)
+                    T_out = sys.param['steam_parameters']['his']['temperature']
+                    p_out = sys.param['steam_parameters']['his']['pressure']
+                # print('T_out')
+                # print(T_out)
 
                 temp_param.update({
                     ## entries from .json hash
@@ -942,7 +944,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                         'wwa':            1,
                     })
 
-                print(temp_param)
+                # print(temp_param)
 
 
         # ==================================================================================================================
@@ -1497,7 +1499,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     # coupler goes from the energy source's out node to the conversion unit's in node
                     eso_out_node_name = left + '_out_node'
                     ecu_in_node_name = right + '_' + eso_type + '_in_node'
-                    print(['ecu:', ecu_in_node_name, eso_type])
+                    # print(['ecu:', ecu_in_node_name, eso_type])
                     coupler_name = 'coupler_' + eso_out_node_name + '_to_' + ecu_in_node_name
                     sys.add_unit({
                         'classname': 'Coupler',
@@ -1645,7 +1647,7 @@ def add_units_and_nodes(system, structure, tl, tl_map):
                     # find collector node and add coupler's outgoing port to left hand side
                     out_port_name = 'out_' + col_node_name
 
-                    print(['con:',con_name, right, out_port_name, col_node_name])
+                    # print(['con:',con_name, right, out_port_name, col_node_name])
 
                     nodes[col_node_name]['lhs'].append([coupler_name, out_port_name])
 
