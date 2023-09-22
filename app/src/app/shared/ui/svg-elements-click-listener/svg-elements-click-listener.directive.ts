@@ -1,5 +1,4 @@
-import { Directive, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Simulation } from 'src/app/core/simulations/simulations.service';
+import { Directive, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { SvgElementToolsService } from '../../utils/svg-element-tools.service';
 
 @Directive({
@@ -20,7 +19,7 @@ export class SvgElementsClickListenerDirective implements OnChanges, OnDestroy {
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.configurableShapes && this.configurableShapes.length > 1) {
+    if (this.configurableShapes && this.configurableShapes.length > 1 && this.elements?.length === 0) {
       this.elements = this.svgTools.getConfigurableElements(this.el, this.configurableShapes);
       this.bindClickListenersToConfigurableElements();
     }

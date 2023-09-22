@@ -20,7 +20,7 @@ export class SvgElementsRightClickListenerDirective implements OnChanges, OnDest
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.configurableShapes && this.configurableShapes.length > 1) {
+    if (this.configurableShapes && this.configurableShapes.length > 1 && this.elements?.length === 0) {
       this.elements = this.svgTools.getConfigurableElements(this.el, this.configurableShapes);
       this.bindClickListenersToConfigurableElements();
     }
