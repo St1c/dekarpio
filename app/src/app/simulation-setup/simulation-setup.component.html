@@ -21,24 +21,26 @@
       <input matInput
              [formControl]="selectedConfigName">
     </mat-form-field>
-    <button mat-fab
-            *ngIf="configId == 0"
-            extended
-            color="primary"
-            type="button"
-            (click)="createConfig()">
-      <mat-icon>save</mat-icon>
-      Save
-    </button>
-    <button mat-fab
-            *ngIf="configId != 0"
-            extended
-            color="primary"
-            type="button"
-            (click)="editConfig()">
-      <mat-icon>save</mat-icon>
-      Update
-    </button>
+    <ng-container *ngrxLet="selectedConfigEntity$ as selectedConfig">
+      <button mat-fab
+              *ngIf="configId == 0 || (selectedConfig.name !== selectedConfigName.value)"
+              extended
+              color="primary"
+              type="button"
+              (click)="createConfig()">
+        <mat-icon>save</mat-icon>
+        Create
+      </button>
+      <button mat-fab
+              *ngIf="configId != 0 && (selectedConfig.name === selectedConfigName.value)"
+              extended
+              color="primary"
+              type="button"
+              (click)="editConfig()">
+        <mat-icon>save</mat-icon>
+        Update
+      </button>
+    </ng-container>
     <button mat-fab
             extended
             color="warn"
